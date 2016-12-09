@@ -1,8 +1,8 @@
-//Backend: working database
-//retrieve access to mongoose
+// Backend: working database
+// retrieve access to mongoose
 var mongoose = require('mongoose');
 
-//connect to database
+//c onnect to database
 var port = 2000;
 mongoose.connect('mongodb://localhost:27017/cats');
 mongoose.connection.on('error', function(error) {
@@ -12,7 +12,7 @@ mongoose.connection.on('open', function() {
   console.log('CONNECTED');
 });
 
-//schema/models
+// schema/models
 var ChallengeSchema = new mongoose.Schema({
   prompt: String,
   answer: String,
@@ -23,8 +23,6 @@ var Challenge = mongoose.model('Challenge', ChallengeSchema);
 
 module.exports = Challenge;
 
-/*app.listen(port, function() {
-  console.log("Listening on port: " + port);
-});*/
-
-//source: https://www.npmjs.com/package/mongoose
+// Sources:
+// https://www.npmjs.com/package/mongoose
+// https://docs.mongodb.com/manual/reference/mongo-shell/
