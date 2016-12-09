@@ -3,7 +3,7 @@ var fs = require('fs');
 
 var seedData = fs.readFileSync('./data.txt');
 
-var newChallenge = new Challenge(JSON.parse({seedData}));
+var newChallenge = new Challenge(JSON.parse(seedData));
 
 newChallenge.save(function(err){
   if(err){
