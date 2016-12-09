@@ -1,7 +1,6 @@
 //Backend: working database
-//retrieve access to mongo/mongoose
+//retrieve access to mongoose
 var mongoose = require('mongoose');
-var mongo = require('mongodb');
 
 //connect to database
 var port = 2000;
@@ -16,13 +15,16 @@ mongoose.connection.on('open', function() {
 //schema/models
 var ChallengeSchema = new mongoose.Schema({
   prompt: String,
-  response: String,
   answer: String,
   level: Number
 });
+
 var Challenge = mongoose.model('Challenge', ChallengeSchema);
 
+module.exports = Challenge;
 
 /*app.listen(port, function() {
   console.log("Listening on port: " + port);
 });*/
+
+//source: https://www.npmjs.com/package/mongoose
