@@ -1,16 +1,16 @@
 var express = require('express');
-var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var handler = require('./request-handler.js');
 
 var app = express();
-var port = 8000; // Will need to change this when deploying.
+var port = 8000;
 
 app.use(bodyParser.json());
-// app.use(express.static('STATIC FILES'));
+app.use(express.static('../client'));
 
 app.listen(port);
-console.log('Lisening on port', port);
+console.log('Listening on port', port);
 
-// app.get('/api/challenges');
+app.get('/api/challenges', handler.getChallenges);
 
 module.exports = app;
