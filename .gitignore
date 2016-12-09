@@ -1,1 +1,6 @@
+# floobits
+.floo
+.flooignore
+
+# dev
 node_modules
