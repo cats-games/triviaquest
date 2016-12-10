@@ -79,11 +79,24 @@ input{
   width:20%;
   /*align-self: stretch; same as alignt items but for individual box*/
   /*flex:1;*/
+
   height: 100px;
   color:#FFF;
   background-color:#999;
   border-left: #555 solid 1px;
   border-top: #555 solid 1px;
+
+  background-image: url("../img/tile-by-Ivan-voirol.png");
+  background-repeat: no-repeat
+  background-position: center center;
+  background-size: 100% auto;
+}
+
+.gridbox.activated {
+  background-image: url("../img/p1_stand.png"), url("../img/tile-by-Ivan-voirol.png");
+  background-repeat: no-repeat, no-repeat;
+  background-position: center center, center center;
+  background-size: 40% auto, 100% auto;
 }
 
 #textfield{
