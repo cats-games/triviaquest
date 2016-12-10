@@ -96,7 +96,7 @@ class Grid extends React.Component {
     if (e.target === document.getElementById('answer')) {
       return;
     }
-    var rows = Math.sqrt(this.state.spaces.length);
+    var rows = Math.sqrt(this.numSpaces);
     if (e.which === 72) {
       // h / move left
       if ((this.state.playerPosition - 1) % rows !== 0) {
