@@ -4,11 +4,11 @@ class Grid extends React.Component {
 
     this.state = {
       spaces: {},
-      challenges: []
+      challenges: [],
+      score: 0
     };
 
     this.numSpaces = 25;
-    this.initializeBoard();
   }
 
   componentWillMount() {
@@ -17,6 +17,7 @@ class Grid extends React.Component {
     // Check for navigation keys
     window.addEventListener('keydown', this.handleKeyDown.bind(this));
 
+    this.initializeBoard();
     this.getChallenges();
   }
 
@@ -125,7 +126,7 @@ class Grid extends React.Component {
     var spaces = this.state.spaces;
     var position = this.state.playerPosition;
 
-    if (spaces && position && spaces[position] && spaces[position].challenge) {
+    if (spaces[position].challenge) {
       question = spaces[position].challenge.prompt;
     }
 
@@ -142,6 +143,7 @@ class Grid extends React.Component {
         }
       </div>
       <Gameinfo cats={question}/>
+      <Textfield />
     </div>
     );
   }
