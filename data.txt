@@ -1,87 +1,62 @@
 [{
-  "prompt": "1 + 1",
-  "answer": "2",
+  "prompt": "Given array, [2, 8, 3, 2, 6, 7], what is the value at index two?",
+  "answer": "3",
   "level": 0
 },
 {
-  "prompt": "1 + 0",
+  "prompt": "What is the second number in the fibonacci sequence?",
   "answer": "1",
-  "level": 2
-},
-{
-  "prompt": "1 + 0",
-  "answer": "1",
-  "level": 2
-},
-{
-  "prompt": "1 + 0",
-  "answer": "1",
-  "level": 2
-},
-{
-  "prompt": "1 + 0",
-  "answer": "1",
-  "level": 2
-},
-{
-  "prompt": "1 + 0",
-  "answer": "1",
-  "level": 2
-},
-{
-  "prompt": "1 + 0",
-  "answer": "1",
-  "level": 2
-},
-{
-  "prompt": "1 + 0",
-  "answer": "1",
-  "level": 2
-},
-{
-  "prompt": "1 + 0",
-  "answer": "1",
-  "level": 2
-},
-{
-  "prompt": "1 + 0",
-  "answer": "1",
-  "level": 2
-},
-{
-  "prompt": "1 + 0",
-  "answer": "1",
-  "level": 2
-},
-{
-  "prompt": "1 + 0",
-  "answer": "1",
-  "level": 2
-},
-{
-  "prompt": "1 + 1",
-  "answer": "2",
   "level": 0
 },
 {
-  "prompt": "1 + 1",
-  "answer": "2",
-  "level": 0
+  "prompt": "Which of the following searches do not require the data to be sorted? (A - Binary Search) (B - Linear Search)",
+  "answer": "B",
+  "level": 1
 },
 {
-  "prompt": "1 + 1",
-  "answer": "2",
-  "level": 0
+  "prompt": "Stefan and Dan dig 2 cylindrical holes: 1 hole is 2ft in diameter by 2 ft deep, and the other hole is 1ft in diameter by 1ft deep. The big hole is how many times larger than the size of the small hole?",
+  "answer": "8",
+  "level": 2
 },
 {
-  "prompt": "1 + 1",
-  "answer": "2",
-  "level": 0
+  "prompt": "The minute hand of a clock is 3 inches long. How many inches does the tip of that hand move in one day?",
+  "answer": "453",
+  "level": 2
 },
 {
-  "prompt": "1 + 1",
-  "answer": "2",
-  "level": 0
+  "prompt": "1 + 0",
+  "answer": "1",
+  "level": 2
+},
+{
+  "prompt": "1 + 0",
+  "answer": "1",
+  "level": 2
+},
+{
+  "prompt": "1 + 0",
+  "answer": "1",
+  "level": 2
+},
+{
+  "prompt": "1 + 0",
+  "answer": "1",
+  "level": 2
+},
+{
+  "prompt": "1 + 0",
+  "answer": "1",
+  "level": 2
+},
+{
+  "prompt": "1 + 0",
+  "answer": "1",
+  "level": 2
+},
+{
+  "prompt": "1 + 0",
+  "answer": "1",
+  "level": 2
 },
 {
   "prompt": "1 + 1",
