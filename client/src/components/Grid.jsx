@@ -3,16 +3,14 @@ class Grid extends React.Component {
     super(props);
 
     this.state = {
-      mapArray: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
-      gridNumber: 1,
-      playerPosition: 0
-    };  
+      mapArray: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+    };
   }
 
   componentWillMount() {
     this.setState({activeNumber: 1});
     window.addEventListener('keydown', this.handleKeyDown.bind(this));
-    
+
     $.get('/api/challenges')
       .done(challenges => { // An array of challenge objects
         this.setState({
@@ -29,7 +27,7 @@ class Grid extends React.Component {
   }
 
   handleKeyDown(e) {
-    var rows = Math.sqrt(this.mapArray.length);
+    var rows = Math.sqrt(this.state.mapArray.length);
     if (e.which === 72) {
       // h / move left
       if ((this.state.activeNumber - 1) % 5 !== 0) {
@@ -37,7 +35,7 @@ class Grid extends React.Component {
       }
     } else if (e.which === 74) {
       // j / move down
-      if (this.state.activeNumber < rows * (rows - 1)) {
+      if (this.state.activeNumber <= rows * (rows - 1)) {
         this.setState({activeNumber: this.state.activeNumber + 5});
       }
     } else if (e.which === 75) {
@@ -54,9 +52,10 @@ class Grid extends React.Component {
   }
 
   render() {
+    var gridNumber = 1;
     return (
       <div id="grid" onKeyDown={this.setActiveNumber}>
-      {this.state.mapArray.map((abox) => <div className={"gridbox " + (this.state.activeNumber === (this.state.gridNumber) ? "activated" : "")} id={this.state.gridNumber++}>{abox}</div>
+      {this.state.mapArray.map((abox) => <div className={"gridbox " + (this.state.activeNumber === (gridNumber) ? "activated" : "")} id={gridNumber++}>{abox}</div>
       )}
     </div>
     );
