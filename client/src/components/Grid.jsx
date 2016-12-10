@@ -44,25 +44,6 @@ window.Grid = Grid;
 //   });
 // );
 
-
-/*
-var FishTable = ({fishData}) => (
-  <table>
-    <tbody>
-      {fishData.map(function(fish){
-        <FishTableRow fish={fish}/>
-      });}
-    </tbody>
-  </table>
-);
-*/
-// var Box = ({}) =>(
-
-// <div classname="gridbox" id=gridnumber>{props.wutever}</div>
-
-// );
-
-
 //get data server
 //randomly poplate maparray
 //maparray.map(function...//genereates each div)
