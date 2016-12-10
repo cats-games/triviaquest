@@ -3,9 +3,7 @@ class Grid extends React.Component {
     super(props);
 
     this.state = {
-      mapArray: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
-      gridNumber: 1,
-      playerPosition: 0
+      mapArray: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
     };
   }
 
@@ -54,9 +52,10 @@ class Grid extends React.Component {
   }
 
   render() {
+    var gridNumber = 1;
     return (
       <div id="grid" onKeyDown={this.setActiveNumber}>
-      {this.state.mapArray.map((abox) => <div className={"gridbox " + (this.state.activeNumber === (this.state.gridNumber) ? "activated" : "")} id={this.state.gridNumber++}>{abox}</div>
+      {this.state.mapArray.map((abox) => <div className={"gridbox " + (this.state.activeNumber === (gridNumber) ? "activated" : "")} id={gridNumber++}>{abox}</div>
       )}
     </div>
     );
