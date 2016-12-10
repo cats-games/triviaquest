@@ -1,8 +1,16 @@
-var Gameinfo = ({}) => (
-  <div id="gameinfo">
-  game info
-  </div>
-);
+class Gameinfo extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div id="gameinfo">
+      {this.props.cats}
+      </div>
+    );
+  }
+}
 
 // In the ES6 spec, files are "modules" and do not share a top-level scope
 // `var` declarations will only exist globally where explicitly defined
