@@ -80,7 +80,6 @@ class Grid extends React.Component {
   }
 
   shuffle(array) {
-    console.log(array);
     for (var i = array.length - 1; i > 0; i--) { 
       var j = Math.floor(Math.random() * (i + 1)); 
       var temp = array[i]; 
@@ -121,6 +120,27 @@ class Grid extends React.Component {
     }
   }
 
+  checkAnswer(e, input) {
+    // Prevent the page from refreshing
+    e.preventDefault();
+    // Clear the input field
+    $('#answer').val('');
+
+    // Get the challenge at the current player position
+    var currentChallenge = this.state.spaces[this.state.playerPosition].challenge;
+
+    // If a there is a challenge on this position
+    if (currentChallenge) {
+      // Check if the user input and the solution match up
+      if (input === currentChallenge.answer) { // If the answer is correct
+        this.setState({ // Increment the score
+          score: this.state.score + 1
+        }); // For future humans: this is asynchronous
+      }
+    }
+
+  }
+
   render() {
     var question = '';
     var spaces = this.state.spaces;
@@ -143,7 +163,7 @@ class Grid extends React.Component {
         }
       </div>
       <Gameinfo cats={question}/>
-      <Textfield />
+      <Textfield checkAnswer={this.checkAnswer.bind(this)}/>
     </div>
     );
   }
