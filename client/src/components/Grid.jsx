@@ -27,6 +27,9 @@ class Grid extends React.Component {
   }
 
   handleKeyDown(e) {
+    if (e.target === document.getElementById('answer')) {
+      return;
+    }
     var rows = Math.sqrt(this.state.mapArray.length);
     if (e.which === 72) {
       // h / move left

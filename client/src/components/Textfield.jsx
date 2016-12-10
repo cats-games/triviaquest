@@ -2,7 +2,7 @@ var Textfield = ({}) => (
   <div id="textfield" contenteditable="true">
   <form>
     <label>
-    <input type="text" class="textbox" name="textinput" />
+    <input id="answer" type="text" class="textbox" name="textinput" />
     </label>
     <input type="submit" value="Submit" />
   </form>
