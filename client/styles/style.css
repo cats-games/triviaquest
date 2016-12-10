@@ -96,7 +96,7 @@ input{
   background-image: url("../img/p1_stand.png"), url("../img/tile-by-Ivan-voirol.png");
   background-repeat: no-repeat, no-repeat;
   background-position: center center, center center;
-  background-size: 40% auto, 100% auto;
+  background-size: 50px auto, 300px auto;
 }
 
 #textfield{
