@@ -1,5 +1,60 @@
 body {
-  background: #f1f1f1;
+  background: #666;
+  font-family:"Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+}
+
+h1{
+  color:#FFF;
+  font-style:italic;
+  margin:30px;
+}
+
+nav{
+  background: white;
+  margin-bottom:30px;
+  padding:5px;
+  border-top:#555 solid 1px;
+  line-height:60px;
+  vertical-align: middle;
+}
+
+form{
+  border:0px;
+  padding:0px;
+  margin:0px;
+
+}
+
+input{
+  background-color:#666;
+  margin:0;
+  padding:0;
+  border:0;
+  width:100%;
+}
+
+.textbox{
+  margin:0;
+  border:0;
+  padding:0;
+  background-color:black;
+  width:598px;
+}
+
+.submit-button{
+  margin:0;
+  border:0;
+  padding:0;
+  width:100%;
+}
+
+#main{
+  position: absolute;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
 }
 
 #grid{
@@ -10,27 +65,59 @@ body {
   justify-content:center; /*align column center*/
   flex-direction:row;  /*default is row*/
   flex-wrap:wrap; /*items will wrap to next line*/
-  border: gray solid 5px;
+  border-bottom:#555 solid 1px;
+  border-right:#555 solid 1px;
+  width: 600px;
+  margin: 0 auto;
+  padding: 0;
   height:500px;
+  align-content:space-between 0;
+
 }
 
 .gridbox{
   width:20%;
   /*align-self: stretch; same as alignt items but for individual box*/
   /*flex:1;*/
-  border: goldenrod solid 5px;
+
+  height: 100px;
+  color:#FFF;
+  background-color:#999;
+  border-left: #555 solid 1px;
+  border-top: #555 solid 1px;
+
+  background-image: url("../img/tile-by-Ivan-voirol.png");
+  background-repeat: no-repeat
+  background-position: center center;
+  background-size: 100% auto;
 }
 
-
+.gridbox.activated {
+  background-image: url("../img/p1_stand.png"), url("../img/tile-by-Ivan-voirol.png");
+  background-repeat: no-repeat, no-repeat;
+  background-position: center center, center center;
+  background-size: 40% auto, 100% auto;
+}
 
 #textfield{
-  width: 100%;
-  border: 1px solid black;
+  background-color:black;
+  color:white;
+  font-family: Courier New,Courier,Lucida Sans Typewriter,Lucida Typewriter,monospace;
+  width: 600px;
+  margin: 0 auto;
+  padding:0px;
+  border: #555 solid 1px;
 }
 
 #gameinfo{
-  width: 100%;
-  border: 1px solid black;
+  width: 600px;
+
+  color:white;
+  margin: 0 auto;
+  padding:10px;
+  border-left:#555 solid 1px;
+  border-right:#555 solid 1px;
+  border-top:#555 solid 1px;
 }
 
 
