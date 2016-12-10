@@ -1,12 +1,41 @@
-var mapArray = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25];
-var gridNumber = 0;
-var Grid = () => (
-  <div id="grid">
-    {mapArray.map((abox) =>
-      <div className="gridbox" id={gridNumber++}>{abox}</div>
-    )}
-  </div>
-);
+class Grid extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      mapArray: [],
+      gridNumber: 0
+    };
+  }
+
+  componentWillMount() {
+
+    var _this = this;
+
+    $.get('/api/challenges')
+      .done(function(challenges) {
+        _this.setState({
+          mapArray: challenges
+        });
+        console.log(_this.state.mapArray);
+      })
+      .fail(function(error) {
+        console.error('Could not get challenges:', error);
+      });
+  }
+
+  render() {
+    return (<div id="grid">
+      {this.state.mapArray.map((abox) =>
+          <div className="gridbox" id={this.state.gridNumber++}>{this.state.gridNumber}</div>
+      )}
+    </div>);
+  }
+}
+
+
+// var Grid = () => (
+// );
 
 //  In the ES6 spec, files are "modules" and do not share a top-level scope
 // `var` declarations will only exist globally where explicitly defined
