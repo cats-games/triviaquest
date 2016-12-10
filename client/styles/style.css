@@ -5,20 +5,20 @@ body {
 #grid{
   display: flex;
   /*height: 100vh;*/
-  align-items:center;     /*align row center (or column if flexdir is other)*/
+  /*align-items:center;     /*align row center (or column if flexdir is other)*/
   /*align-items: flex-start will stop row from stretching to fill and give them default height n move to top*/
   justify-content:center; /*align column center*/
   flex-direction:row;  /*default is row*/
   flex-wrap:wrap; /*items will wrap to next line*/
-  border: gray solid 2px;
+  border: gray solid 5px;
+  height:500px;
 }
 
 .gridbox{
   width:20%;
-
   /*align-self: stretch; same as alignt items but for individual box*/
-  flex:1;
-  border: black solid 2px;
+  /*flex:1;*/
+  border: goldenrod solid 5px;
 }
 
 
