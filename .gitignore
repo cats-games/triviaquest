@@ -4,5 +4,7 @@
 
 # dev
 node_modules
+compiled
 client/node_modules
 client/compiled
+
