@@ -10,14 +10,11 @@ class Grid extends React.Component {
 
   componentWillMount() {
 
-    var _this = this;
-
     $.get('/api/challenges')
-      .done(function(challenges) {
-        _this.setState({
+      .done(challenges => { // An array of challenge objects
+        this.setState({
           mapArray: challenges
         });
-        console.log(_this.state.mapArray);
       })
       .fail(function(error) {
         console.error('Could not get challenges:', error);
@@ -32,10 +29,6 @@ class Grid extends React.Component {
     </div>);
   }
 }
-
-
-// var Grid = () => (
-// );
 
 //  In the ES6 spec, files are "modules" and do not share a top-level scope
 // `var` declarations will only exist globally where explicitly defined
