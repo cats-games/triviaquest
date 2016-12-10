@@ -14,7 +14,7 @@
   "level": 1
 },
 {
-  "prompt": "Stefan and Dan dig 2 cylindrical holes: 1 hole is 2ft in diameter by 2 ft deep, and the other hole is 1ft in diameter by 1ft deep. The big hole is how many times larger than the size of the small hole?",
+  "prompt": "Stefan and Stephen dig 2 cylindrical holes: 1 hole is 2ft in diameter by 2 ft deep, and the other hole is 1ft in diameter by 1ft deep. The big hole is how many times larger than the size of the small hole?",
   "answer": "8",
   "level": 2
 },
@@ -24,77 +24,77 @@
   "level": 2
 },
 {
-  "prompt": "1 + 0",
-  "answer": "1",
+  "prompt": "What is the sum of the first one-hundred odd numbers, starting with 1?",
+  "answer": "10000",
   "level": 2
 },
 {
-  "prompt": "1 + 0",
-  "answer": "1",
+  "prompt": "Cai and Maureen are beginning a bike race. Cai begins riding at 12 miles per hour, and 10 minutes later Maureen begins riding at 15 miles per hour. How many minutes will it take Maureen to catch up to Cai?",
+  "answer": "40",
   "level": 2
 },
 {
-  "prompt": "1 + 0",
-  "answer": "1",
+  "prompt": "Change 5 1/2 to an improper fraction.",
+  "answer": "11/2",
   "level": 2
 },
 {
-  "prompt": "1 + 0",
-  "answer": "1",
+  "prompt": "Draw a circle. Draw the radius. Using the radii as a side, draw a square. How many of those squares can fit inside the circle?",
+  "answer": "PI",
   "level": 2
 },
 {
-  "prompt": "1 + 0",
-  "answer": "1",
+  "prompt": "Dan leaves the store at 11:02am and arrives at a home 10 miles away at 11:17am. How many miles per hour was Dan driving?",
+  "answer": "40",
+  "level": 1
+},
+{
+  "prompt": "What is the smallest positive number which, when divided by 2, 3, 4, 5, and 6, always leaves a remainder of 1?",
+  "answer": "61",
   "level": 2
 },
 {
-  "prompt": "1 + 0",
-  "answer": "1",
-  "level": 2
+  "prompt": "What is the largest even negative number",
+  "answer": "-2",
+  "level": 0
 },
 {
-  "prompt": "1 + 0",
-  "answer": "1",
-  "level": 2
+  "prompt": "The perimeter of a square rug is 56 feet. What is its area?",
+  "answer": "196",
+  "level": 0
 },
 {
-  "prompt": "1 + 1",
+  "prompt": "Which of the following operations take more than O(1) time in a Hash Table data structure? (A - Insert) (B - Sort) (C - Delete) ",
+  "answer": "B",
+  "level": 0
+},
+{
+  "prompt": "What is the longest word found in an English language dictionary?",
+  "answer": "pneumonoultramicroscopicsilicovolcanoconiosis",
+  "level": 0
+},
+{
+  "prompt": "Three sisters have a total of $91. The oldest sister has 20% more than the middle sister, and the middle sister has 20% more than the youngest. How much does the first sister have?",
   "answer": "2",
   "level": 0
 },
 {
-  "prompt": "1 + 1",
-  "answer": "2",
+  "prompt": "A card is selected from a normal deck of playing cards, what's the probability that the selection will be a Jack, Queen, King, or heart? (Give answer as an improper function.",
+  "answer": "11/26",
   "level": 0
 },
 {
-  "prompt": "1 + 1",
-  "answer": "2",
+  "prompt": "What is the next number is this sequence? 1, 4, 10, 20, 35, 56...",
+  "answer": "84",
   "level": 0
 },
 {
-  "prompt": "1 + 1",
-  "answer": "2",
+  "prompt": "If class runs from 7:15 a.m. until 2:06 P.M. There are 8 class periods with 5 minutes passing time between classes. How long, in minutes, is each class period?",
+  "answer": "47",
   "level": 0
 },
 {
-  "prompt": "1 + 1",
-  "answer": "2",
-  "level": 0
-},
-{
-  "prompt": "1 + 1",
-  "answer": "2",
-  "level": 0
-},
-{
-  "prompt": "1 + 1",
-  "answer": "2",
-  "level": 0
-},
-{
-  "prompt": "1 + 1",
-  "answer": "2",
+  "prompt": "How many numbers between 0 and 200 are divisible by both 6 and 8?",
+  "answer": "8",
   "level": 0
 }]
