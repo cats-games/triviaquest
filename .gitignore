@@ -5,3 +5,4 @@
 # dev
 node_modules
 compiled
+client/compiled
