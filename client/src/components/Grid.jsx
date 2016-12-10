@@ -3,14 +3,33 @@ class Grid extends React.Component {
     super(props);
 
     this.state = {
-      mapArray: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+      spaces: {},
+      challenges: []
     };
+
+    this.numSpaces = 25;
+    this.initializeBoard();
   }
 
   componentWillMount() {
-    this.setState({activeNumber: 1});
+    // Initialize player position
+    this.setState({playerPosition: 1});
+    // Check for navigation keys
     window.addEventListener('keydown', this.handleKeyDown.bind(this));
 
+    this.getChallenges();
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    // Check if challenges exist
+    if (this.state.challenges.length === 0 && nextState.challenges.length) {
+      var challenges = nextState.challenges.slice();
+      this.populateEnemiesAndChallenges(challenges);
+    }
+  }
+
+  // Get challenges from API and update state
+  getChallenges() {
     $.get('/api/challenges')
       .done(challenges => { // An array of challenge objects
         this.setState({
@@ -22,41 +41,107 @@ class Grid extends React.Component {
       });
   }
 
+  // Initialize board spaces with an ID number and no enemies
+  initializeBoard() {
+    for (var i = 1; i <= this.numSpaces; i++) {
+      this.state.spaces[i] = {
+        id: i,
+        challenge: undefined,
+        hasEnemy: false
+      };
+    }
+    console.log('board initialized!');
+  }
+
+  populateEnemiesAndChallenges(challenges) {
+    // Populate the spaces with enemies
+    var enemySquares = this.generateEnemySquares();
+
+    enemySquares.forEach(function(enemy) {
+      var challenge = challenges.pop();
+      if (challenge) {
+        // Add a challenge to this space
+        this.state.spaces[enemy]['challenge'] = challenge;
+        this.state.spaces[enemy]['hasEnemy'] = true;
+      }
+    }.bind(this));
+  }
+
+  // Generates an array of shuffled enemy positions
+  generateEnemySquares() {
+    var enemySquares = _.range(1, this.numSpaces + 1);
+    // Skip the position that the player is on
+    enemySquares.splice(this.state.playerPosition - 1, 1);
+
+    this.shuffle(enemySquares);
+
+    return enemySquares;
+  }
+
+  shuffle(array) {
+    console.log(array);
+    for (var i = array.length - 1; i > 0; i--) { 
+      var j = Math.floor(Math.random() * (i + 1)); 
+      var temp = array[i]; 
+      array[i] = array[j]; 
+      array[j] = temp; 
+    } 
+  }
+
   componentWillUnmount() {
     window.removeEventListener('keydown', this.handleKeyDown.bind(this));
   }
 
   handleKeyDown(e) {
-    var rows = Math.sqrt(this.state.mapArray.length);
+    if (e.target === document.getElementById('answer')) {
+      return;
+    }
+    var rows = Math.sqrt(this.state.spaces.length);
     if (e.which === 72) {
       // h / move left
-      if ((this.state.activeNumber - 1) % 5 !== 0) {
-        this.setState({activeNumber: this.state.activeNumber - 1});
+      if ((this.state.playerPosition - 1) % rows !== 0) {
+        this.setState({playerPosition: this.state.playerPosition - 1});
       }
     } else if (e.which === 74) {
       // j / move down
-      if (this.state.activeNumber <= rows * (rows - 1)) {
-        this.setState({activeNumber: this.state.activeNumber + 5});
+      if (this.state.playerPosition <= rows * (rows - 1)) {
+        this.setState({playerPosition: this.state.playerPosition + rows});
       }
     } else if (e.which === 75) {
       // k / move up
-      if (this.state.activeNumber > rows) {
-        this.setState({activeNumber: this.state.activeNumber - 5});
+      if (this.state.playerPosition > rows) {
+        this.setState({playerPosition: this.state.playerPosition - rows});
       }
     } else if (e.which === 76) {
       // l/ move right
-      if (this.state.activeNumber % 5 !== 0) {
-        this.setState({activeNumber: this.state.activeNumber + 1});
+      if (this.state.playerPosition % rows !== 0) {
+        this.setState({playerPosition: this.state.playerPosition + 1});
       }
     }
   }
 
   render() {
-    var gridNumber = 1;
+    var question = '';
+    var spaces = this.state.spaces;
+    var position = this.state.playerPosition;
+
+    if (spaces && position && spaces[position] && spaces[position].challenge) {
+      question = spaces[position].challenge.prompt;
+    }
+
+    var gridNumber = 0;
     return (
-      <div id="grid" onKeyDown={this.setActiveNumber}>
-      {this.state.mapArray.map((abox) => <div className={"gridbox " + (this.state.activeNumber === (gridNumber) ? "activated" : "")} id={gridNumber++}>{abox}</div>
-      )}
+      <div>
+        <div id="grid" onKeyDown={this.setplayerPosition}>
+        {Object.keys(this.state.spaces).map(() => {
+            gridNumber++;
+            var activated = this.state.playerPosition === (gridNumber) ? "activated " : "";
+            var enemy = this.state.spaces[gridNumber].hasEnemy ? "enemy" : "";
+            return (<div className={"gridbox " + activated + enemy} id={gridNumber}>{gridNumber}</div>);
+          })
+        }
+      </div>
+      <Gameinfo cats={question}/>
     </div>
     );
   }

@@ -12,7 +12,6 @@ const element = (
   </h1>
   <nav>LUXURY NAV</nav>
   <Grid />
-  <Gameinfo />
   <Textfield />
   </div>
 );
