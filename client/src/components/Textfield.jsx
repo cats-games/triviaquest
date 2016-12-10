@@ -1,8 +1,11 @@
 var Textfield = ({}) => (
   <div id="textfield" contenteditable="true">
-  <div contentEditable="true" class="textbox">
-  text field
-  </div>
+  <form>
+    <label>
+    <input type="text" class="textbox" name="textinput" />
+    </label>
+    <input type="submit" value="Submit" />
+  </form>
   </div>
 );
 

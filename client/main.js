@@ -8,11 +8,12 @@ function main() {
 const element = (
   <div>
   <h1>
-    Learn React!
+    REACT
   </h1>
+  <nav>LUXURY NAV</nav>
   <Grid />
-  <Textfield />
   <Gameinfo />
+  <Textfield />
   </div>
 );
 
