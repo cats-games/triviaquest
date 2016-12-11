@@ -11,6 +11,8 @@ import GridSpace from './GridSpace.jsx';
 class Grid extends React.Component {
   constructor(props) {
     super(props);
+
+    console.log(props.grid);
   }
 
   componentWillMount() {
@@ -134,7 +136,7 @@ class Grid extends React.Component {
             // If the player is on the current grid space
             var player = this.props.playerPosition === gridNumber;
             // If there is an enemy on this current grid space
-            var enemy = this.props.grid[gridNumber].hasEnemy;
+            var enemy = this.props.grid[gridNumber].challenge;
 
             // The type of grid space to render
             var type;

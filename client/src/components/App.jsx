@@ -38,13 +38,11 @@ class App extends React.Component {
 
   componentWillMount() {
     // Get challenges from API and update state
-    this.getChallenges();
-    // Initialize the gameboard
-    this.initializeBoard();
+    this.getChallenges(this.populateBoard.bind(this));
   }
 
   // Get challenges from API and update state
-  getChallenges() {
+  getChallenges(callback) {
     $.get('/api/challenges')
       .done(challenges => { // An array of challenge objects
         // Shuffle the challenges
@@ -52,6 +50,8 @@ class App extends React.Component {
         // Save the challenges to the state
         this.setState({
           challenges: challenges
+        }, function() {
+          callback();
         });
       })
       .fail(function(error) {
@@ -59,25 +59,11 @@ class App extends React.Component {
       });
   }
 
-  // Initialize an empty gameboard
-  initializeBoard() {
-    var grid = {};
-    for (var i = 1; i <= this.numSpaces; i++) {
-      grid[i] = {
-        id: i,
-        challenge: undefined
-      };
-    }
-
-    this.setState({
-      grid: grid
-    });
-  }
-
   // Populate the board with enemies or grass
   populateBoard() {
     // Index of challenge in this.state.challenges
     var challengeNum = 0;
+    var updatedGrid = {};
 
     // For each space on the gameboard
     for (var i = 1; i <= this.numSpaces; i++) {
@@ -87,17 +73,30 @@ class App extends React.Component {
         var random = Math.floor(Math.random() * 2) + 1;
         if (random === 1) {
           // There will be an enemy (challenge) on this space
-
-          // Update the state grid with a challenge on this space
-          this.updateGridState({
+          updatedGrid[i] = {
             id: i,
             challenge: this.state.challenges[challengeNum++]
-          }, i);
-
+          };
+        } else {
+          // Else, there is grass on this space
+          updatedGrid[i] = {
+            id: i,
+            challenge: undefined
+          }
         }
+      } else {
         // Else, there is grass on this space
+        updatedGrid[i] = {
+          id: i,
+          challenge: undefined
+        }
       }
     }
+
+    this.setState({
+      grid: updatedGrid
+    });
+
   }
 
   // Helper to shuffle an array's contents
@@ -111,20 +110,6 @@ class App extends React.Component {
     return array;
   }
 
-  // Update the state's grid property with the given object at the given id
-  updateGridState(object, gridId) {
-    // Make a copy of the grid
-    var updatedGrid = this.state.grid;
-
-    // Insert the object to update the grid
-    updatedGrid[gridId] = object;
-
-    // Set the state with the updated grid
-    this.setState({
-      grid: updatedGrid
-    });
-  }
-
   ///////////////
   // LISTENERS //
   ///////////////
@@ -133,7 +118,7 @@ class App extends React.Component {
 
   render() {
     var toRender;
-    if (Object.keys(this.state.grid).length > 0) {
+    if (Object.keys(this.state.grid).length === this.numSpaces) {
       toRender = (<Grid grid={this.state.grid} playerPosition={this.state.playerPosition}/>);
     } else {
       toRender = (<div id="loading">Loading . . . </div>);
