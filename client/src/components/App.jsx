@@ -153,24 +153,25 @@ class App extends React.Component {
 
     // Move the player
     var rows = Math.sqrt(this.numSpaces);
-    if (e.which === 72) {
-      // h / move left
-      if ((_player.position - 1) % rows !== 0) {
+
+    if (e.which === 72 || e.which === 37 || e.which === 65) {
+      // h, a, left-arrow / move left
+      if ((this.state.playerPosition - 1) % rows !== 0) {
         this.setPositions(-1);
       }
-    } else if (e.which === 74) {
-      // j / move down
-      if (_player.position <= rows * (rows - 1)) {
+    } else if (e.which === 74 || e.which === 83 || e.which === 40) {
+      // j, s, down-arrow / move down
+      if (this.state.playerPosition <= rows * (rows - 1)) {
         this.setPositions(rows);
       }
-    } else if (e.which === 75) {
-      // k / move up
-      if (_player.position > rows) {
+    } else if (e.which === 75 || e.which === 87 || e.which === 38) {
+      // k, w, up-arrow / move up
+      if (this.state.playerPosition > rows) {
         this.setPositions(-rows);
       }
-    } else if (e.which === 76) {
-      // l/ move right
-      if (_player.position % rows !== 0) {
+    } else if (e.which === 76 || e.which === 68 || e.which === 39) {
+      // l, d, right-arrow/ move right
+      if (this.state.playerPosition % rows !== 0) {
         this.setPositions(1);
       }
     }
