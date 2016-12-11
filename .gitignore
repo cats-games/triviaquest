@@ -7,4 +7,5 @@ node_modules
 compiled
 client/node_modules
 client/compiled
+client/dist/bundle.js
 client/dist
