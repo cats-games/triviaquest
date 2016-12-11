@@ -29,14 +29,14 @@ describe('Grid test', function() {
       .assert.visible('#space-1')
       .assert.visible('#space-1.gridbox.player')
       .assert.visible('#space-25')
-      //.assert.visible('#grid .activated.gridbox')
+      // .assert.visible('#grid .activated.gridbox')
       .expect.element('#answer').to.be.an('input');
   });
-  //this test below might be a problem as there may be an enemy in space-2
+  // Tests #2 & #3 are failing when there is an enemy in space-2 as the classes identifying the player vs the player about to fight are different
   it('should move the player when the navigation keys are pressed', function(client) {
     client.keys("l", function() {
       client.pause(1000);
-      client.assert.elementPresent('#space-2.gridbox.player');
+      client.assert.elementPresent('#space-2.gridbox.player' || '#space-2.gridbox.fight');// This would be ideal, however, it is not legal, and only checks first value, currently looking into other options.
       client.assert.elementNotPresent('#space-1.gridbox.player');
     });
   });
