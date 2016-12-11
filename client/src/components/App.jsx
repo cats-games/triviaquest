@@ -164,8 +164,51 @@ class App extends React.Component {
   }
 
   // Check answer
+  checkAnswer(e, input) {
+    // Prevent the page from refreshing
+    e.preventDefault();
+    // Clear the input field
+    $('#answer').val('');
 
+    // Get the challenge at the current player position
+    var currentChallenge = this.state.grid[this.state.playerPosition].challenge;
 
+    // If a there is a challenge on this position
+    if (currentChallenge) {
+      // Check if the user input and the solution match up
+      if (input === currentChallenge.answer) { // If the answer is correct
+        this.setState({ // Increment the score
+          score: this.state.score + 1
+        }); // For future humans: this is asynchronous
+
+        // --------------------------------------------
+        // Needed so the gameboard will re-render when removing an enemy/challenge
+
+        // Make a copy of the spaces object
+        var updatedSpaces = this.state.grid;
+        // Make a copy of the current space object (singular)
+        var updatedCurrentSpace = this.state.grid[this.state.playerPosition];
+        // Remove the challenge from the current position
+        // NOTE: On re-render, no enemy should appear at this position
+        updatedCurrentSpace.challenge = undefined;
+        updatedCurrentSpace.hasEnemy = false;
+        // Place the updated space back into the spaces object
+        updatedSpaces[this.state.playerPosition] = updatedCurrentSpace;
+
+        // Set the state with the updated spaces object
+        this.setState({
+          grid: updatedSpaces
+        });
+
+        // --------------------------------------------
+      } else {
+        // Push the play back to the previous position
+        this.setState({
+          playerPosition: this.state.previousPosition
+        });
+      }
+    }
+  }
 
   /////////////
   // HELPERS //
@@ -185,15 +228,25 @@ class App extends React.Component {
 
   render() {
     var toRender;
+
     if (Object.keys(this.state.grid).length === this.numSpaces) {
+      // If there is a challenge, display the challenge prompt
+      var gameInfoText = '';
+      var currentPlayerSpace = this.state.grid[this.state.playerPosition];
+      var currentChallenge = currentPlayerSpace.challenge;
+      if (currentChallenge){
+        gameInfoText = currentChallenge.prompt;
+      }
+      // Render the gameboard, gameinfo, and text input field
       toRender = (
         <div id="app">
           <Grid grid={this.state.grid} playerPosition={this.state.playerPosition}/>
-          <Gameinfo cats={'Testing, testing'}/>
-          <Textfield />
+          <Gameinfo gameInfoText={gameInfoText}/>
+          <Textfield checkAnswer={this.checkAnswer.bind(this)}/>
         </div>
       );
     } else {
+      // If the gameboard is not ready, display a loading statement
       toRender = (<div id="loading">Loading . . . </div>);
     }
     return toRender;
