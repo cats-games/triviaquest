@@ -32,7 +32,21 @@ class App extends React.Component {
       rules: { // Change these before running the game. DO NOT change these during the game.
         numSpaces: 25, // Number of spaces on the gameboard
         damage: 20, // Health points to lose per incorrect answer
-        maxNumPotions: 1 // Health potions to generate on the gameboard
+        tiles: [ // Things that can be generated on the gameboard
+          // Probabilities on a 1 to 100 scale. Please make them add up to 100.
+          {
+            type: 'enemy', // A challenge
+            probability: 70
+          },
+          {
+            type: 'potion',
+            probability: 1,
+          },
+          {
+            type: 'grass',
+            probability: 29
+          }
+        ]
       }
     };
     // !Don't run functions in the constructor!
@@ -78,50 +92,64 @@ class App extends React.Component {
   populateBoard() {
     // Index of challenge in this.state.challenges
     var challengeNum = 0;
-    var updatedGrid = {};
+    var grid = {};
+    // **These are to be used as references only, do not mutate them**
+    var _rules = this.state.rules;
+    var _player = this.state.player;
 
+    // Sort the tiles from highest to lowest probability
+    var tiles = this.sortByProbability(_rules.tiles);
     // For each space on the gameboard
-    for (var i = 1; i <= this.state.rules.numSpaces; i++) {
-      // If the player is not on this space
-      if (this.state.player.position !== i) {
-        // ----- TODO: Can this be improved? -----
-        // ^ Or can probabilities be set as properties on 'this' in the constructor?
-        // Pseudorandomly decide if there will be an enemy or grass
-        var random = Math.floor(Math.random() * 10) + 1;
-        if (random <= 6) {
-          // There will be an enemy (challenge) on this space
-          updatedGrid[i] = {
-            id: i,
-            challenge: this.state.challenges[challengeNum++]
-          };
-        } else if (random === 7 && this.state.rules.maxNumPotions) {
-          updatedGrid[i] = {
-            id: 1,
-            challenge: undefined,
-            item: 'potion'
-          }
-          this.state.rules.maxNumPotions--;
-        } else {
-          // ----- TODO: Can this be rewritten so that it doesn't repeat twice? -----
-          // Else, there is grass on this space
-          updatedGrid[i] = {
-            id: i,
-            challenge: undefined
-          }
-        }
-      } else {
-        // Else, there is grass on this space
-        updatedGrid[i] = {
+    for (var i = 1; i <= _rules.numSpaces; i++) {
+      // If the player is on this space, continue to populate the next spaces
+      if (_player.position === i) {
+        grid[i] = {
           id: i,
-          challenge: undefined
+          item: 'grass'
+        };
+        continue; // i++ and continue to the next iteration of this for loop
+      }
+
+      // If the player isn't on this space:
+      // Pseudorandomly decide what to put on this space
+      // This is a number from 1 to 100
+      var random = Math.floor(Math.random() * 100) + 1;
+      for (var j = 0; j < tiles.length; j++) {
+
+        /*
+          EXAMPLE:
+          [{ type: 'enemy', probability: 70 }, { type: 'grass', probability: 30 }]
+          If 'random' <= 70, render an enemy. (This MUST be checked first)
+          If 'random' <= 100, render grass.
+        */
+        var comparison = tiles[j].probability;
+        if (tiles[j - 1]) {
+          comparison += tiles[j - 1].probability;
+        }
+
+        if (random <= comparison) {
+          // Populate it with this tile
+          if (tiles[j].type === 'challenge') { // Populate with a challenge
+            grid[i] = {
+              id: i,
+              challenge: this.state.challenges[challengeNum++]
+            };
+          } else {
+            grid[i] = { // Populate with an item
+              id: i,
+              item: tiles[j].type
+            };
+          }
+          break; // Break out of this for loop.
+          // i++ and continue to the next iteration of the outer for loop.
         }
       }
     }
-    // Update the state with the gameboard
-    this.setState({
-      grid: updatedGrid
-    });
 
+    // Update the state with the newly populated gameboard
+    this.setState({
+      grid: grid
+    });
   }
 
 
@@ -261,7 +289,7 @@ class App extends React.Component {
   handleItem(space) {
     var _player = this.state.player;
 
-    if (space.item){
+    if (space.item) {
       if (space.item === 'potion') {
         _player.health += 20;
       }
@@ -276,11 +304,20 @@ class App extends React.Component {
   // Move the player moves number of spaces
   setPositions(moves) {
     this.setState((prevState, props) => {
-      player: {
-        position: prevState.player.position + moves,
-        previousPosition: prevState.player.position,
-        health: prevState.player.health // No change
-      }
+      return {
+        player: {
+          position: prevState.player.position + moves,
+          previousPosition: prevState.player.position,
+          health: prevState.player.health // No change
+        }
+      };
+    });
+  }
+
+  // Sorts an array of objects from highest to lowest probability
+  sortByProbability(array) {
+    return _.sortBy(array, function(object) {
+      return -object.probability;
     });
   }
 

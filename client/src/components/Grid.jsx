@@ -26,11 +26,9 @@ var Grid = ({grid, playerPosition}) => {
           } else if (player) {
             type = 'player';
           } else if (enemy) {
-            type = 'enemy'
-          } else if (item === 'potion') {
-            type = 'potion'
-          } else {
-            type = 'grass'
+            type = 'enemy';
+          } else if (item) {
+            type = item;
           }
 
           return (<GridSpace type={type} id={'space-' + gridNumber}/>);
