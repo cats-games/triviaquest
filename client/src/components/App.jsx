@@ -18,6 +18,7 @@ class App extends React.Component {
 
     this.state = {
       challenges: [],
+      grid: {},
       score: {
         attempted: 0,
         success: 0,
@@ -28,10 +29,11 @@ class App extends React.Component {
         previousPosition: 1,
         health: 100
       },
-      grid: {},
-      numSpaces: 25, // Number of spaces on the gameboard
-      damage: 20, // Health points to lose per incorrect answer
-      maxNumPotions: 1 // Health potions to generate on the gameboard
+      rules: { // Change these before running the game. DO NOT change these during the game.
+        numSpaces: 25, // Number of spaces on the gameboard
+        damage: 20, // Health points to lose per incorrect answer
+        maxNumPotions: 1 // Health potions to generate on the gameboard
+      }
     };
     // !Don't run functions in the constructor!
     // !Run them in componentWillMount instead!
@@ -79,7 +81,7 @@ class App extends React.Component {
     var updatedGrid = {};
 
     // For each space on the gameboard
-    for (var i = 1; i <= this.state.numSpaces; i++) {
+    for (var i = 1; i <= this.state.rules.numSpaces; i++) {
       // If the player is not on this space
       if (this.state.player.position !== i) {
         // ----- TODO: Can this be improved? -----
@@ -92,13 +94,13 @@ class App extends React.Component {
             id: i,
             challenge: this.state.challenges[challengeNum++]
           };
-        } else if (random === 7 && this.state.maxNumPotions) {
+        } else if (random === 7 && this.state.rules.maxNumPotions) {
           updatedGrid[i] = {
             id: 1,
             challenge: undefined,
             item: 'potion'
           }
-          this.state.maxNumPotions--;
+          this.state.rules.maxNumPotions--;
         } else {
           // ----- TODO: Can this be rewritten so that it doesn't repeat twice? -----
           // Else, there is grass on this space
@@ -234,7 +236,7 @@ class App extends React.Component {
           player: {
             position: prevState.player.previousPosition, // Push back
             previousPosition: prevState.player.previousPosition,
-            health: prevState.player.health - this.state.damage
+            health: prevState.player.health - this.state.rules.damage
           },
           score: {
             attempted: prevState.score.attempted += 1,
@@ -273,7 +275,6 @@ class App extends React.Component {
 
   // Move the player moves number of spaces
   setPositions(moves) {
-
     this.setState((prevState, props) => {
       player: {
         position: prevState.player.position + moves,
@@ -302,7 +303,7 @@ class App extends React.Component {
 
     var toRender;
 
-    if (Object.keys(_grid).length === this.state.numSpaces) {
+    if (Object.keys(_grid).length === this.state.rules.numSpaces) {
       // If there is a challenge, display the challenge prompt
       var gameInfoText = '';
       var currentPlayerSpace = _grid[_player.position];
