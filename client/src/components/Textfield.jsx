@@ -1,17 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-var Textfield = ({}) => (
-  <div id="textfield" contenteditable="true">
-  <form>
-    <label>
-    <input id="answer" type="text" class="textbox" name="textinput" />
-    </label>
-    <input type="submit" value="Submit" />
-  </form>
-  </div>
-);
+var Textfield = ({checkAnswer}) => {
 
-// In the ES6 spec, files are "modules" and do not share a top-level scope
-// `var` declarations will only exist globally where explicitly defined
+  return (
+    <div id="textfield">
+      <form onSubmit={(e) => { checkAnswer(e, $('#answer').val()) }}>
+        <input id="answer" type="text" class="textbox" name="textinput" />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  );
+};
+
 export default Textfield;

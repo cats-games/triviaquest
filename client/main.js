@@ -19,7 +19,6 @@ const element = (
   </h1>
   <nav>LUXURY NAV</nav>
   <Grid />
-  <Textfield />
   </div>
 );
 

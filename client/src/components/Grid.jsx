@@ -10,19 +10,23 @@ class Grid extends React.Component {
 
     this.state = {
       spaces: {},
-      challenges: []
+      challenges: [],
+      score: 0
     };
 
     this.numSpaces = 25;
-    this.initializeBoard();
   }
 
   componentWillMount() {
     // Initialize player position
-    this.setState({playerPosition: 1});
+    this.setState({
+      playerPosition: 1,
+      previousPosition: 1
+    });
     // Check for navigation keys
     window.addEventListener('keydown', this.handleKeyDown.bind(this));
 
+    this.initializeBoard();
     this.getChallenges();
   }
 
@@ -85,7 +89,6 @@ class Grid extends React.Component {
   }
 
   shuffle(array) {
-    console.log(array);
     for (var i = array.length - 1; i > 0; i--) { 
       var j = Math.floor(Math.random() * (i + 1)); 
       var temp = array[i]; 
@@ -99,31 +102,95 @@ class Grid extends React.Component {
   }
 
   handleKeyDown(e) {
+
+    var currentChallenge = this.state.spaces[this.state.playerPosition].challenge;
+
+    // Player is not allowed to move
+    //checks if the current space contains a challenge and exits function if true
+    if(currentChallenge){
+      return;
+    }
+    // If the player is typing in the input box, don't make them move on the grid
     if (e.target === document.getElementById('answer')) {
       return;
     }
-    var rows = Math.sqrt(this.state.spaces.length);
+
+    // Player is allowed to move
+    var rows = Math.sqrt(this.numSpaces);
+    var setPositions = function(difference){
+      this.setState({
+        previousPosition: this.state.playerPosition,
+        playerPosition: this.state.playerPosition + difference
+      });
+    }.bind(this);
+
     if (e.which === 72) {
       // h / move left
       if ((this.state.playerPosition - 1) % rows !== 0) {
-        this.setState({playerPosition: this.state.playerPosition - 1});
+        setPositions(-1);
+        // this.setState({playerPosition: this.state.playerPosition - 1});
       }
     } else if (e.which === 74) {
       // j / move down
       if (this.state.playerPosition <= rows * (rows - 1)) {
-        this.setState({playerPosition: this.state.playerPosition + rows});
+        setPositions(rows);
+        // this.setState({playerPosition: this.state.playerPosition + rows});
       }
     } else if (e.which === 75) {
       // k / move up
       if (this.state.playerPosition > rows) {
-        this.setState({playerPosition: this.state.playerPosition - rows});
+        setPositions(-rows);
+        // this.setState({playerPosition: this.state.playerPosition - rows});
       }
     } else if (e.which === 76) {
       // l/ move right
       if (this.state.playerPosition % rows !== 0) {
-        this.setState({playerPosition: this.state.playerPosition + 1});
+        setPositions(1);
+        // this.setState({playerPosition: this.state.playerPosition + 1});
       }
     }
+  }
+
+  checkAnswer(e, input) {
+    // Prevent the page from refreshing
+    e.preventDefault();
+    // Clear the input field
+    $('#answer').val('');
+
+    // Get the challenge at the current player position
+    var currentChallenge = this.state.spaces[this.state.playerPosition].challenge;
+
+    // If a there is a challenge on this position
+    if (currentChallenge) {
+      // Check if the user input and the solution match up
+      if (input === currentChallenge.answer) { // If the answer is correct
+        this.setState({ // Increment the score
+          score: this.state.score + 1
+        }); // For future humans: this is asynchronous
+        // Make a copy of the spaces object
+        var updatedSpaces = this.state.spaces;
+        // Make a copy of the current space object (singular)
+        var updatedCurrentSpace = this.state.spaces[this.state.playerPosition];
+        // Remove the challenge from the current position
+        // NOTE: On re-render, no enemy should appear at this position
+        updatedCurrentSpace.challenge = undefined;
+        updatedCurrentSpace.hasEnemy = false;
+        // Place the updated space back into the spaces object
+        updatedSpaces[this.state.playerPosition] = updatedCurrentSpace;
+
+        // Set the state with the updated spaces object
+        this.setState({
+          spaces: updatedSpaces
+        });
+
+      } else {
+        // Push the play back to the previous position
+        this.setState({
+          playerPosition: this.state.previousPosition
+        });
+      }
+    }
+
   }
 
   render() {
@@ -131,7 +198,7 @@ class Grid extends React.Component {
     var spaces = this.state.spaces;
     var position = this.state.playerPosition;
 
-    if (spaces && position && spaces[position] && spaces[position].challenge) {
+    if (spaces[position].challenge) {
       question = spaces[position].challenge.prompt;
     }
 
@@ -148,6 +215,7 @@ class Grid extends React.Component {
         }
       </div>
       <Gameinfo cats={question}/>
+      <Textfield checkAnswer={this.checkAnswer.bind(this)}/>
     </div>
     );
   }
