@@ -22,12 +22,16 @@ class App extends React.Component {
         success: 0,
         fail: 0
       },
-      playerPosition: 1, // Initialize player position
-      previousPosition: 1,
+      player: {
+        position: 1,
+        previousPosition: 1,
+        health: 100
+      },
       grid: {}
     };
 
-    this.numSpaces = 25;
+    this.numSpaces = 25; // Number of spaces on the gameboard
+    this.damage = 20; // Health points to lose per incorrect answer
     // !Don't run functions in the constructor!
     // !Run them in componentWillMount instead!
   }
@@ -76,7 +80,7 @@ class App extends React.Component {
     // For each space on the gameboard
     for (var i = 1; i <= this.numSpaces; i++) {
       // If the player is not on this space
-      if (this.state.playerPosition !== i) {
+      if (this.state.player.position !== i) {
         // Pseudorandomly decide if there will be an enemy or grass
         var random = Math.floor(Math.random() * 2) + 1;
         if (random === 1) {
@@ -101,7 +105,6 @@ class App extends React.Component {
         }
       }
     }
-
     // Update the state with the gameboard
     this.setState({
       grid: updatedGrid
@@ -118,7 +121,7 @@ class App extends React.Component {
   handleKeyDown(e) {
 
     // A challenge object, or undefined
-    var currentChallenge = this.state.grid[this.state.playerPosition].challenge;
+    var currentChallenge = this.state.grid[this.state.player.position].challenge;
 
     // Player is not allowed to move
     // If the current space contains a challenge, don't allow the player to move
@@ -133,33 +136,39 @@ class App extends React.Component {
 
     // Player is allowed to move in all other cases
     var rows = Math.sqrt(this.numSpaces);
+    console.log('Player:', this.state.player);
+    console.log('Score:', this.state.score);
     if (e.which === 72) {
       // h / move left
-      if ((this.state.playerPosition - 1) % rows !== 0) {
+      if ((this.state.player.position - 1) % rows !== 0) {
         this.setPositions(-1);
       }
     } else if (e.which === 74) {
       // j / move down
-      if (this.state.playerPosition <= rows * (rows - 1)) {
+      if (this.state.player.position <= rows * (rows - 1)) {
         this.setPositions(rows);
       }
     } else if (e.which === 75) {
       // k / move up
-      if (this.state.playerPosition > rows) {
+      if (this.state.player.position > rows) {
         this.setPositions(-rows);
       }
     } else if (e.which === 76) {
       // l/ move right
-      if (this.state.playerPosition % rows !== 0) {
+      if (this.state.player.position % rows !== 0) {
         this.setPositions(1);
       }
     }
   }
 
-  setPositions(difference) {
+  // Move the player moves number of spaces
+  setPositions(moves) {
     this.setState({
-      previousPosition: this.state.playerPosition,
-      playerPosition: this.state.playerPosition + difference
+      player: {
+        previousPosition: this.state.player.position,
+        position: this.state.player.position + moves,
+        health: this.state.player.health // No change
+      }
     });
   }
 
@@ -171,42 +180,63 @@ class App extends React.Component {
     $('#answer').val('');
 
     // Get the challenge at the current player position
-    var currentChallenge = this.state.grid[this.state.playerPosition].challenge;
+    var currentChallenge = this.state.grid[this.state.player.position].challenge;
 
     // If a there is a challenge on this position
     if (currentChallenge) {
+      var correct = false;
       // Check if the user input and the solution match up
-      if (input === currentChallenge.answer) { // If the answer is correct
-        this.setState({ // Increment the score
-          score: this.state.score + 1
-        }); // For future humans: this is asynchronous
-
-        // --------------------------------------------
-        // Needed so the gameboard will re-render when removing an enemy/challenge
-
-        // Make a copy of the spaces object
-        var updatedSpaces = this.state.grid;
-        // Make a copy of the current space object (singular)
-        var updatedCurrentSpace = this.state.grid[this.state.playerPosition];
-        // Remove the challenge from the current position
-        // NOTE: On re-render, no enemy should appear at this position
-        updatedCurrentSpace.challenge = undefined;
-        updatedCurrentSpace.hasEnemy = false;
-        // Place the updated space back into the spaces object
-        updatedSpaces[this.state.playerPosition] = updatedCurrentSpace;
-
-        // Set the state with the updated spaces object
-        this.setState({
-          grid: updatedSpaces
-        });
-
-        // --------------------------------------------
-      } else {
-        // Push the play back to the previous position
-        this.setState({
-          playerPosition: this.state.previousPosition
-        });
+      if (input === currentChallenge.answer) {
+        correct = true;
       }
+      // Update player stats based on the correct/incorrect answer
+      this.updatePlayerAndScores(correct);
+    }
+  }
+
+  updatePlayerAndScores(correct) {
+    // Update the score
+    var updatedScore = this.state.score;
+    updatedScore['attempted']++;
+
+    if (correct) {
+      // --------------------------------------------
+      // Needed so the gameboard will re-render when removing an enemy/challenge
+
+      // Make a copy of the spaces object
+      var updatedSpaces = this.state.grid;
+      // Make a copy of the current space object (singular)
+      var updatedCurrentSpace = this.state.grid[this.state.player.position];
+      // Remove the challenge from the current position
+      // NOTE: On re-render, no enemy should appear at this position
+      updatedCurrentSpace.challenge = undefined;
+      // Place the updated space back into the spaces object
+      updatedSpaces[this.state.player.position] = updatedCurrentSpace;
+
+      // Update the success score
+      updatedScore['success']++;
+
+      // Set the state with the updated spaces object
+      this.setState({
+        grid: updatedSpaces,
+        score: updatedScore
+      });
+
+      // --------------------------------------------
+    } else {
+
+      // Update the failure score
+      updatedScore['fail']++;
+
+      // Push the play back to the previous position
+      this.setState({
+        player: {
+          position: this.state.player.previousPosition,
+          previousPosition: this.state.player.previousPosition,
+          health: this.state.player.health - this.damage
+        },
+        score: updatedScore
+      });
     }
   }
 
@@ -232,7 +262,7 @@ class App extends React.Component {
     if (Object.keys(this.state.grid).length === this.numSpaces) {
       // If there is a challenge, display the challenge prompt
       var gameInfoText = '';
-      var currentPlayerSpace = this.state.grid[this.state.playerPosition];
+      var currentPlayerSpace = this.state.grid[this.state.player.position];
       var currentChallenge = currentPlayerSpace.challenge;
       if (currentChallenge){
         gameInfoText = currentChallenge.prompt;
@@ -240,7 +270,7 @@ class App extends React.Component {
       // Render the gameboard, gameinfo, and text input field
       toRender = (
         <div id="app">
-          <Grid grid={this.state.grid} playerPosition={this.state.playerPosition}/>
+          <Grid grid={this.state.grid} playerPosition={this.state.player.position}/>
           <Gameinfo gameInfoText={gameInfoText}/>
           <Textfield checkAnswer={this.checkAnswer.bind(this)}/>
         </div>
