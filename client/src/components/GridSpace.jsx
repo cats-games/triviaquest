@@ -10,7 +10,9 @@ var GridSpace = ({type, id}) => {
   } else if (type === 'enemy') {
     toRender = (<div id={id} className="gridbox enemy">{id}</div>);
   } else if (type === 'fight') {
-    toRender = (<div id={id} className="gridbox fight"></div>);
+    toRender = (<div id={id} className="gridbox fight">{id}</div>);
+  } else if (type === 'potion') {
+    toRender = (<div id={id} className="gridbox potion">{id}</div>);
   } else if (type === 'grass') {
     toRender = (<div id={id} className="gridbox">{id}</div>);
   }
