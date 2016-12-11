@@ -280,8 +280,6 @@ class App extends React.Component {
 
   // Move the player moves number of spaces
   setPositions(moves) {
-    console.log('Player:', this.state.player);
-    console.log('Score:', this.state.score);
     var _player = this.state.player;
 
     this.setState({
