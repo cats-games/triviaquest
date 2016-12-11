@@ -92,7 +92,8 @@ input{
   background-size: 100% auto;
 }
 
-.gridbox.activated {
+/*was .gridbox.actived*/
+.activated {
   background-image: url("../img/p1_stand.png"), url("../img/tile-by-Ivan-voirol.png");
   background-repeat: no-repeat, no-repeat;
   background-position: center center, center center;
@@ -120,13 +121,15 @@ input{
   border-top:#555 solid 1px;
 }
 
-.gridbox.enemy {
+/*.gridbox.enemy*/
+.enemy {
   background-image: url("../img/slimeWalk2.png"), url("../img/tile-by-Ivan-voirol.png");
   background-repeat: no-repeat, no-repeat;
   background-position: center center, center center;
   background-size: 50px auto, 300px auto;
 }
 
+/*.gridbox.activated.enemy*/
 .gridbox.activated.enemy {
   background-image: url("../img/p1_hurt.png"), url("../img/tile-by-Ivan-voirol.png");
   background-repeat: no-repeat, no-repeat;

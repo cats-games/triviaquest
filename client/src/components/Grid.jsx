@@ -3,6 +3,7 @@
 import React from 'react';
 import Gameinfo from './Gameinfo.jsx';
 import Textfield from './Textfield.jsx';
+import GridSpace from './GridSpace.jsx';
 
 class Grid extends React.Component {
   constructor(props) {
@@ -32,14 +33,6 @@ class Grid extends React.Component {
     var challenges = this.state.challenges.slice();
     this.populateEnemiesAndChallenges(challenges);
   }
-
-  // componentWillUpdate(nextProps, nextState) {
-  //   // Check if challenges exist
-  //   if (this.state.challenges.length === 0 && nextState.challenges.length) {
-  //     var challenges = this.state.challenges.slice();
-  //     this.populateEnemiesAndChallenges(challenges);
-  //   }
-  // }
 
   // Initialize board spaces with an ID number and no enemies
   initializeBoard() {
@@ -199,7 +192,14 @@ class Grid extends React.Component {
             gridNumber++;
             var activated = this.state.playerPosition === (gridNumber) ? "activated " : "";
             var enemy = this.state.spaces[gridNumber].hasEnemy ? "enemy" : "";
-            return (<div className={"gridbox " + activated + enemy} id={gridNumber}>{gridNumber}</div>);
+            var type;
+            if (activated) {
+              type = 'player';
+            } else if (enemy) {
+              type = 'enemy';
+            }
+            return (<GridSpace type={type} text={gridNumber}/>);
+            // return (<div className={"gridbox " + activated + enemy} id={gridNumber}>{gridNumber}</div>);
           })
         }
       </div>
