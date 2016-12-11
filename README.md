@@ -4,6 +4,15 @@
 *************************************
 How to install!!
 
+(global installs if not present)
+$npm install -g gulp
+~$npm install -g gulpcli
+$npm install -g babel
+$npm install -g live-server
+
+
+
+(server and page innitiation)
 /
 $npm install
 
@@ -13,8 +22,19 @@ $mongod --config /usr/local/etc/mongod.conf
 
 /
 $node seed.js
-(let hang)
 
+/server/
+node server.js
+
+/client/
+$npm install
+
+/client/
+$gulp build
+
+
+
+(optional to verify)
 /
 $mongo
 (let hang)
@@ -24,11 +44,6 @@ $mongo
 >db.challenges.find()
 
 
-/client/
-$npm install
-
-/client/
-babel watch . --out-dir compiled --presets=es2015,react --ignore=node_modules,compiled --source-maps inline & live-server
 *************************************
 
 
