@@ -92,7 +92,6 @@ input{
   background-size: 100% auto;
 }
 
-/*was .gridbox.actived*/
 .player {
   background-image: url("../img/p1_stand.png"), url("../img/tile-by-Ivan-voirol.png");
   background-repeat: no-repeat, no-repeat;
@@ -121,7 +120,6 @@ input{
   border-top:#555 solid 1px;
 }
 
-/*.gridbox.enemy*/
 .enemy {
   background-image: url("../img/slimeWalk2.png"), url("../img/tile-by-Ivan-voirol.png");
   background-repeat: no-repeat, no-repeat;
@@ -129,7 +127,6 @@ input{
   background-size: 50px auto, 300px auto;
 }
 
-/*.gridbox.activated.enemy*/
 .fight {
   background-image: url("../img/p1_hurt.png"), url("../img/tile-by-Ivan-voirol.png");
   background-repeat: no-repeat, no-repeat;
