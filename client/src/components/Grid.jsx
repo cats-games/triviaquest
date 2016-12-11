@@ -30,7 +30,7 @@ var Grid = ({grid, playerPosition}) => {
             type = 'grass'
           }
 
-          return (<GridSpace type={type} id={gridNumber}/>);
+          return (<GridSpace type={type} id={'space-' + gridNumber}/>);
         })
       }
     </div>
