@@ -39,6 +39,14 @@ class App extends React.Component {
   componentWillMount() {
     // Get challenges from API and update state
     this.getChallenges(this.populateBoard.bind(this));
+
+    // Listen for keypresses (to move player when necessary)
+    window.addEventListener('keydown', this.handleKeyDown.bind(this));
+  }
+
+  componentWillUnmount() {
+    // Stop listening for key presses
+    window.removeEventListener('keydown', this.handleKeyDown.bind(this));
   }
 
   // Get challenges from API and update state
@@ -78,6 +86,7 @@ class App extends React.Component {
             challenge: this.state.challenges[challengeNum++]
           };
         } else {
+          // TODO: Can this be rewritten so that it doesn't repeat twice?
           // Else, there is grass on this space
           updatedGrid[i] = {
             id: i,
@@ -93,13 +102,77 @@ class App extends React.Component {
       }
     }
 
+    // Update the state with the gameboard
     this.setState({
       grid: updatedGrid
     });
 
   }
 
+
+  ///////////////
+  // LISTENERS //
+  ///////////////
+
+  // Keep track of player movement
+  handleKeyDown(e) {
+
+    // A challenge object, or undefined
+    var currentChallenge = this.state.grid[this.state.playerPosition].challenge;
+
+    // Player is not allowed to move
+    // If the current space contains a challenge, don't allow the player to move
+    if(currentChallenge){
+      return;
+    }
+
+    // If the player is typing in the input box, don't allow the player to move
+    if (e.target === document.getElementById('answer')) {
+      return;
+    }
+
+    // Player is allowed to move in all other cases
+    var rows = Math.sqrt(this.numSpaces);
+    var setPositions = function(difference){
+      this.setState({
+        previousPosition: this.state.playerPosition,
+        playerPosition: this.state.playerPosition + difference
+      });
+    }.bind(this);
+
+    if (e.which === 72) {
+      // h / move left
+      if ((this.state.playerPosition - 1) % rows !== 0) {
+        setPositions(-1);
+      }
+    } else if (e.which === 74) {
+      // j / move down
+      if (this.state.playerPosition <= rows * (rows - 1)) {
+        setPositions(rows);
+      }
+    } else if (e.which === 75) {
+      // k / move up
+      if (this.state.playerPosition > rows) {
+        setPositions(-rows);
+      }
+    } else if (e.which === 76) {
+      // l/ move right
+      if (this.state.playerPosition % rows !== 0) {
+        setPositions(1);
+      }
+    }
+  }
+
+  // Check answer
+
+
+
+  /////////////
+  // HELPERS //
+  /////////////
+
   // Helper to shuffle an array's contents
+  // Used to shuffle the order of challenges received from the server
   shuffle(array) {
     for (var i = array.length - 1; i > 0; i--) { 
       var j = Math.floor(Math.random() * (i + 1)); 
@@ -110,16 +183,16 @@ class App extends React.Component {
     return array;
   }
 
-  ///////////////
-  // LISTENERS //
-  ///////////////
-
-
-
   render() {
     var toRender;
     if (Object.keys(this.state.grid).length === this.numSpaces) {
-      toRender = (<Grid grid={this.state.grid} playerPosition={this.state.playerPosition}/>);
+      toRender = (
+        <div id="app">
+          <Grid grid={this.state.grid} playerPosition={this.state.playerPosition}/>
+          <Gameinfo cats={'Testing, testing'}/>
+          <Textfield />
+        </div>
+      );
     } else {
       toRender = (<div id="loading">Loading . . . </div>);
     }

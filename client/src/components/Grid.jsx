@@ -11,18 +11,8 @@ import GridSpace from './GridSpace.jsx';
 class Grid extends React.Component {
   constructor(props) {
     super(props);
-
-    console.log(props.grid);
   }
 
-  componentWillMount() {
-    // Check for navigation keys
-    window.addEventListener('keydown', this.handleKeyDown.bind(this));
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDown.bind(this));
-  }
 
   handleKeyDown(e) {
 
@@ -119,43 +109,39 @@ class Grid extends React.Component {
 
   render() {
     var question = '';
-    var spaces = this.props.grid;
+    var grid = this.props.grid;
     var position = this.props.playerPosition;
 
-    if (spaces[position].challenge) {
-      question = spaces[position].challenge.prompt;
+    if (grid[position].challenge) {
+      question = grid[position].challenge.prompt;
     }
 
     var gridNumber = 0;
     return (
-      <div>
-        <div id="grid" onKeyDown={this.setplayerPosition}>
-        {Object.keys(this.props.grid).map(() => {
-            gridNumber++; // To start the gridNumber at 1
+      <div id="grid" onKeyDown={this.setplayerPosition}>
+      {Object.keys(this.props.grid).map(() => {
+          gridNumber++; // To start the gridNumber at 1
 
-            // If the player is on the current grid space
-            var player = this.props.playerPosition === gridNumber;
-            // If there is an enemy on this current grid space
-            var enemy = this.props.grid[gridNumber].challenge;
+          // If the player is on the current grid space
+          var player = this.props.playerPosition === gridNumber;
+          // If there is an enemy on this current grid space
+          var enemy = this.props.grid[gridNumber].challenge;
 
-            // The type of grid space to render
-            var type;
-            if (player && enemy) {
-              type = 'fight';
-            } else if (player) {
-              type = 'player';
-            } else if (enemy) {
-              type = 'enemy'
-            } else {
-              type = 'grass'
-            }
+          // The type of grid space to render
+          var type;
+          if (player && enemy) {
+            type = 'fight';
+          } else if (player) {
+            type = 'player';
+          } else if (enemy) {
+            type = 'enemy'
+          } else {
+            type = 'grass'
+          }
 
-            return (<GridSpace type={type} id={gridNumber}/>);
-          })
-        }
-      </div>
-      <Gameinfo cats={question}/>
-      <Textfield checkAnswer={this.checkAnswer.bind(this)}/>
+          return (<GridSpace type={type} id={gridNumber}/>);
+        })
+      }
     </div>
     );
   }
