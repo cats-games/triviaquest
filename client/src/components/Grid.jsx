@@ -5,78 +5,17 @@ import Gameinfo from './Gameinfo.jsx';
 import Textfield from './Textfield.jsx';
 import GridSpace from './GridSpace.jsx';
 
+// Grid should:
+// Render grid spaces
+// Listen for player movement and update position
 class Grid extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      spaces: {},
-      challenges: this.props.challenges,
-      score: 0
-    };
-
-    this.numSpaces = 25;
   }
 
   componentWillMount() {
-    // Initialize player position
-    this.setState({
-      playerPosition: 1,
-      previousPosition: 1
-    });
     // Check for navigation keys
     window.addEventListener('keydown', this.handleKeyDown.bind(this));
-
-    // Initialize the spaces of the board
-    this.initializeBoard();
-    // Populate the board with enemies/challenges
-    var challenges = this.state.challenges.slice();
-    this.populateEnemiesAndChallenges(challenges);
-  }
-
-  // Initialize board spaces with an ID number and no enemies
-  initializeBoard() {
-    for (var i = 1; i <= this.numSpaces; i++) {
-      this.state.spaces[i] = {
-        id: i,
-        challenge: undefined,
-        hasEnemy: false
-      };
-    }
-  }
-
-  populateEnemiesAndChallenges(challenges) {
-    // Populate the spaces with enemies
-    var enemySquares = this.generateEnemySquares();
-
-    enemySquares.forEach(function(enemy) {
-      var challenge = challenges.pop();
-      if (challenge) {
-        // Add a challenge to this space
-        this.state.spaces[enemy]['challenge'] = challenge;
-        this.state.spaces[enemy]['hasEnemy'] = true;
-      }
-    }.bind(this));
-  }
-
-  // Generates an array of shuffled enemy positions
-  generateEnemySquares() {
-    var enemySquares = _.range(1, this.numSpaces + 1);
-    // Skip the position that the player is on
-    enemySquares.splice(this.state.playerPosition - 1, 1);
-
-    this.shuffle(enemySquares);
-
-    return enemySquares;
-  }
-
-  shuffle(array) {
-    for (var i = array.length - 1; i > 0; i--) { 
-      var j = Math.floor(Math.random() * (i + 1)); 
-      var temp = array[i]; 
-      array[i] = array[j]; 
-      array[j] = temp; 
-    } 
   }
 
   componentWillUnmount() {
@@ -149,6 +88,7 @@ class Grid extends React.Component {
         this.setState({ // Increment the score
           score: this.state.score + 1
         }); // For future humans: this is asynchronous
+
         // Make a copy of the spaces object
         var updatedSpaces = this.state.spaces;
         // Make a copy of the current space object (singular)
@@ -177,8 +117,8 @@ class Grid extends React.Component {
 
   render() {
     var question = '';
-    var spaces = this.state.spaces;
-    var position = this.state.playerPosition;
+    var spaces = this.props.grid;
+    var position = this.props.playerPosition;
 
     if (spaces[position].challenge) {
       question = spaces[position].challenge.prompt;
@@ -188,13 +128,13 @@ class Grid extends React.Component {
     return (
       <div>
         <div id="grid" onKeyDown={this.setplayerPosition}>
-        {Object.keys(this.state.spaces).map(() => {
+        {Object.keys(this.props.grid).map(() => {
             gridNumber++; // To start the gridNumber at 1
 
             // If the player is on the current grid space
-            var player = this.state.playerPosition === gridNumber;
+            var player = this.props.playerPosition === gridNumber;
             // If there is an enemy on this current grid space
-            var enemy = this.state.spaces[gridNumber].hasEnemy;
+            var enemy = this.props.grid[gridNumber].hasEnemy;
 
             // The type of grid space to render
             var type;
