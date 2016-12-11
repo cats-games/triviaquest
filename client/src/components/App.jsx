@@ -11,6 +11,7 @@ import Grid from './Grid.jsx';
 // Keep track of player position
 // Generate a random board (spaces)
 // Check for correct/incorrect answers
+// Update game based on items
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -130,13 +131,12 @@ class App extends React.Component {
     var _player = this.state.player;
     var _grid = this.state.grid;
 
-    // A challenge object, or undefined
+    // The space the player is currently on
     var currentSpace = _grid[_player.position]
-    var currentChallenge = currentSpace.challenge;
 
-    // Player is not allowed to move
+    // ----- Player is not allowed to move -----
     // If the current space contains a challenge, don't allow the player to move
-    if(currentChallenge){
+    if(currentSpace.challenge){
       return;
     }
 
@@ -145,17 +145,11 @@ class App extends React.Component {
       return;
     }
 
-    // Player is allowed to move in all other cases
+    // ----- Player is allowed to move in all other cases -----
+    // Check if there are items on this space and act accordingly
+    this.handleItem(currentSpace);
 
-    var currentItem = _grid[_player.position].item;
-    // TODO: Perhaps this can be pulled out into global function?
-    // ^ The function could handle all kinds of items
-    // If the player lands on a potion, increase their health
-    if (currentItem === 'potion') {
-      _player.health += 20;
-      this.removeFromSpace(currentSpace, 'item');
-    }
-
+    // Move the player
     var rows = Math.sqrt(this.numSpaces);
     if (e.which === 72) {
       // h / move left
@@ -220,9 +214,25 @@ class App extends React.Component {
     }
   }
 
-  // Remove the property 'toRemove' from the given grid space object
+  // Helper to remove the property 'toRemove' from the given grid space object
   removeFromSpace(space, toRemove) {
     delete space[toRemove];
+  }
+
+  // Update the game accordingly depending on the item found on this space
+  handleItem(space) {
+    var _player = this.state.player;
+
+    if (space.item){
+      if (space.item === 'potion') {
+        _player.health += 20;
+      }
+      // and other possibilities in future iterations
+
+      // After using the item, remove it from the space
+      this.removeFromSpace(space, 'item');
+    }
+
   }
 
   // Update player and score properties
