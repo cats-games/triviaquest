@@ -129,11 +129,12 @@ class App extends React.Component {
 
   // Keep track of player movement
   handleKeyDown(e) {
+    // **These are to be used as references only, do not mutate them**
     var _player = this.state.player;
     var _grid = this.state.grid;
 
     // The space the player is currently on
-    var currentSpace = _grid[_player.position]
+    var currentSpace = _grid[_player.position];
 
     // ----- Player is not allowed to move -----
     // If the current space contains a challenge, don't allow the player to move
@@ -178,6 +179,7 @@ class App extends React.Component {
 
   // Check answer
   checkAnswer(e, input) {
+    // **These are to be used as references only, do not mutate them**
     var _player = this.state.player;
     var _grid = this.state.grid;
 
@@ -203,6 +205,7 @@ class App extends React.Component {
 
   // Update player and score properties
   updatePlayerAndScores(correct) {
+    // **These are to be used as references only, do not mutate them**
     var _player = this.state.player;
     var _grid = this.state.grid;
 
@@ -270,13 +273,12 @@ class App extends React.Component {
 
   // Move the player moves number of spaces
   setPositions(moves) {
-    var _player = this.state.player;
 
-    this.setState({
+    this.setState((prevState, props) => {
       player: {
-        previousPosition: _player.position,
-        position: _player.position + moves,
-        health: _player.health // No change
+        position: prevState.player.position + moves,
+        previousPosition: prevState.player.position,
+        health: prevState.player.health // No change
       }
     });
   }
@@ -294,8 +296,10 @@ class App extends React.Component {
   }
 
   render() {
+    // **These are to be used as references only, do not mutate them**
     var _grid = this.state.grid;
     var _player = this.state.player;
+
     var toRender;
 
     if (Object.keys(_grid).length === this.state.numSpaces) {
