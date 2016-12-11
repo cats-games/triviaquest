@@ -1,3 +1,9 @@
+'use strict';
+
+import React from 'react';
+import Gameinfo from './Gameinfo.jsx';
+import Textfield from './Textfield.jsx';
+
 class Grid extends React.Component {
   constructor(props) {
     super(props);
@@ -215,4 +221,4 @@ class Grid extends React.Component {
   }
 }
 
-window.Grid = Grid;
+export default Grid;
