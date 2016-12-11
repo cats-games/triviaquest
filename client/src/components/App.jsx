@@ -133,34 +133,34 @@ class App extends React.Component {
 
     // Player is allowed to move in all other cases
     var rows = Math.sqrt(this.numSpaces);
-    var setPositions = function(difference){
-      this.setState({
-        previousPosition: this.state.playerPosition,
-        playerPosition: this.state.playerPosition + difference
-      });
-    }.bind(this);
-
     if (e.which === 72) {
       // h / move left
       if ((this.state.playerPosition - 1) % rows !== 0) {
-        setPositions(-1);
+        this.setPositions(-1);
       }
     } else if (e.which === 74) {
       // j / move down
       if (this.state.playerPosition <= rows * (rows - 1)) {
-        setPositions(rows);
+        this.setPositions(rows);
       }
     } else if (e.which === 75) {
       // k / move up
       if (this.state.playerPosition > rows) {
-        setPositions(-rows);
+        this.setPositions(-rows);
       }
     } else if (e.which === 76) {
       // l/ move right
       if (this.state.playerPosition % rows !== 0) {
-        setPositions(1);
+        this.setPositions(1);
       }
     }
+  }
+
+  setPositions(difference) {
+    this.setState({
+      previousPosition: this.state.playerPosition,
+      playerPosition: this.state.playerPosition + difference
+    });
   }
 
   // Check answer
