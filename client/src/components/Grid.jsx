@@ -10,10 +10,10 @@ class Grid extends React.Component {
 
     this.state = {
       spaces: {},
-      challenges: [],
+      challenges: this.props.challenges,
       score: 0
     };
-
+    console.log(this.props.challenges);
     this.numSpaces = 25;
   }
 
@@ -27,7 +27,6 @@ class Grid extends React.Component {
     window.addEventListener('keydown', this.handleKeyDown.bind(this));
 
     this.initializeBoard();
-    this.getChallenges();
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -38,18 +37,7 @@ class Grid extends React.Component {
     }
   }
 
-  // Get challenges from API and update state
-  getChallenges() {
-    $.get('/api/challenges')
-      .done(challenges => { // An array of challenge objects
-        this.setState({
-          challenges: challenges
-        });
-      })
-      .fail(function(error) {
-        console.error('Could not get challenges:', error);
-      });
-  }
+
 
   // Initialize board spaces with an ID number and no enemies
   initializeBoard() {
@@ -60,7 +48,6 @@ class Grid extends React.Component {
         hasEnemy: false
       };
     }
-    console.log('board initialized!');
   }
 
   populateEnemiesAndChallenges(challenges) {
