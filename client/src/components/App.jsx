@@ -32,6 +32,7 @@ class App extends React.Component {
 
     this.numSpaces = 25; // Number of spaces on the gameboard
     this.damage = 20; // Health points to lose per incorrect answer
+    this.numPotions = 1; // Health potions to generate on the gameboard
     // !Don't run functions in the constructor!
     // !Run them in componentWillMount instead!
   }
@@ -82,13 +83,20 @@ class App extends React.Component {
       // If the player is not on this space
       if (this.state.player.position !== i) {
         // Pseudorandomly decide if there will be an enemy or grass
-        var random = Math.floor(Math.random() * 2) + 1;
+        var random = Math.floor(Math.random() * 3) + 1;
         if (random === 1) {
           // There will be an enemy (challenge) on this space
           updatedGrid[i] = {
             id: i,
             challenge: this.state.challenges[challengeNum++]
           };
+        } else if (random === 2 && this.numPotions) {
+          updatedGrid[i] = {
+            id: 1,
+            challenge: undefined,
+            item: 'potion'
+          }
+          this.numPotions--;
         } else {
           // TODO: Can this be rewritten so that it doesn't repeat twice?
           // Else, there is grass on this space
@@ -119,9 +127,12 @@ class App extends React.Component {
 
   // Keep track of player movement
   handleKeyDown(e) {
+    var _player = this.state.player;
+    var _grid = this.state.grid;
 
     // A challenge object, or undefined
-    var currentChallenge = this.state.grid[this.state.player.position].challenge;
+    var currentSpace = _grid[_player.position]
+    var currentChallenge = currentSpace.challenge;
 
     // Player is not allowed to move
     // If the current space contains a challenge, don't allow the player to move
@@ -135,27 +146,37 @@ class App extends React.Component {
     }
 
     // Player is allowed to move in all other cases
+
+    var currentItem = _grid[_player.position].item;
+    // TODO: Perhaps this can be pulled out into global function?
+    // ^ The function could handle all kinds of items
+    // If the player lands on a potion, increase their health
+    if (currentItem === 'potion') {
+      _player.health += 20;
+      this.removeFromSpace(currentSpace, 'item');
+    }
+
     var rows = Math.sqrt(this.numSpaces);
     console.log('Player:', this.state.player);
     console.log('Score:', this.state.score);
     if (e.which === 72) {
       // h / move left
-      if ((this.state.player.position - 1) % rows !== 0) {
+      if ((_player.position - 1) % rows !== 0) {
         this.setPositions(-1);
       }
     } else if (e.which === 74) {
       // j / move down
-      if (this.state.player.position <= rows * (rows - 1)) {
+      if (_player.position <= rows * (rows - 1)) {
         this.setPositions(rows);
       }
     } else if (e.which === 75) {
       // k / move up
-      if (this.state.player.position > rows) {
+      if (_player.position > rows) {
         this.setPositions(-rows);
       }
     } else if (e.which === 76) {
       // l/ move right
-      if (this.state.player.position % rows !== 0) {
+      if (_player.position % rows !== 0) {
         this.setPositions(1);
       }
     }
@@ -163,24 +184,29 @@ class App extends React.Component {
 
   // Move the player moves number of spaces
   setPositions(moves) {
+    var _player = this.state.player;
+
     this.setState({
       player: {
-        previousPosition: this.state.player.position,
-        position: this.state.player.position + moves,
-        health: this.state.player.health // No change
+        previousPosition: _player.position,
+        position: _player.position + moves,
+        health: _player.health // No change
       }
     });
   }
 
   // Check answer
   checkAnswer(e, input) {
+    var _player = this.state.player;
+    var _grid = this.state.grid;
+
     // Prevent the page from refreshing
     e.preventDefault();
     // Clear the input field
     $('#answer').val('');
 
     // Get the challenge at the current player position
-    var currentChallenge = this.state.grid[this.state.player.position].challenge;
+    var currentChallenge = _grid[_player.position].challenge;
 
     // If a there is a challenge on this position
     if (currentChallenge) {
@@ -194,7 +220,13 @@ class App extends React.Component {
     }
   }
 
-  updatePlayerAndScores(correct) {
+  // Remove the property 'toRemove' from the given grid space object
+  removeFromSpace(space, toRemove) {
+    delete space[toRemove];
+  }
+
+  // Update player and score properties
+  updatePlayerAndScores(correct, remove) {
     // Update the score
     var updatedScore = this.state.score;
     updatedScore['attempted']++;
@@ -209,7 +241,10 @@ class App extends React.Component {
       var updatedCurrentSpace = this.state.grid[this.state.player.position];
       // Remove the challenge from the current position
       // NOTE: On re-render, no enemy should appear at this position
-      updatedCurrentSpace.challenge = undefined;
+
+      // Remove the challenge from the current space
+      this.removeFromSpace(updatedCurrentSpace, 'challenge');
+
       // Place the updated space back into the spaces object
       updatedSpaces[this.state.player.position] = updatedCurrentSpace;
 
