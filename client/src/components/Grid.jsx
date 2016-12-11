@@ -13,7 +13,7 @@ class Grid extends React.Component {
       challenges: this.props.challenges,
       score: 0
     };
-    console.log(this.props.challenges);
+
     this.numSpaces = 25;
   }
 
@@ -26,18 +26,20 @@ class Grid extends React.Component {
     // Check for navigation keys
     window.addEventListener('keydown', this.handleKeyDown.bind(this));
 
+    // Initialize the spaces of the board
     this.initializeBoard();
+    // Populate the board with enemies/challenges
+    var challenges = this.state.challenges.slice();
+    this.populateEnemiesAndChallenges(challenges);
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    // Check if challenges exist
-    if (this.state.challenges.length === 0 && nextState.challenges.length) {
-      var challenges = nextState.challenges.slice();
-      this.populateEnemiesAndChallenges(challenges);
-    }
-  }
-
-
+  // componentWillUpdate(nextProps, nextState) {
+  //   // Check if challenges exist
+  //   if (this.state.challenges.length === 0 && nextState.challenges.length) {
+  //     var challenges = this.state.challenges.slice();
+  //     this.populateEnemiesAndChallenges(challenges);
+  //   }
+  // }
 
   // Initialize board spaces with an ID number and no enemies
   initializeBoard() {
