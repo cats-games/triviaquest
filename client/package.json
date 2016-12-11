@@ -6,8 +6,8 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "test": "node_modules/nightwatch/bin/nightwatch",
-    "e2e-setup": "node_modules/selenium-standalone/bin/selenium-standalone install"
+    "test": "node node_modules/nightwatch/bin/nightwatch",
+    "e2e-setup": "node node_modules/selenium-standalone/bin/selenium-standalone install"
   },
   "dependencies": {
     "bootstrap": "^4.0.0-alpha.2",
