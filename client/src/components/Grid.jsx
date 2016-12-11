@@ -30,7 +30,6 @@ var Grid = ({grid, playerPosition}) => {
           } else if (item) {
             type = item;
           }
-
           return (<GridSpace type={type} id={'space-' + gridNumber}/>);
         })
       }

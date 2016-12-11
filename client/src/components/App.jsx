@@ -31,7 +31,9 @@ class App extends React.Component {
       },
       rules: { // Change these before running the game. DO NOT change these during the game.
         numSpaces: 25, // Number of spaces on the gameboard
+        hp: 100, // Health points to start the player with
         damage: 20, // Health points to lose per incorrect answer
+        heal: 20, // Health points to gain per potion
         tiles: [ // Things that can be generated on the gameboard
           // Probabilities on a 1 to 100 scale. Please make them add up to 100.
           {
@@ -40,11 +42,11 @@ class App extends React.Component {
           },
           {
             type: 'potion',
-            probability: 1,
+            probability: 10,
           },
           {
             type: 'grass',
-            probability: 29
+            probability: 20
           }
         ]
       }
@@ -110,26 +112,25 @@ class App extends React.Component {
         continue; // i++ and continue to the next iteration of this for loop
       }
 
+      /*
+        EXAMPLE:
+        [{ type: 'enemy', probability: 70 }, { type: 'grass', probability: 30 }]
+        random = 10; comparison = 70; random <= comparison, so generate an enemy.
+
+        random = 90; comparison = 70; random !<= comparison. Next.
+        random = 90; comparison = 70 + 30 = 100; random <= comparison, so generate grass.
+      */
+      var comparison = 0;
       // If the player isn't on this space:
       // Pseudorandomly decide what to put on this space
       // This is a number from 1 to 100
       var random = Math.floor(Math.random() * 100) + 1;
       for (var j = 0; j < tiles.length; j++) {
 
-        /*
-          EXAMPLE:
-          [{ type: 'enemy', probability: 70 }, { type: 'grass', probability: 30 }]
-          If 'random' <= 70, render an enemy. (This MUST be checked first)
-          If 'random' <= 100, render grass.
-        */
-        var comparison = tiles[j].probability;
-        if (tiles[j - 1]) {
-          comparison += tiles[j - 1].probability;
-        }
-
+        comparison += tiles[j].probability;
         if (random <= comparison) {
           // Populate it with this tile
-          if (tiles[j].type === 'challenge') { // Populate with a challenge
+          if (tiles[j].type === 'enemy') { // Populate with a challenge
             grid[i] = {
               id: i,
               challenge: this.state.challenges[challengeNum++]
@@ -145,7 +146,6 @@ class App extends React.Component {
         }
       }
     }
-
     // Update the state with the newly populated gameboard
     this.setState({
       grid: grid
@@ -280,25 +280,38 @@ class App extends React.Component {
   // HELPERS //
   /////////////
 
-  // Remove the property 'toRemove' from the given grid space object
+  // Remove the property 'toRemove' from the given board space object
   removeFromSpace(space, toRemove) {
     delete space[toRemove];
+    // Put grass on this space
+    space.item = 'grass';
   }
 
   // Update the game accordingly depending on the item found on this space
   handleItem(space) {
     var _player = this.state.player;
+    var _rules = this.state.rules;
 
     if (space.item) {
       if (space.item === 'potion') {
-        _player.health += 20;
+        var health = _player.health + _rules.heal;
+        health = health > _rules.hp ? _rules.hp : health; // Player's health can't go over the starting health
+
+        this.setState((prevState, props) => {
+          return {
+            player: {
+              position: prevState.player.position,
+              previousPosition: prevState.player.previousPosition,
+              health: health
+            }
+          };
+        });
       }
       // and other possibilities in future iterations
 
       // After using the item, remove it from the space
       this.removeFromSpace(space, 'item');
     }
-
   }
 
   // Move the player moves number of spaces
