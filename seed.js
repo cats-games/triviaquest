@@ -12,8 +12,10 @@ Challenge.remove({}, function () {
     var newChallenge = new Challenge(challenges[i]);
     newChallenge.save(function(err, newModel){
       if (err) {
-        console.log('ERROR---->', err);
+        console.log('ERROR:', err);
       }
+      console.log('Success!');
+      process.exit();
     });
   }
 });
