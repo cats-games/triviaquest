@@ -33,7 +33,7 @@ class App extends React.Component {
 
     this.numSpaces = 25; // Number of spaces on the gameboard
     this.damage = 20; // Health points to lose per incorrect answer
-    this.numPotions = 1; // Health potions to generate on the gameboard
+    this.maxNumPotions = 1; // Health potions to generate on the gameboard
     // !Don't run functions in the constructor!
     // !Run them in componentWillMount instead!
   }
@@ -73,7 +73,7 @@ class App extends React.Component {
       });
   }
 
-  // Populate the board with enemies or grass
+  // Populate the board with enemies, items, and grass
   populateBoard() {
     // Index of challenge in this.state.challenges
     var challengeNum = 0;
@@ -83,15 +83,17 @@ class App extends React.Component {
     for (var i = 1; i <= this.numSpaces; i++) {
       // If the player is not on this space
       if (this.state.player.position !== i) {
+        // ----- TODO: Can this be improved? -----
+        // ^ Or can probabilities be set as properties on 'this' in the constructor?
         // Pseudorandomly decide if there will be an enemy or grass
-        var random = Math.floor(Math.random() * 3) + 1;
-        if (random === 1) {
+        var random = Math.floor(Math.random() * 10) + 1;
+        if (random <= 6) {
           // There will be an enemy (challenge) on this space
           updatedGrid[i] = {
             id: i,
             challenge: this.state.challenges[challengeNum++]
           };
-        } else if (random === 2 && this.numPotions) {
+        } else if (random === 7 && this.numPotions) {
           updatedGrid[i] = {
             id: 1,
             challenge: undefined,
@@ -99,7 +101,7 @@ class App extends React.Component {
           }
           this.numPotions--;
         } else {
-          // TODO: Can this be rewritten so that it doesn't repeat twice?
+          // ----- TODO: Can this be rewritten so that it doesn't repeat twice? -----
           // Else, there is grass on this space
           updatedGrid[i] = {
             id: i,
@@ -209,7 +211,7 @@ class App extends React.Component {
     if (correct) {
       // --------------------------------------------
       // Needed so the gameboard will re-render when removing an enemy/challenge
-      // TODO: Possible area for refactoring
+      // ----- TODO: Possible area for refactoring -----
 
       // Make a copy of the spaces object
       var _grid = this.state.grid;
