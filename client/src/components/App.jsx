@@ -28,12 +28,11 @@ class App extends React.Component {
         previousPosition: 1,
         health: 100
       },
-      grid: {}
+      grid: {},
+      numSpaces: 25, // Number of spaces on the gameboard
+      damage: 20, // Health points to lose per incorrect answer
+      maxNumPotions: 1 // Health potions to generate on the gameboard
     };
-
-    this.numSpaces = 25; // Number of spaces on the gameboard
-    this.damage = 20; // Health points to lose per incorrect answer
-    this.maxNumPotions = 1; // Health potions to generate on the gameboard
     // !Don't run functions in the constructor!
     // !Run them in componentWillMount instead!
   }
@@ -80,7 +79,7 @@ class App extends React.Component {
     var updatedGrid = {};
 
     // For each space on the gameboard
-    for (var i = 1; i <= this.numSpaces; i++) {
+    for (var i = 1; i <= this.state.numSpaces; i++) {
       // If the player is not on this space
       if (this.state.player.position !== i) {
         // ----- TODO: Can this be improved? -----
@@ -93,13 +92,13 @@ class App extends React.Component {
             id: i,
             challenge: this.state.challenges[challengeNum++]
           };
-        } else if (random === 7 && this.numPotions) {
+        } else if (random === 7 && this.state.maxNumPotions) {
           updatedGrid[i] = {
             id: 1,
             challenge: undefined,
             item: 'potion'
           }
-          this.numPotions--;
+          this.state.maxNumPotions--;
         } else {
           // ----- TODO: Can this be rewritten so that it doesn't repeat twice? -----
           // Else, there is grass on this space
@@ -203,53 +202,43 @@ class App extends React.Component {
   }
 
   // Update player and score properties
-  updatePlayerAndScores(correct, remove) {
+  updatePlayerAndScores(correct) {
     var _player = this.state.player;
-    var _score = this.state.score;
-    // Update the score
-    _score['attempted']++;
+    var _grid = this.state.grid;
+
+    // Regardless of whether the user's answer was correct,
+    // +1 to the number of attempted questions
 
     if (correct) {
-      // --------------------------------------------
-      // Needed so the gameboard will re-render when removing an enemy/challenge
-      // ----- TODO: Possible area for refactoring -----
+      // Remove the challenge from the gameboard space the user is on
+      this.removeFromSpace(_grid[_player.position], 'challenge');
 
-      // Make a copy of the spaces object
-      var _grid = this.state.grid;
-      // Make a copy of the current space object (singular)
-      var currentSpace = this.state.grid[_player.position];
-      // Remove the challenge from the current position
-      // NOTE: On re-render, no enemy should appear at this position
-
-      // Remove the challenge from the current space
-      this.removeFromSpace(currentSpace, 'challenge');
-
-      // Place the updated space back into the spaces object
-      _grid[_player.position] = currentSpace;
-
-      // Update the success score
-      _score['success']++;
-
-      // Set the state with the updated spaces object
-      this.setState({
-        grid: _grid,
-        score: _score
+      // If the user's answer is correct, +1 to the number of successes
+      this.setState((prevState, props) => {
+        return {
+          score: {
+            attempted: prevState.score.attempted += 1,
+            success: prevState.score.success += 1,
+            fail: prevState.score.fail // No change
+          }
+        };
       });
-
-      // --------------------------------------------
     } else {
-
-      // Update the failure score
-      _score['fail']++;
-
-      // Push the play back to the previous position
-      this.setState({
-        player: {
-          position: _player.previousPosition,
-          previousPosition: _player.previousPosition,
-          health: _player.health - this.damage
-        },
-        score: _score
+      // If the user's answer was incorrect, +1 to the number of fails
+      // Decrement the user's health
+      this.setState((prevState, props) => {
+        return {
+          player: {
+            position: prevState.player.previousPosition, // Push back
+            previousPosition: prevState.player.previousPosition,
+            health: prevState.player.health - this.state.damage
+          },
+          score: {
+            attempted: prevState.score.attempted += 1,
+            success: prevState.score.success, // No change
+            fail: prevState.score.fail += 1
+          }
+        };
       });
     }
   }
@@ -309,7 +298,7 @@ class App extends React.Component {
     var _player = this.state.player;
     var toRender;
 
-    if (Object.keys(_grid).length === this.numSpaces) {
+    if (Object.keys(_grid).length === this.state.numSpaces) {
       // If there is a challenge, display the challenge prompt
       var gameInfoText = '';
       var currentPlayerSpace = _grid[_player.position];
