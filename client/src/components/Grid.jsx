@@ -189,17 +189,26 @@ class Grid extends React.Component {
       <div>
         <div id="grid" onKeyDown={this.setplayerPosition}>
         {Object.keys(this.state.spaces).map(() => {
-            gridNumber++;
-            var activated = this.state.playerPosition === (gridNumber) ? "activated " : "";
-            var enemy = this.state.spaces[gridNumber].hasEnemy ? "enemy" : "";
+            gridNumber++; // To start the gridNumber at 1
+
+            // If the player is on the current grid space
+            var player = this.state.playerPosition === gridNumber;
+            // If there is an enemy on this current grid space
+            var enemy = this.state.spaces[gridNumber].hasEnemy;
+
+            // The type of grid space to render
             var type;
-            if (activated) {
+            if (player && enemy) {
+              type = 'fight';
+            } else if (player) {
               type = 'player';
             } else if (enemy) {
-              type = 'enemy';
+              type = 'enemy'
+            } else {
+              type = 'grass'
             }
-            return (<GridSpace type={type} text={gridNumber}/>);
-            // return (<div className={"gridbox " + activated + enemy} id={gridNumber}>{gridNumber}</div>);
+
+            return (<GridSpace type={type} id={gridNumber}/>);
           })
         }
       </div>

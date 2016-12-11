@@ -93,7 +93,7 @@ input{
 }
 
 /*was .gridbox.actived*/
-.activated {
+.player {
   background-image: url("../img/p1_stand.png"), url("../img/tile-by-Ivan-voirol.png");
   background-repeat: no-repeat, no-repeat;
   background-position: center center, center center;
@@ -130,7 +130,7 @@ input{
 }
 
 /*.gridbox.activated.enemy*/
-.gridbox.activated.enemy {
+.fight {
   background-image: url("../img/p1_hurt.png"), url("../img/tile-by-Ivan-voirol.png");
   background-repeat: no-repeat, no-repeat;
   background-position: center center, center center;

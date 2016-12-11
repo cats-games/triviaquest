@@ -2,15 +2,17 @@
 
 import React from 'react';
 
-var GridSpace = ({type, text}) => {
+var GridSpace = ({type, id}) => {
   var toRender;
 
   if (type === 'player') {
-    toRender = (<div className="gridbox activated">{text}</div>);
+    toRender = (<div id={id} className="gridbox player">{id}</div>);
   } else if (type === 'enemy') {
-    toRender = (<div className="gridbox enemy">{text}</div>);
-  } else {
-    toRender = (<div className="gridbox">{text}</div>);
+    toRender = (<div id={id} className="gridbox enemy">{id}</div>);
+  } else if (type === 'fight') {
+    toRender = (<div id={id} className="gridbox fight"></div>);
+  } else if (type === 'grass') {
+    toRender = (<div id={id} className="gridbox">{id}</div>);
   }
 
   return (toRender);
