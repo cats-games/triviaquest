@@ -31,7 +31,7 @@ class App extends React.Component {
       },
       rules: { // Change these before running the game. DO NOT change these during the game.
         numSpaces: 25, // Number of spaces on the gameboard
-        hp: 100, // Health points to start the player with
+        health: 100, // Health points to start the player with
         damage: 20, // Health points to lose per incorrect answer
         heal: 20, // Health points to gain per potion
         tiles: [ // Things that can be generated on the gameboard
@@ -295,7 +295,7 @@ class App extends React.Component {
     if (space.item) {
       if (space.item === 'potion') {
         var health = _player.health + _rules.heal;
-        health = health > _rules.hp ? _rules.hp : health; // Player's health can't go over the starting health
+        health = health > _rules.health ? _rules.health : health; // Player's health can't go over the starting health
 
         this.setState((prevState, props) => {
           return {
