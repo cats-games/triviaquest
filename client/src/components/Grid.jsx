@@ -161,7 +161,6 @@ class Grid extends React.Component {
         this.setState({ // Increment the score
           score: this.state.score + 1
         }); // For future humans: this is asynchronous
-
         // Make a copy of the spaces object
         var updatedSpaces = this.state.spaces;
         // Make a copy of the current space object (singular)
