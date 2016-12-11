@@ -174,21 +174,6 @@ class App extends React.Component {
     }
   }
 
-  // Move the player moves number of spaces
-  setPositions(moves) {
-    console.log('Player:', this.state.player);
-    console.log('Score:', this.state.score);
-    var _player = this.state.player;
-
-    this.setState({
-      player: {
-        previousPosition: _player.position,
-        position: _player.position + moves,
-        health: _player.health // No change
-      }
-    });
-  }
-
   // Check answer
   checkAnswer(e, input) {
     var _player = this.state.player;
@@ -212,27 +197,6 @@ class App extends React.Component {
       // Update player stats based on the correct/incorrect answer
       this.updatePlayerAndScores(correct);
     }
-  }
-
-  // Helper to remove the property 'toRemove' from the given grid space object
-  removeFromSpace(space, toRemove) {
-    delete space[toRemove];
-  }
-
-  // Update the game accordingly depending on the item found on this space
-  handleItem(space) {
-    var _player = this.state.player;
-
-    if (space.item){
-      if (space.item === 'potion') {
-        _player.health += 20;
-      }
-      // and other possibilities in future iterations
-
-      // After using the item, remove it from the space
-      this.removeFromSpace(space, 'item');
-    }
-
   }
 
   // Update player and score properties
@@ -291,7 +255,43 @@ class App extends React.Component {
   // HELPERS //
   /////////////
 
-  // Helper to shuffle an array's contents
+  // Remove the property 'toRemove' from the given grid space object
+  removeFromSpace(space, toRemove) {
+    delete space[toRemove];
+  }
+
+  // Update the game accordingly depending on the item found on this space
+  handleItem(space) {
+    var _player = this.state.player;
+
+    if (space.item){
+      if (space.item === 'potion') {
+        _player.health += 20;
+      }
+      // and other possibilities in future iterations
+
+      // After using the item, remove it from the space
+      this.removeFromSpace(space, 'item');
+    }
+
+  }
+
+  // Move the player moves number of spaces
+  setPositions(moves) {
+    console.log('Player:', this.state.player);
+    console.log('Score:', this.state.score);
+    var _player = this.state.player;
+
+    this.setState({
+      player: {
+        previousPosition: _player.position,
+        position: _player.position + moves,
+        health: _player.health // No change
+      }
+    });
+  }
+
+  // Shuffle an array's contents
   // Used to shuffle the order of challenges received from the server
   shuffle(array) {
     for (var i = array.length - 1; i > 0; i--) { 
