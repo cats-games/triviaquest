@@ -157,8 +157,6 @@ class App extends React.Component {
     }
 
     var rows = Math.sqrt(this.numSpaces);
-    console.log('Player:', this.state.player);
-    console.log('Score:', this.state.score);
     if (e.which === 72) {
       // h / move left
       if ((_player.position - 1) % rows !== 0) {
@@ -184,6 +182,8 @@ class App extends React.Component {
 
   // Move the player moves number of spaces
   setPositions(moves) {
+    console.log('Player:', this.state.player);
+    console.log('Score:', this.state.score);
     var _player = this.state.player;
 
     this.setState({
@@ -227,50 +227,52 @@ class App extends React.Component {
 
   // Update player and score properties
   updatePlayerAndScores(correct, remove) {
+    var _player = this.state.player;
+    var _score = this.state.score;
     // Update the score
-    var updatedScore = this.state.score;
-    updatedScore['attempted']++;
+    _score['attempted']++;
 
     if (correct) {
       // --------------------------------------------
       // Needed so the gameboard will re-render when removing an enemy/challenge
+      // TODO: Possible area for refactoring
 
       // Make a copy of the spaces object
-      var updatedSpaces = this.state.grid;
+      var _grid = this.state.grid;
       // Make a copy of the current space object (singular)
-      var updatedCurrentSpace = this.state.grid[this.state.player.position];
+      var currentSpace = this.state.grid[_player.position];
       // Remove the challenge from the current position
       // NOTE: On re-render, no enemy should appear at this position
 
       // Remove the challenge from the current space
-      this.removeFromSpace(updatedCurrentSpace, 'challenge');
+      this.removeFromSpace(currentSpace, 'challenge');
 
       // Place the updated space back into the spaces object
-      updatedSpaces[this.state.player.position] = updatedCurrentSpace;
+      _grid[_player.position] = currentSpace;
 
       // Update the success score
-      updatedScore['success']++;
+      _score['success']++;
 
       // Set the state with the updated spaces object
       this.setState({
-        grid: updatedSpaces,
-        score: updatedScore
+        grid: _grid,
+        score: _score
       });
 
       // --------------------------------------------
     } else {
 
       // Update the failure score
-      updatedScore['fail']++;
+      _score['fail']++;
 
       // Push the play back to the previous position
       this.setState({
         player: {
-          position: this.state.player.previousPosition,
-          previousPosition: this.state.player.previousPosition,
-          health: this.state.player.health - this.damage
+          position: _player.previousPosition,
+          previousPosition: _player.previousPosition,
+          health: _player.health - this.damage
         },
-        score: updatedScore
+        score: _score
       });
     }
   }
@@ -292,12 +294,14 @@ class App extends React.Component {
   }
 
   render() {
+    var _grid = this.state.grid;
+    var _player = this.state.player;
     var toRender;
 
-    if (Object.keys(this.state.grid).length === this.numSpaces) {
+    if (Object.keys(_grid).length === this.numSpaces) {
       // If there is a challenge, display the challenge prompt
       var gameInfoText = '';
-      var currentPlayerSpace = this.state.grid[this.state.player.position];
+      var currentPlayerSpace = _grid[_player.position];
       var currentChallenge = currentPlayerSpace.challenge;
       if (currentChallenge){
         gameInfoText = currentChallenge.prompt;
@@ -305,7 +309,7 @@ class App extends React.Component {
       // Render the gameboard, gameinfo, and text input field
       toRender = (
         <div id="app">
-          <Grid grid={this.state.grid} playerPosition={this.state.player.position}/>
+          <Grid grid={_grid} playerPosition={_player.position}/>
           <Gameinfo gameInfoText={gameInfoText}/>
           <Textfield checkAnswer={this.checkAnswer.bind(this)}/>
         </div>
