@@ -213,6 +213,7 @@
             char: 'z',
             color: 'red',
             bgColor: false,
+            bump: function () { alert('helllloo!')}
         },
     };
 

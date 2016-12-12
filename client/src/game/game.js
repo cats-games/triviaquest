@@ -2,17 +2,17 @@
 var game = new RL.Game();
 
 var mapData = [
-    "#####################",
-    "#.........#.........#",
-    "#....Z....#....##...#",
-    "#.........+....##...#",
-    "#.........#.........#",
-    "#.#..#..#.#.........#",
-    "#.........#...####+##",
-    "#.........#...#.....#",
-    "#.........#...#.....#",
-    "#.........#...#.....#",
-    "#####################"
+    "######################",
+    "#.........#..........#",
+    "#....Z....#....##....#",
+    "#.........+....##....#",
+    "#.........#..........#",
+    "#.#..#..#.#..........#",
+    "#.........#...####+#+#",
+    "#.........#...#......#",
+    "#.........#...#......#",
+    "#.........#...#......#",
+    "######################"
 ];
 
 var mapCharToType = {
@@ -53,7 +53,7 @@ game.player.x = 3;
 game.player.y = 3;
 
 // make the view a little smaller
-game.renderer.resize(5, 5);
+game.renderer.resize(10, 10);
 
 // get existing DOM elements
 var mapContainerEl = document.getElementById('example-map-container');
@@ -67,7 +67,7 @@ game.renderer.layers = [
     new RL.RendererLayer(game, 'map',       {draw: false,   mergeWithPrevLayer: false}),
     new RL.RendererLayer(game, 'entity',    {draw: false,   mergeWithPrevLayer: true}),
     new RL.RendererLayer(game, 'lighting',  {draw: true,    mergeWithPrevLayer: false}),
-    new RL.RendererLayer(game, 'fov',       {draw: true,    mergeWithPrevLayer: false}),
+    new RL.RendererLayer(game, 'fov',       {draw: true,    mergeWithPrevLayer: false})
 ];
 
 // start the game
@@ -84,10 +84,13 @@ class GameAppConnector {
 
   setGrid(grid) {
     this.grid = JSON.parse(JSON.stringify(this.app.state.grid));
+    for (var key in this.grid) {
+      this.grid[key].item = 'water';
+    }
   }
 
   drawSquare(x, y, char) {
-    var gridNumber = (y * 5) + (x + 1);
+    var gridNumber = (y * 10) + (x + 1);
     var contents = null;
     if (char === '@') {
       this.app.setState({
@@ -101,11 +104,13 @@ class GameAppConnector {
     } else if (char === '.') {
       contents = 'grass';
     } else if (char === '#') {
-      contents = 'potion';
+      contents = 'wall';
     } else if (char === 'z') {
       contents = 'enemy';
     } else if (char === '+') {
       contents = 'door';
+    } else if (char === "'") {
+      contents = 'door-open';
     } else {
       return;
     }

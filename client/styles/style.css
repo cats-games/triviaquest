@@ -82,10 +82,10 @@ input{
 }
 
 .gridbox{
-  width:20%;
+  width:10%;
   /*align-self: stretch; same as alignt items but for individual box*/
   /*flex:1;*/
-  height: 100px;
+  height: 50px;
   color:#FFF;
   background-color:#999;
   background-image: url("../img/tile-by-Ivan-voirol.png");
@@ -98,7 +98,7 @@ input{
   background-image: url("../img/p1_stand.png"), url("../img/tile-by-Ivan-voirol.png");
   background-repeat: no-repeat, no-repeat;
   background-position: center center, center center;
-  background-size: 50px auto, 300px auto;
+  background-size: 25px auto, 150px auto;
 }
 
 #heart-display{
@@ -149,19 +149,47 @@ input{
   background-image: url("../img/slimeWalk2.png"), url("../img/tile-by-Ivan-voirol.png");
   background-repeat: no-repeat, no-repeat;
   background-position: center center, center center;
-  background-size: 50px auto, 300px auto;
+  background-size: 25px auto, 150px auto;
 }
 
 .fight {
   background-image: url("../img/p1_hurt.png"), url("../img/tile-by-Ivan-voirol.png");
   background-repeat: no-repeat, no-repeat;
   background-position: center center, center center;
-  background-size: 50px auto, 300px auto;
+  background-size: 25px auto, 150px auto;
 }
 
 .potion {
   background-image: url("../img/potion.png"), url("../img/tile-by-Ivan-voirol.png");
   background-repeat: no-repeat, no-repeat;
   background-position: center center, center center;
-  background-size: 50px auto, 300px auto;
+  background-size: 25px auto, 150px auto;
+}
+
+.water {
+  background: #000;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% auto;
+}
+
+.wall {
+  background-image: url("../img/stoneWall.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% auto;
+}
+
+.door {
+  background-image: url("../img/stoneWallDoor.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% auto;
+}
+
+.door-open {
+  background-image: url("../img/stoneWallDoorOpen.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% auto;
 }
