@@ -32,7 +32,9 @@ class App extends React.Component {
       player: {
         position: 1,
         previousPosition: 1,
-        health: 100
+        health: 100,
+        inventory: [],
+        keys: []
       },
       rules: { // Change these before running the game. DO NOT change these during the game.
         numSpaces: 25, // Number of spaces on the gameboard
