@@ -17,7 +17,7 @@ var Grid = ({grid, playerPosition}) => {
           var player = playerPosition === gridNumber;
           // If there is an enemy on this current grid space
           var enemy = grid[gridNumber].challenge;
-          var item = grid[gridNumber].item;
+          var image = grid[gridNumber].image;
 
           // The type of grid space to render
           var type;
@@ -27,8 +27,8 @@ var Grid = ({grid, playerPosition}) => {
             type = 'player';
           } else if (enemy) {
             type = 'enemy';
-          } else if (item) {
-            type = item;
+          } else if (image) {
+            type = image;
           }
           return (<GridSpace type={type} id={'space-' + gridNumber}/>);
         })
