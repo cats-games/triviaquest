@@ -1,7 +1,7 @@
 (function(root) {
     'use strict';
 
-	var entId = 0;
+    var entId = 0;
 
     /**
     * Represents an entity in the game. Usually a character or enemy.

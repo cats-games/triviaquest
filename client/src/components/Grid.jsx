@@ -12,7 +12,6 @@ var Grid = ({grid, playerPosition}) => {
     <div id="grid">
       {Object.keys(grid).map(() => {
           gridNumber++; // To start the gridNumber at 1
-
           // If the player is on the current grid space
           var player = playerPosition === gridNumber;
           // The type of object to render on the grid space
