@@ -56,7 +56,6 @@ class App extends React.Component {
         ]
       }
     };
-    this.updatePlayerAndScores = this.updatePlayerAndScores.bind(this);
     // !Don't run functions in the constructor!
     // !Run them in componentWillMount instead!
   }
@@ -168,6 +167,11 @@ class App extends React.Component {
     // **These are to be used as references only, do not mutate them**
     var _player = this.state.player;
     var _grid = this.state.grid;
+    var _rules = this.state.rules;
+
+    console.log('Grid:', this.state.grid);
+    console.log('Player:', this.state.player);
+    console.log('currentSpace:', _grid[_player.position]);
 
     // The space the player is currently on
     var currentSpace = _grid[_player.position];
@@ -188,26 +192,26 @@ class App extends React.Component {
     this.handleItem(currentSpace);
 
     // Move the player
-    var rows = Math.sqrt(this.numSpaces);
+    var rows = Math.sqrt(_rules.numSpaces);
 
     if (e.which === 72 || e.which === 37 || e.which === 65) {
       // h, a, left-arrow / move left
-      if ((this.state.playerPosition - 1) % rows !== 0) {
+      if ((_player.position - 1) % rows !== 0) {
         this.setPositions(-1);
       }
     } else if (e.which === 74 || e.which === 83 || e.which === 40) {
       // j, s, down-arrow / move down
-      if (this.state.playerPosition <= rows * (rows - 1)) {
+      if (_player.position <= rows * (rows - 1)) {
         this.setPositions(rows);
       }
     } else if (e.which === 75 || e.which === 87 || e.which === 38) {
       // k, w, up-arrow / move up
-      if (this.state.playerPosition > rows) {
+      if (_player.position > rows) {
         this.setPositions(-rows);
       }
     } else if (e.which === 76 || e.which === 68 || e.which === 39) {
       // l, d, right-arrow/ move right
-      if (this.state.playerPosition % rows !== 0) {
+      if (_player.position % rows !== 0) {
         this.setPositions(1);
       }
     }
@@ -370,7 +374,7 @@ class App extends React.Component {
       // Render the gameboard, gameinfo, and text input field
       toRender = (
         <div id="app">
-          <AppBar 
+          <AppBar
             title="It's a Game!"
             showMenuIconButton={false}
             iconElementRight={<FlatButton label="Login" />}
