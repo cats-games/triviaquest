@@ -145,7 +145,7 @@ input{
   padding:20px;
 }
 
-.enemy {
+.slime {
   background-image: url("../img/slimeWalk2.png"), url("../img/tile-by-Ivan-voirol.png");
   background-repeat: no-repeat, no-repeat;
   background-position: center center, center center;

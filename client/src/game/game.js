@@ -9,8 +9,8 @@ var mapData = [
     "#.........#..........#",
     "#.#..#..#.#..........#",
     "#.........#...####+#+#",
-    "#.........#...#......#",
-    "#.........#...#......#",
+    "#....e....#...#......#",
+    "#.........#...#...e..#",
     "#.........#...#......#",
     "######################"
 ];
@@ -26,7 +26,7 @@ var mapCharToType = {
 // This is defined here and in the entity's char property.
 // Why? . . .
 var entityCharToType = {
-    'e': 'enemy'
+    'e': 'slime'
 };
 
 var keyBindings = {
@@ -46,11 +46,11 @@ game.setMapSize(game.map.width, game.map.height);
 game.input.addBindings(keyBindings);
 
 // // create entities and add to game.entityManager
-// var entZombie = new RL.Entity(game, 'enemy');
+// var entZombie = new RL.Entity(game, 'slime');
 // game.entityManager.add(2, 8, entZombie);
 
 // // or just add by entity type
-// game.entityManager.add(5, 9, 'enemy');
+// game.entityManager.add(5, 9, 'slime');
 
 // set player starting position
 game.player.x = 3;

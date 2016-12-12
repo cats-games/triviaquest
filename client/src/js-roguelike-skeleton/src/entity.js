@@ -215,8 +215,8 @@
         //     bgColor: false,
         //     bump: function () { alert('helllloo!')}
         // },
-        enemy: {
-            name: 'Enemy',
+        slime: {
+            name: 'Slime',
             char: 'e',
             color: 'red',
             bgColor: false,
