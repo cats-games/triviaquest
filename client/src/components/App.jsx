@@ -58,8 +58,6 @@ class App extends React.Component {
         ]
       }
     };
-
-    this.updatePlayerAndScores = this.updatePlayerAndScores.bind(this);
     // !Don't run functions in the constructor!
     // !Run them in componentWillMount instead!
   }
