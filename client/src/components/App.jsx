@@ -169,10 +169,6 @@ class App extends React.Component {
     var _grid = this.state.grid;
     var _rules = this.state.rules;
 
-    console.log('Grid:', this.state.grid);
-    console.log('Player:', this.state.player);
-    console.log('currentSpace:', _grid[_player.position]);
-
     // The space the player is currently on
     var currentSpace = _grid[_player.position];
 
