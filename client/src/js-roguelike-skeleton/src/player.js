@@ -222,6 +222,10 @@
             return false;
         },
 
+        decrementPlayerHealth: function(amount) {
+
+        },
+
         /**
         * Wait action.
         * @method wait

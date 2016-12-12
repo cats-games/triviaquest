@@ -77,16 +77,35 @@ class GameAppConnector {
   constructor(app) {
     this.game = window.game;
     this.game.start();
+    this.game.renderer.draw();
     this.game.console.log('The game starts.');
     this.app = app;
     this.grid = undefined;
+    this.challenges = [];
   }
 
   setGrid(grid) {
     this.grid = JSON.parse(JSON.stringify(this.app.state.grid));
     for (var key in this.grid) {
-      this.grid[key].item = 'water';
+      this.grid[key].image = 'water';
     }
+  }
+
+  getChallenges(callback) {
+    $.get('/api/challenges')
+      .done(challenges => { // An array of challenge objects
+        // Shuffle the challenges
+        challenges = this.shuffle(challenges);
+        // Save the challenges to the state
+        this.setState({
+          challenges: challenges
+        }, function() {
+          callback();
+        });
+      })
+      .fail(function(error) {
+        console.error('Could not get challenges:', error);
+      });
   }
 
   drawSquare(x, y, char) {
@@ -116,7 +135,7 @@ class GameAppConnector {
     }
     this.grid[gridNumber] = {
       id: gridNumber,
-      item: contents
+      image: contents
     };
   }
 
