@@ -4,6 +4,9 @@ import React from 'react';
 import Gameinfo from './Gameinfo.jsx';
 import Textfield from './Textfield.jsx';
 import Grid from './Grid.jsx';
+import AppBar from 'material-ui/AppBar';
+import FlatButton from 'material-ui/FlatButton';
+import IconButton from 'material-ui/IconButton';
 
 // App should:
 // Grab challenges from server
@@ -364,9 +367,16 @@ class App extends React.Component {
       // Render the gameboard, gameinfo, and text input field
       toRender = (
         <div id="app">
-          <Grid grid={_grid} playerPosition={_player.position}/>
-          <Gameinfo gameInfoText={gameInfoText}/>
-          <Textfield checkAnswer={this.checkAnswer.bind(this)}/>
+          <AppBar 
+            title="It's a Game!"
+            showMenuIconButton={false}
+            iconElementRight={<FlatButton label="Login" />}
+          />
+          <div className="game-display">
+            <Grid grid={_grid} playerPosition={_player.position}/>
+            <Gameinfo gameInfoText={gameInfoText}/>
+            <Textfield checkAnswer={this.checkAnswer.bind(this)}/>
+          </div>
         </div>
       );
     } else {

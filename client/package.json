@@ -14,9 +14,11 @@
     "chai-nightwatch": "^0.1.1",
     "jquery": "^2.2.1",
     "lodash": "^4.6.1",
+    "material-ui": "^0.16.5",
     "mocha-nightwatch": "^2.2.9",
-    "react": "^0.14.7",
-    "react-dom": "^0.14.7"
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1",
+    "react-tap-event-plugin": "^2.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.6.5",
