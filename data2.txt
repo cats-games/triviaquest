@@ -1,5 +1,5 @@
 [{
-  "prompt": "After asking many random people if they have two children and also if one is a boy born on a Tuesday, someone who answers yes. What is the probability as an improper fraction that this person has two boys? Assume an equal chance of giving birth to either sex and an equal chance to giving birth on any day.",
+  "prompt": "After asking many random people if they have 2 children and also if one is a boy born on a Tuesday, someone answers yes. What is the probability (as an improper fraction) that this person has 2 boys? Assume an equal chance of giving birth to either sex and an equal chance to giving birth on any day.",
   "answer": "13/27",
   "level": 5
 },
@@ -9,92 +9,52 @@
   "level": 5
 },
 {
-  "prompt": "Which of the following searches do not require the data to be sorted? (A - Binary Search) (B - Linear Search)",
-  "answer": "B",
+  "prompt": "You drive to the store at 20 mph and return by the same route at 30 mph. Not including the time spent shopping, what was your average speed in miles per hour?",
+  "answer": "24",
   "level": 1
 },
 {
-  "prompt": "Stefan and Stephen dig 2 cylindrical holes: 1 hole is 2ft in diameter by 2 ft deep, and the other hole is 1ft in diameter by 1ft deep. The big hole is how many times larger than the size of the small hole?",
-  "answer": "8",
+  "prompt": "There are several chickens and rabbits at a farm (with no other types of animals). There are 72 heads and 200 feet at the farm. How many chickens are there?",
+  "answer": "44",
   "level": 2
 },
 {
-  "prompt": "The minute hand of a clock is 3 inches long. How many inches does the tip of that hand move in one day?",
-  "answer": "453",
+  "prompt": "There are several chickens and rabbits at a farm (with no other types of animals). There are 72 heads and 200 feet at the farm. How many rabbits are there?",
+  "answer": "28",
   "level": 2
 },
 {
-  "prompt": "What is the sum of the first one-hundred odd numbers, starting with 1?",
-  "answer": "15",
+  "prompt": "At a restaurant, you can order chicken strips in small (6), large (9) and family-size (20). What is the largest number of strips that it is not possible to obtain by purchasing some combination of boxes?",
+  "answer": "43",
   "level": 2
 },
 {
-  "prompt": "Cai and Maureen are beginning a bike race. Cai begins riding at 12 miles per hour, and 15 minutes later Maureen begins riding at 15 miles per hour. How many minutes will it take Maureen to catch up to Cai?",
-  "answer": "45",
-  "level": 2
-},
-{
-  "prompt": "Change 5 1/2 to an improper fraction.",
-  "answer": "11/2",
-  "level": 2
-},
-{
-  "prompt": "Draw a circle. Draw the radius. Using the radii as a side, draw a square. How many of those squares can fit inside the circle?",
-  "answer": "PI",
-  "level": 2
-},
-{
-  "prompt": "Dan leaves the store at 11:52am and arrives at a home 15 miles away at 11:17am. How many miles per hour was Dan driving?",
-  "answer": "45",
-  "level": 1
-},
-{
-  "prompt": "What is the smallest positive number which, when divided by 2, 3, 4, 5, and 6, always leaves a remainder of 1?",
-  "answer": "61",
-  "level": 2
-},
-{
-  "prompt": "What is the largest even negative number",
-  "answer": "-2",
-  "level": 5
-},
-{
-  "prompt": "The perimeter of a square rug is 56 feet. What is its area?",
-  "answer": "196",
-  "level": 5
-},
-{
-  "prompt": "Which of the following operations take more than O(1) time in a Hash Table data structure? (A - Insert) (B - Sort) (C - Delete) ",
-  "answer": "B",
-  "level": 5
-},
-{
-  "prompt": "What is the longest word found in an English language dictionary?",
-  "answer": "pneumonoultramicroscopicsilicovolcanoconiosis",
-  "level": 5
-},
-{
-  "prompt": "Three sisters have a total of $91. The oldest sister has 25% more than the middle sister, and the middle sister has 25% more than the youngest. How much does the first sister have?",
+  "prompt": "You can paddle your canoe 7mph through any placid lake. The stream flows at 3mph. The moment you start to paddle up stream a fisherman looses one of his bobbers in the water fourteen miles up stream of you. How many hours does it take for you and the bobber to meet?",
   "answer": "2",
+  "level": 2
+},
+{
+  "prompt": "Cathy has twelve black socks and twelve white socks in her drawer. In complete darkness, and without looking, how many socks must she take from the drawer in order to be sure to get a pair that match?",
+  "answer": "3",
+  "level": 2
+},
+{
+  "prompt": "Mary's mum has four children. The first child is named April. The second May. The third June. What is the name of the fourth child?",
+  "answer": "Mary",
+  "level": 2
+},
+{
+  "prompt": "A man has $1.15 in six coins. He can't make change for a dollar, a half dollar, a quarter, a dime, or a nickel. How many dimes did he have?",
+  "answer": "4",
   "level": 5
 },
 {
-  "prompt": "A card is selected from a normal deck of playing cards, what's the probability that the selection will be a Jack, Queen, King, or heart? (Give answer as an improper function.",
-  "answer": "11/26",
+  "prompt": "A group of sheep and chickens have a total of 99 heads and feet. There are twice as many chickens as sheep. How many of sheep are there?",
+  "answer": "9",
   "level": 5
 },
 {
-  "prompt": "What is the next number is this sequence? 1, 4, 15, 25, 35, 56...",
-  "answer": "84",
-  "level": 5
-},
-{
-  "prompt": "If class runs from 7:15 a.m. until 2:56 P.M. There are 8 class periods with 5 minutes passing time between classes. How long, in minutes, is each class period?",
-  "answer": "47",
-  "level": 5
-},
-{
-  "prompt": "How many numbers between 5 and 25 are divisible by both 6 and 8?",
-  "answer": "8",
+  "prompt": "If a boy and a half can eat a hot dog and a half in a minute and a half, how many hot dogs can six boys eat in six minutes?",
+  "answer": "24",
   "level": 5
 }]
