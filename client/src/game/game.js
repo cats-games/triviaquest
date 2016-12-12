@@ -76,12 +76,14 @@ game.renderer.layers = [
 class GameAppConnector {
   constructor(app) {
     this.game = window.game;
+    // this.getChallenges();
     this.game.start();
     this.game.renderer.draw();
     this.game.console.log('The game starts.');
     this.app = app;
     this.grid = undefined;
     this.challenges = [];
+    console.log('Challenges:', this.challenges);
   }
 
   setGrid(grid) {
@@ -91,22 +93,18 @@ class GameAppConnector {
     }
   }
 
-  getChallenges(callback) {
-    $.get('/api/challenges')
-      .done(challenges => { // An array of challenge objects
-        // Shuffle the challenges
-        challenges = this.shuffle(challenges);
-        // Save the challenges to the state
-        this.setState({
-          challenges: challenges
-        }, function() {
-          callback();
-        });
-      })
-      .fail(function(error) {
-        console.error('Could not get challenges:', error);
-      });
-  }
+  // getChallenges() {
+  //   $.get('/api/challenges')
+  //     .done(challenges => { // An array of challenge objects
+  //       // Shuffle the challenges
+  //       challenges = Util.shuffle(challenges);
+  //       // Save the challenges to the state
+  //       this.challenges = challenges;
+  //     })
+  //     .fail(function(error) {
+  //       console.error('Could not get challenges:', error);
+  //     });
+  // }
 
   drawSquare(x, y, char) {
     var gridNumber = (y * 10) + (x + 1);
