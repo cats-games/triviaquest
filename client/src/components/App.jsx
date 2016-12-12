@@ -56,6 +56,7 @@ class App extends React.Component {
         ]
       }
     };
+
     this.updatePlayerAndScores = this.updatePlayerAndScores.bind(this);
     // !Don't run functions in the constructor!
     // !Run them in componentWillMount instead!
@@ -71,6 +72,7 @@ class App extends React.Component {
 
     // Listen for keypresses (to move player when necessary)
     window.addEventListener('keydown', this.handleKeyDown.bind(this));
+    window.gameAppConnector = new GameAppConnector(this);
   }
 
   componentWillUnmount() {
@@ -174,7 +176,7 @@ class App extends React.Component {
 
     // ----- Player is not allowed to move -----
     // If the current space contains a challenge, don't allow the player to move
-    if(currentSpace.challenge){
+    if(currentSpace && currentSpace.challenge){
       return;
     }
 
@@ -370,7 +372,7 @@ class App extends React.Component {
       // Render the gameboard, gameinfo, and text input field
       toRender = (
         <div id="app">
-          <AppBar 
+          <AppBar
             title="It's a Game!"
             showMenuIconButton={false}
             iconElementRight={<FlatButton label="Login" />}
