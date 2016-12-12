@@ -46,7 +46,6 @@ class App extends React.Component {
   ////////////////////
 
   componentWillMount() {
-    // Get challenges from API and update state
     var _grid = this.state.grid;
     window.gameAppConnector = new GameAppConnector(this);
     this.game = window.game;
@@ -63,6 +62,12 @@ class App extends React.Component {
         grid: _grid
       }
     });
+
+    // Get challenges from API and update state
+    gameAppConnector.getChallenges(function() {
+      console.log('I was run from outside');
+    });
+    // console.log('YES!:', gameAppConnector.challenges);
   }
 
   componentDidMount() {

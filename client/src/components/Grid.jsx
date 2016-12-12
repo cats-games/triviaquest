@@ -15,22 +15,10 @@ var Grid = ({grid, playerPosition}) => {
 
           // If the player is on the current grid space
           var player = playerPosition === gridNumber;
-          // If there is an enemy on this current grid space
-          var enemy = grid[gridNumber].challenge;
+          // The type of object to render on the grid space
           var image = grid[gridNumber].image;
 
-          // The type of grid space to render
-          var type;
-          if (player && enemy) {
-            type = 'fight';
-          } else if (player) {
-            type = 'player';
-          } else if (enemy) {
-            type = 'enemy';
-          } else if (image) {
-            type = image;
-          }
-          return (<GridSpace type={type} id={'space-' + gridNumber}/>);
+          return (<GridSpace type={player || image} id={'space-' + gridNumber}/>);
         })
       }
     </div>

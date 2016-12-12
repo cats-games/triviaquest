@@ -80,9 +80,7 @@ game.renderer.layers = [
 class GameAppConnector {
   constructor(app) {
     this.game = window.game;
-    // this.getChallenges();
     this.game.start();
-    this.game.renderer.draw();
     this.app = app;
     this.grid = undefined;
     this.challenges = [];
@@ -95,18 +93,21 @@ class GameAppConnector {
     }
   }
 
-  // getChallenges() {
-  //   $.get('/api/challenges')
-  //     .done(challenges => { // An array of challenge objects
-  //       // Shuffle the challenges
-  //       challenges = Util.shuffle(challenges);
-  //       // Save the challenges to the state
-  //       this.challenges = challenges;
-  //     })
-  //     .fail(function(error) {
-  //       console.error('Could not get challenges:', error);
-  //     });
-  // }
+  getChallenges(callback) {
+    callback();
+    // $.get('/api/challenges')
+    //   .done(challenges => { // An array of challenge objects
+    //     console.log('Complete');
+    //     // // Shuffle the challenges
+    //     // challenges = shuffle(challenges);
+    //     // // Save the challenges to the state
+    //     // this.challenges = challenges;
+    //     // console.log('Hi there');
+    //   })
+    //   .fail(function(error) {
+    //     console.error('Could not get challenges:', error);
+    //   });
+  }
 
   drawSquare(x, y, char) {
     var gridNumber = (y * 10) + (x + 1);
@@ -134,3 +135,20 @@ class GameAppConnector {
     });
   }
 };
+
+/////////////
+// HELPERS //
+/////////////
+
+// Shuffle an array's contents
+// Used to shuffle the order of challenges received from the server
+function shuffle(array) {
+  for (var i = array.length - 1; i > 0; i--) { 
+    var j = Math.floor(Math.random() * (i + 1)); 
+    var temp = array[i]; 
+    array[i] = array[j]; 
+    array[j] = temp; 
+  } 
+  return array;
+}
+
