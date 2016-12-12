@@ -32,11 +32,11 @@ describe('Grid test', function() {
       // .assert.visible('#grid .activated.gridbox')
       .expect.element('#answer').to.be.an('input');
   });
-  // Tests #2 & #3 are failing when there is an enemy in space-2 as the classes identifying the player vs the player about to fight are different
+  // Tests #2 & #3 are failing when there is an enemy or potion in space-2 as the classes identifying the player vs the player about to fight are different
   it('should move the player when the navigation keys are pressed', function(client) {
     client.keys("l", function() {
       client.pause(1000);
-      client.assert.elementPresent('#space-2.gridbox.player' || '#space-2.gridbox.fight');// This would be ideal, however, it is not legal, and only checks first value, currently looking into other options.
+      client.assert.elementPresent('#space-2.gridbox.player' || '#space-2.gridbox.fight' || '#space-2.gridbox.potion');// This would be ideal, however, it is not legal, and only checks first value, currently looking into other options.
       client.assert.elementNotPresent('#space-1.gridbox.player');
     });
   });
