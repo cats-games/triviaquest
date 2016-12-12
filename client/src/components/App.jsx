@@ -7,6 +7,8 @@ import Grid from './Grid.jsx';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
+import PlayerStatus from './PlayerStatus.jsx'
+
 
 // App should:
 // Grab challenges from server
@@ -54,6 +56,7 @@ class App extends React.Component {
         ]
       }
     };
+    this.updatePlayerAndScores = this.updatePlayerAndScores.bind(this);
     // !Don't run functions in the constructor!
     // !Run them in componentWillMount instead!
   }
@@ -353,7 +356,7 @@ class App extends React.Component {
     // **These are to be used as references only, do not mutate them**
     var _grid = this.state.grid;
     var _player = this.state.player;
-
+    var _health = this.state.player.health;
     var toRender;
 
     if (Object.keys(_grid).length === this.state.rules.numSpaces) {
@@ -373,6 +376,7 @@ class App extends React.Component {
             iconElementRight={<FlatButton label="Login" />}
           />
           <div className="game-display">
+            <PlayerStatus health={_health} />
             <Grid grid={_grid} playerPosition={_player.position}/>
             <Gameinfo gameInfoText={gameInfoText}/>
             <Textfield checkAnswer={this.checkAnswer.bind(this)}/>

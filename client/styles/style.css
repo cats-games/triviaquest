@@ -101,6 +101,30 @@ input{
   background-size: 50px auto, 300px auto;
 }
 
+#heart-display{
+  display:flex;
+  background-color:#fff;
+  padding:10px;
+}
+
+.heart-full{
+  background-image:url("../img/heart.png");
+  background-repeat: no-repeat, no-repeat;
+  background-position: center center, center center;
+  background-size: 30px auto, 300px auto;
+  width:35px;
+  height:50px;
+}
+
+.heart-empty{
+  background-image:url("../img/heart-empty.png");
+  background-repeat: no-repeat, no-repeat;
+  background-position: center center, center center;
+  background-size: 30px auto, 300px auto;
+  width:35px;
+  height:50px;
+}
+
 #textfield{
   background-color:white;
   color:white;
