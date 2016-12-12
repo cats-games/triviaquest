@@ -37,7 +37,7 @@ class App extends React.Component {
         keys: []
       },
       rules: { // Change these before running the game. DO NOT change these during the game.
-        numSpaces: 25, // Number of spaces on the gameboard
+        numSpaces: 100, // Number of spaces on the gameboard
         health: 100, // Health points to start the player with
         damage: 20, // Health points to lose per incorrect answer
         heal: 20, // Health points to gain per potion
@@ -72,6 +72,7 @@ class App extends React.Component {
 
     // Listen for keypresses (to move player when necessary)
     window.addEventListener('keydown', this.handleKeyDown.bind(this));
+    window.gameAppConnector = new GameAppConnector(this);
   }
 
   componentWillUnmount() {
@@ -166,6 +167,7 @@ class App extends React.Component {
 
   // Keep track of player movement
   handleKeyDown(e) {
+    /*
     // **These are to be used as references only, do not mutate them**
     var _player = this.state.player;
     var _grid = this.state.grid;
@@ -176,7 +178,7 @@ class App extends React.Component {
 
     // ----- Player is not allowed to move -----
     // If the current space contains a challenge, don't allow the player to move
-    if(currentSpace.challenge){
+    if(currentSpace && currentSpace.challenge){
       return;
     }
 
@@ -213,6 +215,7 @@ class App extends React.Component {
         this.setPositions(1);
       }
     }
+    */
   }
 
   // Check answer
