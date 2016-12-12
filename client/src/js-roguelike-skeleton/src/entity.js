@@ -208,13 +208,20 @@
     * @static
     */
     Entity.Types = {
-        zombie: {
-            name: 'Zombie',
-            char: 'z',
+        // zombie: {
+        //     name: 'Zombie',
+        //     char: 'z',
+        //     color: 'red',
+        //     bgColor: false,
+        //     bump: function () { alert('helllloo!')}
+        // },
+        enemy: {
+            name: 'Enemy',
+            char: 'e',
             color: 'red',
             bgColor: false,
-            bump: function () { alert('helllloo!')}
-        },
+            bump: function() { console.log('ouch'); }
+        }
     };
 
     root.RL.Entity = Entity;

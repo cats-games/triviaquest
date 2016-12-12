@@ -4,7 +4,7 @@ var game = new RL.Game();
 var mapData = [
     "######################",
     "#.........#..........#",
-    "#....Z....#....##....#",
+    "#....e....#....##....#",
     "#.........+....##....#",
     "#.........#..........#",
     "#.#..#..#.#..........#",
@@ -15,14 +15,18 @@ var mapData = [
     "######################"
 ];
 
+// Tile types
 var mapCharToType = {
     '#': 'wall',
-    '.': 'floor',
-    '+': 'door'
+    '.': 'grass',
+    '+': 'door',
+    '\'': 'door-open'
 };
 
+// This is defined here and in the entity's char property.
+// Why? . . .
 var entityCharToType = {
-    'Z': 'zombie'
+    'e': 'enemy'
 };
 
 var keyBindings = {
@@ -41,12 +45,12 @@ game.setMapSize(game.map.width, game.map.height);
 // add input keybindings
 game.input.addBindings(keyBindings);
 
-// create entities and add to game.entityManager
-var entZombie = new RL.Entity(game, 'zombie');
-game.entityManager.add(2, 8, entZombie);
+// // create entities and add to game.entityManager
+// var entZombie = new RL.Entity(game, 'enemy');
+// game.entityManager.add(2, 8, entZombie);
 
-// or just add by entity type
-game.entityManager.add(5, 9, 'zombie');
+// // or just add by entity type
+// game.entityManager.add(5, 9, 'enemy');
 
 // set player starting position
 game.player.x = 3;
@@ -79,11 +83,9 @@ class GameAppConnector {
     // this.getChallenges();
     this.game.start();
     this.game.renderer.draw();
-    this.game.console.log('The game starts.');
     this.app = app;
     this.grid = undefined;
     this.challenges = [];
-    console.log('Challenges:', this.challenges);
   }
 
   setGrid(grid) {
@@ -109,32 +111,21 @@ class GameAppConnector {
   drawSquare(x, y, char) {
     var gridNumber = (y * 10) + (x + 1);
     var contents = null;
+
     if (char === '@') {
-      this.app.setState({
-        player: {
-            position: gridNumber,
-            previousPosition: 1,
-            health: 100
-        }
-      });
       contents = 'player';
-    } else if (char === '.') {
-      contents = 'grass';
-    } else if (char === '#') {
-      contents = 'wall';
-    } else if (char === 'z') {
-      contents = 'enemy';
-    } else if (char === '+') {
-      contents = 'door';
-    } else if (char === "'") {
-      contents = 'door-open';
     } else {
-      return;
+      contents = mapCharToType[char] || entityCharToType[char];
+      if (!contents) { // If the character doesn't match up to anything known
+        return;
+      }
     }
+
     this.grid[gridNumber] = {
       id: gridNumber,
       image: contents
     };
+
   }
 
   updateGrid() {
