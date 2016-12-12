@@ -32,7 +32,9 @@ class App extends React.Component {
       player: {
         position: 1,
         previousPosition: 1,
-        health: 100
+        health: 100,
+        inventory: [],
+        keys: []
       },
       rules: { // Change these before running the game. DO NOT change these during the game.
         numSpaces: 25, // Number of spaces on the gameboard
@@ -170,6 +172,7 @@ class App extends React.Component {
     // **These are to be used as references only, do not mutate them**
     var _player = this.state.player;
     var _grid = this.state.grid;
+    var _rules = this.state.rules;
 
     // The space the player is currently on
     var currentSpace = _grid[_player.position];
@@ -190,26 +193,26 @@ class App extends React.Component {
     this.handleItem(currentSpace);
 
     // Move the player
-    var rows = Math.sqrt(this.numSpaces);
+    var rows = Math.sqrt(_rules.numSpaces);
 
     if (e.which === 72 || e.which === 37 || e.which === 65) {
       // h, a, left-arrow / move left
-      if ((this.state.playerPosition - 1) % rows !== 0) {
+      if ((_player.position - 1) % rows !== 0) {
         this.setPositions(-1);
       }
     } else if (e.which === 74 || e.which === 83 || e.which === 40) {
       // j, s, down-arrow / move down
-      if (this.state.playerPosition <= rows * (rows - 1)) {
+      if (_player.position <= rows * (rows - 1)) {
         this.setPositions(rows);
       }
     } else if (e.which === 75 || e.which === 87 || e.which === 38) {
       // k, w, up-arrow / move up
-      if (this.state.playerPosition > rows) {
+      if (_player.position > rows) {
         this.setPositions(-rows);
       }
     } else if (e.which === 76 || e.which === 68 || e.which === 39) {
       // l, d, right-arrow/ move right
-      if (this.state.playerPosition % rows !== 0) {
+      if (_player.position % rows !== 0) {
         this.setPositions(1);
       }
     }
