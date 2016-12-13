@@ -48,6 +48,12 @@ class App extends React.Component {
     // Access information about the game with this variable.
     this.game = window.game;
 
+    // Store the player health in the state
+    // The roguelike game will update this
+    this.setState({
+      playerHealth: this.game.player.health
+    });
+
     // Initial rendering of the gameboard.
     for (let i = 1; i <= this.state.numSpaces; i++) {
       _grid[i] = {
@@ -96,8 +102,8 @@ class App extends React.Component {
       if (input === this.state.currentEnemy.challenge.answer) {
         // Kill the enemy
         this.state.currentEnemy.dead = true;
-        // Remove the enemy from the grid
-        this.game.entityManager.remove(this.state.currentEnemy);
+        // Remove the dead enemy from the grid
+        this.game.entityManager.update();
         // Increase the player's score
         this.updateScore(true);
         // Remove the enemy from the state
@@ -128,11 +134,11 @@ class App extends React.Component {
         };
       });
     } else {
-      // If the user's answer was incorrect, +1 to the number of fails
       // Decrement the user's health
       this.game.player.decrementPlayerHealth(this.state.damage);
+
+      // If the user's answer was incorrect, +1 to the number of fails
       this.setState((prevState, props) => {
-        // Decrement the user's health
         return {
           score: {
             attempted: prevState.score.attempted += 1,
@@ -166,9 +172,30 @@ class App extends React.Component {
   render() {
     // **Variables beginning with _ are meant ot be used as references only. Do not mutate them.**
     var _grid = this.state.grid;
-    var _health = this.game.player.health;
+    var _health = this.state.playerHealth;
     var toRender;
     var gameInfoText = "";
+
+    var changeChar = function(theme){
+      //select background, add/remove class for background color
+      if(theme === 0){
+        console.log('fasldkals;jfa;sle', theme);
+        document.querySelector('body').style.backgroundColor = '#F7F9FD';
+        document.querySelector('.player').style.backgroundImage = 'url("../img/p1_stand.png"), url("../img/tile-by-Ivan-voirol.png")';
+      }else if(theme === 1){
+        console.log('fasldkals;jfa;sle', theme);
+        document.querySelector('body').style.backgroundColor = '#F7F9FD';
+        document.querySelector('.player').style.backgroundImage = 'url("../img/knight.png"), url("../img/tile-by-Ivan-voirol.png")';
+      }else if(theme === 2){
+        console.log('fasldkals;jfa;sle', theme);
+        document.querySelector('body').style.backgroundColor = '#F7F9FD';
+        document.querySelector('.player').style.backgroundImage = 'url("../img/manSaber.png"), url("../img/tile-by-Ivan-voirol.png")';
+      }else if(theme === 3){
+        console.log('fasldkals;jfa;sle', theme);
+        document.querySelector('body').style.backgroundColor = '#222';
+        document.querySelector('.player').style.backgroundImage = 'url("../img/ninja.png"), url("../img/tile-by-Ivan-voirol.png")';
+      }
+    };
 
     // Show login screen if user is not yet logged in.
     if (!this.idToken) {
@@ -187,9 +214,21 @@ class App extends React.Component {
         iconElementRight={<div className="right-icon"><span className="github-name">{this.state.profile ? this.state.profile.name : ''}</span><Avatar src={this.state.profile ? this.state.profile.picture : ''} size={35} backgroundColor='rgba(0,0,0,0)' /></div>}
       />
         <div className="game-display">
-          <PlayerStatus health={_health} />
+          <FlatButton className="charSelect"
+          label=<img src="../img/knight.png"/>
+          onClick={()=>changeChar(1)}
+          />
+          <FlatButton className="charSelect"
+          label=<img src="../img/manSaber.png"/>
+          onClick={()=>changeChar(2)}
+          />
+          <FlatButton className="charSelect"
+          label=<img src="../img/ninja.png"/>
+          onClick={()=>changeChar(3)}
+          />
+          <PlayerStatus health={_health} id="heart-display" />
           <Grid grid={_grid} />
-          <Gameinfo gameInfoText={gameInfoText}/>
+          <Gameinfo id="gameinfo" gameInfoText={gameInfoText}/>
           <Textfield checkAnswer={this.checkAnswer.bind(this)}/>
           <GameOver actions={this.actions} health={_health}/>
         </div>

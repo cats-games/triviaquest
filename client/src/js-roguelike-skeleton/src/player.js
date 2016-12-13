@@ -138,6 +138,9 @@
         onRemve: false,
 
         // Starting health points
+        healthMax: 100,
+
+        // Can this start at healthMax?
         health: 100,
 
         /**
@@ -208,10 +211,24 @@
         move: function(x, y){
             if(this.canMoveTo(x, y)){
                 this.moveTo(x, y);
+
+                // item occuping target tile (if any)
+                var targetTileItem = this.game.itemManager.get(x, y);
+
+                if (targetTileItem) {
+                    if (targetTileItem.canAttachTo(this)) {
+                        // Use the item and update the board
+                        targetTileItem.attachTo(this);
+                        this.game.itemManager.update();
+                    }
+                }
+
                 return true;
+
             } else {
                 // entity occupying target tile (if any)
                 var targetTileEnt = this.game.entityManager.get(x, y);
+
                 // if already occupied
                 if(targetTileEnt){
                     this.game.console.log('Excuse me <strong>Mr.' + targetTileEnt.name + '</strong>, you appear to be in the way.');
@@ -227,6 +244,14 @@
 
         decrementPlayerHealth: function(amount) {
             this.health -= amount;
+            // Update state in React App component
+            updateReactHealth(this);
+        },
+
+        incrementPlayerHealth: function(amount) {
+            this.health += amount;
+            // Update state in React App component
+            updateReactHealth(this);
         },
 
         /**
@@ -238,6 +263,14 @@
         },
 
     };
+
+    // Update the playerHealth property on the App component's state (so hearts meter will update)
+    function updateReactHealth(player) {
+        var app = window.gameAppConnector.app;
+        app.setState({
+            playerHealth: player.health
+        });
+    }
 
     RL.Util.merge(Player.prototype, RL.Mixins.TileDraw);
     RL.Util.merge(Player.prototype, RL.Mixins.PerformableActionInterface);

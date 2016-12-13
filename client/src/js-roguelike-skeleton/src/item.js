@@ -101,39 +101,55 @@
          * @param {Entity} entity
          */
         attachTo: function(entity){
-            this.game.console.logPickUp(entity, this);
+
         },
 
         getConsoleName: function(){
             return {
                 name: this.name,
-                color: this.consoleColor
             };
         },
+
+        onRemove: function(){
+            var tile = new RL.Tile(this.game, 'grass', this.x, this.y);
+            tile.explored = true;
+            this.game.map.set(this.x, this.y, tile);
+            this.game.renderer.drawTile(this.x, this.y);
+        }
     };
 
+    var logPickUpHealing = function(player, item) {
+        return 'You healed ' + item.healAmount + ' using the ' + item.name;
+    };
+
+    var logCanNotPickupHealing = function(player, item) {
+        return 'You found a ' + item.name + ' but cannot use it.';
+    };
 
     var Defaults = {
         healing: {
             consoleColor: 'pink',
             canAttachTo: function(entity){
-                if(this.game.player !== entity){
+                if(this.game.player !== entity){ // Can only heal player
                     return false;
                 }
-                if(entity.hp >= entity.hpMax){ //TOFIX:
-                    this.game.console.logCanNotPickupHealing(entity, this);
+                if(entity.health >= entity.healthMax){
+                    this.game.console.log(logCanNotPickupHealing(entity, this));
                     return false;
                 }
                 return true;
             },
             attachTo: function(entity){
-                this.game.console.logPickUpHealing(entity, this);
-                entity.heal(this.healAmount); //TOFIX:
+                this.game.console.log(logPickUpHealing(entity, this));
+                entity.incrementPlayerHealth(this.healAmount);
+
+                // After use, remove the item from the tile
+                // this.onRemove();
+                this.dead = true;
             },
             getConsoleName: function(){
                 return {
                     name: this.name + ' [+' + this.healAmount + ' HP]',
-                    color: this.consoleColor
                 };
             }
         }
@@ -145,6 +161,7 @@
     var makeHealingItem = function(obj){
         return RL.Util.merge(obj, Defaults.healing);
     };
+
 
     /**
     * Describes different types of tiles. Used by the Item constructor 'type' param.

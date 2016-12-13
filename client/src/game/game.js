@@ -86,7 +86,7 @@ var keyBindings = {
     right: ['RIGHT_ARROW', 'L', 'D'],
 };
 
-game.map.loadTilesFromArrayString(mapData, mapCharToType, 'floor');
+game.map.loadTilesFromArrayString(mapData, mapCharToType, 'grass');
 game.itemManager.loadFromArrayString(mapData, itemCharToType);
 game.entityManager.loadFromArrayString(mapData, entityCharToType);
 
