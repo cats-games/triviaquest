@@ -223,8 +223,9 @@
                     this.game.console.log('Excuse me <strong>Mr.' + targetTileEnt.name + '</strong>, you appear to be in the way.');
                     return targetTileEnt.bump(this, targetTileEnt);
                 } else if (targetTileItem) {
-                    this.game.console.log('You bumped into a ' + targetTileItem.name);
-                    return targetTileItem.attachTo(this);
+                    if (targetTileItem.canAttachTo(this)) {
+                        return targetTileItem.attachTo(this);
+                    }
                 } else {
                     // targeted tile (attempting to move into)
                     var targetTile = this.game.map.get(x, y);

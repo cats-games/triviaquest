@@ -112,8 +112,12 @@
         },
     };
 
-    var logPickUpHealing = function(entity, item) {
-        return 'You picked up a ' + item.name + ' healing ' + item.healAmount;
+    var logPickUpHealing = function(player, item) {
+        return 'You healed ' + item.healAmount + ' using the ' + item.name;
+    };
+
+    var logCanNotPickupHealing = function(player, item) {
+        return 'You found a ' + item.name + ' but cannot use it.';
     };
 
     var Defaults = {
@@ -124,14 +128,14 @@
                     return false;
                 }
                 if(entity.health >= entity.healthMax){
-                    this.game.console.logCanNotPickupHealing(entity, this);
+                    this.game.console.log(logCanNotPickupHealing(entity, this));
                     return false;
                 }
                 return true;
             },
             attachTo: function(entity){
                 this.game.console.log(logPickUpHealing(entity, this));
-                entity.incrementPlayerHealth(this.healAmount); //TOFIX:
+                entity.incrementPlayerHealth(this.healAmount);
             },
             getConsoleName: function(){
                 return {
