@@ -117,10 +117,11 @@
         healing: {
             consoleColor: 'pink',
             canAttachTo: function(entity){
+                console.log('Hello mello');
                 if(this.game.player !== entity){
                     return false;
                 }
-                if(entity.hp >= entity.hpMax){ //TOFIX:
+                if(entity.health >= entity.healthMax){
                     this.game.console.logCanNotPickupHealing(entity, this);
                     return false;
                 }

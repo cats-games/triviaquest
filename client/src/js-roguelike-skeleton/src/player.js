@@ -138,6 +138,9 @@
         onRemve: false,
 
         // Starting health points
+        healthMax: 100,
+
+        // Can this start at healthMax?
         health: 100,
 
         /**
@@ -212,10 +215,15 @@
             } else {
                 // entity occupying target tile (if any)
                 var targetTileEnt = this.game.entityManager.get(x, y);
+                // item occuping target tile (if any)
+                var targetTileItem = this.game.itemManager.get(x, y);
+
                 // if already occupied
                 if(targetTileEnt){
                     this.game.console.log('Excuse me <strong>Mr.' + targetTileEnt.name + '</strong>, you appear to be in the way.');
                     return targetTileEnt.bump(this, targetTileEnt);
+                } else if (targetTileItem) {
+                    this.game.console.log('You bumped into a ' + targetTileItem.name);
                 } else {
                     // targeted tile (attempting to move into)
                     var targetTile = this.game.map.get(x, y);
