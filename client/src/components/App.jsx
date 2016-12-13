@@ -5,6 +5,7 @@ import Gameinfo from './Gameinfo.jsx';
 import Textfield from './Textfield.jsx';
 import Grid from './Grid.jsx';
 import AppBar from 'material-ui/AppBar';
+import Avatar from 'material-ui/Avatar';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import PlayerStatus from './PlayerStatus.jsx'
@@ -42,6 +43,8 @@ class App extends React.Component {
   ////////////////////
 
   componentWillMount() {
+    // See https://davidwalsh.name/react-authentication
+    this.createLock();
     var _grid = this.state.grid;
     window.gameAppConnector = new GameAppConnector(this);
     this.game = window.game;
@@ -52,13 +55,28 @@ class App extends React.Component {
         image: 'water'
       };
     }
-
     this.setState((prevState) => {
       return {
-        grid: _grid
+        grid: _grid,
       }
     });
+    this.idToken = this.getIdToken();
+    this.setProfile();
+  }
 
+  createLock() {
+    this.lock = new Auth0Lock('rpA1ER3Q4mTCdhol9P1h1lPF2vhaTOAL', 'stefanr.auth0.com');
+  }
+
+  setProfile() {
+    this.lock.getProfile(this.idToken, function (err, profile) {
+      if (err) {
+        console.log("Error loading the Profile", err);
+        return;
+      }
+      this.setState({profile: profile});
+      console.log({profile});
+    }.bind(this));
   }
 
   componentDidMount() {
@@ -123,6 +141,24 @@ class App extends React.Component {
     }
   }
 
+  getIdToken() {
+    // First, check if there is already a JWT in local storage
+    var idToken = localStorage.getItem('id_token');
+    var authHash = this.lock.parseHash(window.location.hash);
+    // If there is no JWT in local storage and there is one in the URL hash,
+    // save it in local storage
+    if (!idToken && authHash) {
+      if (authHash.id_token) {
+        idToken = authHash.id_token
+        localStorage.setItem('id_token', authHash.id_token);
+      }
+      if (authHash.error) {
+        // Handle any error conditions
+        console.log("Error signing in", authHash);
+      }
+    }
+    return idToken;
+  }
 
   render() {
     // **These are to be used as references only, do not mutate them**
@@ -131,33 +167,32 @@ class App extends React.Component {
     var toRender;
     var gameInfoText = "";
 
-    if (true || Object.keys(_grid).length === this.state.rules.numSpaces) {
-      // If there is a challenge, display the challenge prompt
-      if (this.state.currentEnemy) {
-        gameInfoText = this.state.currentEnemy.challenge.prompt;
-      }
+    // Show login screen if user is not yet logged in.
+    if (!this.idToken) {
+      this.lock.show();
+    };
 
-      // Render the gameboard, gameinfo, and text input field
-      toRender = (
-        <div id="app">
-          <AppBar
-            title="It's a Game!"
-            showMenuIconButton={false}
-            iconElementRight={<FlatButton label="Login" />}
-          />
-          <div className="game-display">
-            <PlayerStatus health={_health} />
-            <Grid grid={_grid} />
-            <Gameinfo gameInfoText={gameInfoText}/>
-            <Textfield checkAnswer={this.checkAnswer.bind(this)}/>
-          </div>
-        </div>
-      );
-    } else {
-      // If the gameboard is not ready, display a loading statement
-      toRender = (<div id="loading">Loading . . . </div>);
+    // If there is a challenge, display the challenge prompt
+    if (this.state.currentEnemy) {
+      gameInfoText = this.state.currentEnemy.challenge.prompt;
     }
-    return toRender;
+
+    // Render the gameboard, gameinfo, and text input field
+    return (
+      <div id="app">
+        <AppBar
+          title="It's a Game!"
+          showMenuIconButton={false}
+          iconElementRight={<div className="right-icon"><span className="github-name">{this.state.profile ? this.state.profile.name : ''}</span><Avatar src={this.state.profile ? this.state.profile.picture : ''} size={35} backgroundColor='rgba(0,0,0,0)' /></div>}
+        />
+        <div className="game-display">
+          <PlayerStatus health={_health} />
+          <Grid grid={_grid} />
+          <Gameinfo gameInfoText={gameInfoText}/>
+          <Textfield checkAnswer={this.checkAnswer.bind(this)}/>
+        </div>
+      </div>
+    );
   }
 }
 
