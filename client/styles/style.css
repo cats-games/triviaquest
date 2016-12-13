@@ -193,3 +193,11 @@ input{
   background-position: center center;
   background-size: 100% auto;
 }
+
+.right-icon img {
+  padding: 5px;
+}
+.github-name {
+  padding: 5px;
+  color: #fff;
+}
