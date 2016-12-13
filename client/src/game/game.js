@@ -63,16 +63,18 @@ var mapData = [
 
 // Tile types
 var mapCharToType = {
-    '@': 'player',
-
     '#': 'wall',
     '.': 'grass',
     '+': 'door',
-    '\'': 'door-open',
+    '\'': 'door-open'
+};
 
-    'e': 'slime',
+var entityCharToType = {
+    'e': 'slime'
+};
 
-    ':': 'potion'
+var itemCharToType = {
+  ':': 'potion'
 };
 
 var keyBindings = {
@@ -173,10 +175,20 @@ class GameAppConnector {
 
   drawSquare(x, y, char) {
     var gridNumber = (y * 10) + (x + 1);
-    var contents = mapCharToType[char];
+    var contents = null;
 
-    if (!contents) {
-      return;
+    if (char === '@') {
+      contents = 'player';
+    } else {
+      if (mapCharToType[char]) {
+        contents = mapCharToType[char];
+      } else if (entityCharToType[char]) {
+        contents = entityCharToType[char];
+      } else if (itemCharToType[char]) {
+        contents = itemCharToType[char];
+      } else {
+        return; // If the character doesn't match up to anything known
+      }
     }
 
     this.grid[gridNumber] = {
@@ -185,6 +197,12 @@ class GameAppConnector {
     };
 
   }
+
+  /*
+else if (itemCharToType[char]) {
+        contents = itemCharToType[char];
+      }
+  */
 
   updateGrid() {
     this.app.setState({
