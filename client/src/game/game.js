@@ -84,7 +84,7 @@ var keyBindings = {
     right: ['RIGHT_ARROW', 'L', 'D'],
 };
 
-game.map.loadTilesFromArrayString(mapData, mapCharToType, 'floor');
+game.map.loadTilesFromArrayString(mapData, mapCharToType, 'grass');
 game.itemManager.loadFromArrayString(mapData, itemCharToType);
 game.entityManager.loadFromArrayString(mapData, entityCharToType);
 
@@ -160,7 +160,7 @@ class GameAppConnector {
   assignChallenges() {
     var entities = this.game.entityManager.objects;
     entities.forEach(function(entity) {
-      if (entity.type = 'slime') { // Assign challenges to slimes
+      if (entity.type === 'slime') { // Assign challenges to slimes
         // Pluck off a challenge
         var challenge = this.challenges.pop();
         // Assign it to the slime

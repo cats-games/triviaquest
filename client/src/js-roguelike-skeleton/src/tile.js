@@ -134,9 +134,9 @@
 
         /**
          * Optional callback called when removed from an `ObjectManager` or `MultiObjectManager`.
-         * @metod onRemve
+         * @metod onRemove
          */
-        onRemve: false,
+        onRemove: false,
 
         /**
         * Handles the behavior of a player or other entity attempting to move into this tile. Only used if this.passable = false.
@@ -144,7 +144,6 @@
         * @param {Object} entity - The player or entity attempting to move into this tile.
         */
         bump: function(entity){
-            console.log('this:', this);
             if(!this.passable){
                 this.game.console.log('You cannot move through this <strong>' + this.name + '</strong> no matter how hard you try.');
                 return false;
