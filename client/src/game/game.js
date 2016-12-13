@@ -73,6 +73,7 @@ var mapCharToType = {
 // Why? . . .
 var entityCharToType = {
     'e': 'slime'
+    // ':': 'potion'
 };
 
 var itemCharToType = {
@@ -120,6 +121,7 @@ consoleContainerEl.appendChild(game.console.el);
 
 game.renderer.layers = [
     new RL.RendererLayer(game, 'map',       {draw: false,   mergeWithPrevLayer: false}),
+    new RL.RendererLayer(game, 'item',      {draw: false,   mergeWithPrevLayer: true}),
     new RL.RendererLayer(game, 'entity',    {draw: false,   mergeWithPrevLayer: true}),
     new RL.RendererLayer(game, 'lighting',  {draw: true,    mergeWithPrevLayer: false}),
     new RL.RendererLayer(game, 'fov',       {draw: true,    mergeWithPrevLayer: false})
@@ -192,8 +194,6 @@ class GameAppConnector {
         contents = mapCharToType[char];
       } else if (entityCharToType[char]) {
         contents = entityCharToType[char];
-      } else if (itemCharToType[char]) {
-        contents = itemCharToType[char];
       } else {
         return; // If the character doesn't match up to anything known
       }
@@ -205,6 +205,12 @@ class GameAppConnector {
     };
 
   }
+
+  /*
+else if (itemCharToType[char]) {
+        contents = itemCharToType[char];
+      }
+  */
 
   updateGrid() {
     this.app.setState({

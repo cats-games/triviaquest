@@ -211,6 +211,10 @@
             if(entity){
                 result.push(entity);
             }
+            var item = this.itemManager.get(x, y);
+            if (item) {
+                result.push(item);
+            }
 
             // add items or any other objects that can be placed at a tile coord position
 
