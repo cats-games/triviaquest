@@ -120,7 +120,7 @@
                 if(this.game.player !== entity){
                     return false;
                 }
-                if(entity.hp >= entity.hpMax){
+                if(entity.hp >= entity.hpMax){ //TOFIX:
                     this.game.console.logCanNotPickupHealing(entity, this);
                     return false;
                 }
@@ -128,57 +128,11 @@
             },
             attachTo: function(entity){
                 this.game.console.logPickUpHealing(entity, this);
-                entity.heal(this.healAmount);
+                entity.heal(this.healAmount); //TOFIX:
             },
             getConsoleName: function(){
                 return {
                     name: this.name + ' [+' + this.healAmount + ' HP]',
-                    color: this.consoleColor
-                };
-            }
-        },
-        meleeWeapon: {
-            canAttachTo: function(entity){
-                if(this.game.player !== entity){
-                    return false;
-                }
-                if(this.damage < entity.meleeWeapon.damage){
-                    this.game.console.logCanNotPickupWeapon(entity, entity.meleeWeapon, this);
-                    return false;
-                }
-                return true;
-            },
-            attachTo: function(entity){
-                Item.prototype.attachTo.call(this, entity);
-                entity.meleeWeapon = this;
-            },
-            getConsoleName: function(){
-                return {
-                    name: this.name,
-                    stats: '[Damage: ' + this.damage + ']',
-                    color: this.consoleColor
-                };
-            }
-        },
-        rangedWeapon: {
-            canAttachTo: function(entity){
-                if(this.game.player !== entity){
-                    return false;
-                }
-                if(this.damage < entity.rangedWeapon.damage){
-                    this.game.console.logCanNotPickupWeapon(entity, entity.rangedWeapon, this);
-                    return false;
-                }
-                return true;
-            },
-            attachTo: function(entity){
-                Item.prototype.attachTo.call(this, entity);
-                entity.rangedWeapon = this;
-            },
-            getConsoleName: function(){
-                return {
-                    name: this.name,
-                    stats: '[Damage: ' + this.damage + ', Range: ' + this.range + ']',
                     color: this.consoleColor
                 };
             }
@@ -190,14 +144,6 @@
 
     var makeHealingItem = function(obj){
         return RL.Util.merge(obj, Defaults.healing);
-    };
-
-    var makeMeleeWeapon = function(obj){
-        return RL.Util.merge(obj, Defaults.meleeWeapon);
-    };
-
-    var makeRangedWeapon = function(obj){
-        return RL.Util.merge(obj, Defaults.rangedWeapon);
     };
 
     /**

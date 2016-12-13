@@ -63,21 +63,16 @@ var mapData = [
 
 // Tile types
 var mapCharToType = {
+    '@': 'player',
+
     '#': 'wall',
     '.': 'grass',
     '+': 'door',
-    '\'': 'door-open'
-};
+    '\'': 'door-open',
 
-// This is defined here and in the entity's char property.
-// Why? . . .
-var entityCharToType = {
-    'e': 'slime'
-    // ':': 'potion'
-};
+    'e': 'slime',
 
-var itemCharToType = {
-  ':': 'potion'
+    ':': 'potion'
 };
 
 var keyBindings = {
@@ -96,13 +91,6 @@ game.setMapSize(game.map.width, game.map.height);
 
 // add input keybindings
 game.input.addBindings(keyBindings);
-
-// // create entities and add to game.entityManager
-// var entZombie = new RL.Entity(game, 'slime');
-// game.entityManager.add(2, 8, entZombie);
-
-// // or just add by entity type
-// game.entityManager.add(5, 9, 'slime');
 
 // set player starting position
 game.player.x = 3;
@@ -185,18 +173,10 @@ class GameAppConnector {
 
   drawSquare(x, y, char) {
     var gridNumber = (y * 10) + (x + 1);
-    var contents = null;
+    var contents = mapCharToType[char];
 
-    if (char === '@') {
-      contents = 'player';
-    } else {
-      if (mapCharToType[char]) {
-        contents = mapCharToType[char];
-      } else if (entityCharToType[char]) {
-        contents = entityCharToType[char];
-      } else {
-        return; // If the character doesn't match up to anything known
-      }
+    if (!contents) {
+      return;
     }
 
     this.grid[gridNumber] = {
@@ -205,12 +185,6 @@ class GameAppConnector {
     };
 
   }
-
-  /*
-else if (itemCharToType[char]) {
-        contents = itemCharToType[char];
-      }
-  */
 
   updateGrid() {
     this.app.setState({
