@@ -35,7 +35,6 @@ input{
   margin:0;
   border:0;
   padding:0;
-  background-color:black;
   width:598px;
 }
 
@@ -44,6 +43,10 @@ input{
   border:0;
   padding:0;
   width:100%;
+}
+
+#app{
+  height:100vh;
 }
 
 #main{
@@ -103,7 +106,6 @@ input{
 
 #heart-display{
   display:flex;
-  background-color:#fff;
   padding:10px;
 }
 
@@ -126,7 +128,6 @@ input{
 }
 
 #textfield{
-  background-color:white;
   color:white;
   font-family: Courier New,Courier,Lucida Sans Typewriter,Lucida Typewriter,monospace;
   width: 600px;
@@ -137,7 +138,6 @@ input{
 }
 
 #gameinfo{
-  background-color:white;
   width: 600px;
   min-height:50px;
   color:black;
