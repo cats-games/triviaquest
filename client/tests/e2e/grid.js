@@ -46,6 +46,7 @@ describe('Grid test', function() {
         client.assert.elementNotPresent('#space-56.gridbox.player');
       });
     });
+  });
 
   xit('should not move player character while answering a question', function(client) {
     client.keys("llllljkkkkkjllllljkkkkk", function() {
