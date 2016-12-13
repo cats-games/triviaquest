@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-var Gameinfo = ({gameInfoText}) => (
-  <div id="gameinfo">{gameInfoText}</div>
+var Gameinfo = (props) => (
+  <div id="gameinfo" style={{backgroundColor:props.theme}}>{props.gameInfoText}</div>
 );
 
 export default Gameinfo;

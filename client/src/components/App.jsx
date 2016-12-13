@@ -4,11 +4,42 @@ import React from 'react';
 import Gameinfo from './Gameinfo.jsx';
 import Textfield from './Textfield.jsx';
 import Grid from './Grid.jsx';
+import PlayerStatus from './PlayerStatus.jsx'
+
+//Material UI components
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
+import {
+  blue300,
+  blue500,
+  cyan500, 
+  cyan700,
+  pinkA200,
+  grey100, 
+  grey300,
+  grey400,
+  grey500,
+  grey700,
+  grey800, 
+  grey900,
+  white, 
+  darkBlack, 
+  fullBlack
+} from 'material-ui/styles/colors';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import {fade} from 'material-ui/utils/colorManipulator';
+import Drawer from 'material-ui/Drawer';
+import MenuItem from 'material-ui/MenuItem';
+import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
-import PlayerStatus from './PlayerStatus.jsx'
-
+import Paper from 'material-ui/Paper';
+import Card from 'material-ui/Card';
+import Themes from './Themes.js'
 
 // App should:
 // Grab challenges from server
@@ -35,7 +66,10 @@ class App extends React.Component {
       },
       rules: { // Change these before running the game. DO NOT change these during the game.
         numSpaces: 100, // Number of spaces on the gameboard
-      }
+      },
+      //state of sliding side menu
+      drawerOpen: false
+      theme: Themes.dark
     };
     // !Don't run functions in the constructor!
     // !Run them in componentWillMount instead!
@@ -122,6 +156,11 @@ class App extends React.Component {
     }
   }
 
+  handleDrawerToggle(){
+    console.log(this.state);
+    this.setState({drawerOpen: !this.state.drawerOpen});
+  } 
+
 
   render() {
     // **These are to be used as references only, do not mutate them**
@@ -129,7 +168,60 @@ class App extends React.Component {
     var _health = this.state.player.health;
     var toRender;
     var gameInfoText = "";
+    // var darkTheme = {
+    //   appBar:{
+    //     height:50
+    //   },
+    //   fontFamily: 'Roboto, sans-serif',
+    //   palette: {
+    //     primary1Color: grey900,
+    //     primary2Color: grey800,
+    //     primary3Color: fullBlack,
+    //     accent1Color: pinkA200,
+    //     accent2Color: grey100,
+    //     accent3Color: grey500,
+    //     textColor: white,
+    //     alternateTextColor: white,
+    //     canvasColor: grey800,
+    //     borderColor: grey300,
+    //     disabledColor: fade(darkBlack, 0.3),
+    //     pickerHeaderColor: cyan500,
+    //     clockCircleColor: fade(darkBlack, 0.07),
+    //     shadowColor: fullBlack,
+    //   }
+    // };
+    // var lightTheme = {
+    //   appBar:{
+    //     height:50
+    //   },
+    //   fontFamily: 'Roboto, sans-serif',
+    //   palette: {
+    //     primary1Color: cyan500,
+    //     primary2Color: cyan700,
+    //     primary3Color: grey400,
+    //     accent1Color: pinkA200,
+    //     accent2Color: grey100,
+    //     accent3Color: grey500,
+    //     textColor: darkBlack,
+    //     alternateTextColor: white,
+    //     canvasColor: white,
+    //     borderColor: grey300,
+    //     disabledColor: fade(darkBlack, 0.3),
+    //     pickerHeaderColor: cyan500,
+    //     clockCircleColor: fade(darkBlack, 0.07),
+    //     shadowColor: fullBlack,
+    //   },
+    // };
+    
+    var muiTheme = getMuiTheme(this.state.themes);
 
+    var changeTheme = function(theme){
+      console.log('newtheme', theme);
+      muiTheme = getMuiTheme(theme);
+    }
+    
+    
+    console.log(muiTheme.palette.primary2Color);
     if (true || Object.keys(_grid).length === this.state.rules.numSpaces) {
       // If there is a challenge, display the challenge prompt
       if (this.state.currentChallenge) {
@@ -137,19 +229,37 @@ class App extends React.Component {
       }
       // Render the gameboard, gameinfo, and text input field
       toRender = (
-        <div id="app">
-          <AppBar
-            title="It's a Game!"
-            showMenuIconButton={false}
-            iconElementRight={<FlatButton label="Login" />}
-          />
-          <div className="game-display">
-            <PlayerStatus health={_health} />
-            <Grid grid={_grid} />
-            <Gameinfo gameInfoText={gameInfoText}/>
-            <Textfield checkAnswer={this.checkAnswer.bind(this)}/>
-          </div>
-        </div>
+        <MuiThemeProvider muiTheme={muiTheme}>
+          <Paper id="app">
+            <AppBar
+              title="It's a Game!"
+              onLeftIconButtonTouchTap={this.handleDrawerToggle.bind(this)}
+              iconElementRight={<FlatButton label="Login" />}
+            />
+            <Drawer 
+              open={this.state.drawerOpen}
+              onRequestChange={function(){console.log('requestchange')}}
+              width={200}
+            >
+              <MenuItem onTouchTap={function(){ 
+                this.handleDrawerToggle();
+                changeTheme(lightTheme);
+              }.bind(this)}
+              >Dark Theme</MenuItem>
+              <MenuItem onTouchTap={function(){ 
+                this.handleDrawerToggle();
+                changeTheme(lightTheme);
+              }.bind(this)}
+            >Light Theme</MenuItem>
+            </Drawer>
+            <Card className="game-display" style={{backgroundColor: muiTheme.palette.primary3Color}}>
+              <PlayerStatus health={_health} />
+              <Grid grid={_grid} />
+              <Gameinfo gameInfoText={gameInfoText} theme={muiTheme.palette.primary2Color}/>
+              <Textfield checkAnswer={this.checkAnswer.bind(this)} theme={muiTheme.palette.primary2Color} />
+            </Card>
+          </Paper>
+        </MuiThemeProvider>
       );
     } else {
       // If the gameboard is not ready, display a loading statement
