@@ -3,14 +3,14 @@ var game = new RL.Game();
 
 var mapData = [
     "#########################################################################################################",
-    "#.........#..........#......................................................Z.........................#.#",
-    "#....Z....#....##....#...........Z..............................................................Z.....#.#",
-    "#.........+....##....#........................Z....................Z........Z....Z......Z....Z........#.#",
-    "#.........#..........+......................................................Z...................Z.....#.#",
-    "#.#..#..#.#..........#...............Z......Z....Z..............................................Z.....#.#",
-    "#.........#...####+#+#................................Z......Z....Z.........Z.........................#.#",
-    "#.........#...#......#..........................................................................Z.....#.#",
-    "#.........#...#......#.................Z......Z....Z...............Z......Z....Z......................#.#",
+    "#.........#..........#......................................................e.........................#.#",
+    "#....e....#....##....#..........................................................................e.....#.#",
+    "#.........+....##....#........................e....................e.........................e........#.#",
+    "#.........#..........+......................................................e...................e.....#.#",
+    "#.#..#..#.#..........#......................e....e....................................................#.#",
+    "#.........#...####+#+#................................e...........e.........e.........................#.#",
+    "#.........#...#......#..........................................................................e.....#.#",
+    "#.........#...#......#.................e...........e...............e...........e......................#.#",
     "#.........#...#......#................................................................................#.#",
     "######################################################################+################################.#",
     "#...#...............#...............#...........#...................#...#.............................#.#",
@@ -33,7 +33,7 @@ var mapData = [
     "#...#########...#...#...#...#####...#########...#########...#...#########.............................#.#",
     "#...#.......#...#...#...........#...........#...#.......#...............#.............................#.#",
     "#...#...#####...#####...#####...#########...#####...#...#########...#...#.............................#.#",
-    "#.Z.#...................#...........#...............#...............#...#.............................#.#",
+    "#.e.#...................#...........#...............#...............#...#.............................#.#",
     "##########################################+##########################################################+#.#",
     "#......................#.................#......#.................#.........................#.........#.#",
     "#..##################..#.#########.#.#.###.#....#.###...###########.#.######.##############.#.#######.#.#",
@@ -56,19 +56,23 @@ var mapData = [
     "#..#....................#.................................#..####..............#..........#.....#.....#.#",
     "#..###################..#.################.############################.#############.#########.#####.#.#",
     "#.......................#................#............................................................#.#",
-    "#+#####################################################################################################.#"
+    "#+#####################################################################################################.#",
     "#.......................................................................................................#",
     "#########################################################################################################"
 ];
 
+// Tile types
 var mapCharToType = {
     '#': 'wall',
-    '.': 'floor',
-    '+': 'door'
+    '.': 'grass',
+    '+': 'door',
+    '\'': 'door-open'
 };
 
+// This is defined here and in the entity's char property.
+// Why? . . .
 var entityCharToType = {
-    'Z': 'zombie'
+    'e': 'slime'
 };
 
 var keyBindings = {
@@ -87,12 +91,12 @@ game.setMapSize(game.map.width, game.map.height);
 // add input keybindings
 game.input.addBindings(keyBindings);
 
-// create entities and add to game.entityManager
-var entZombie = new RL.Entity(game, 'zombie');
-game.entityManager.add(2, 8, entZombie);
+// // create entities and add to game.entityManager
+// var entZombie = new RL.Entity(game, 'slime');
+// game.entityManager.add(2, 8, entZombie);
 
-// or just add by entity type
-game.entityManager.add(5, 9, 'zombie');
+// // or just add by entity type
+// game.entityManager.add(5, 9, 'slime');
 
 // set player starting position
 game.player.x = 3;
@@ -120,14 +124,20 @@ game.renderer.layers = [
 
 
 class GameAppConnector {
+  ////////////////
+  // INITIALIZE //
+  ////////////////
+
   constructor(app) {
     this.game = window.game;
     this.game.start();
-    this.game.renderer.draw();
-    this.game.console.log('The game starts.');
     this.app = app;
     this.grid = undefined;
     this.challenges = [];
+
+    // Get challenges from the server and update this.challenges
+    // Then, assign each slime entity a challenge
+    this.getChallenges(this.assignChallenges.bind(this));
   }
 
   setGrid(grid) {
@@ -139,50 +149,51 @@ class GameAppConnector {
 
   getChallenges(callback) {
     $.get('/api/challenges')
-      .done(challenges => { // An array of challenge objects
-        // Shuffle the challenges
-        challenges = this.shuffle(challenges);
-        // Save the challenges to the state
-        this.setState({
-          challenges: challenges
-        }, function() {
-          callback();
-        });
-      })
+      .done(function(challenges) {
+        challenges = shuffle(challenges); // Shuffle the arrangement of the challenges
+        // Save the challenges
+        this.challenges = challenges;
+        callback();
+      }.bind(this))
       .fail(function(error) {
-        console.error('Could not get challenges:', error);
+        console.log('Error');
       });
   }
+
+  assignChallenges() {
+    var entities = this.game.entityManager.objects;
+    entities.forEach(function(entity) {
+      if (entity.type = 'slime') { // Assign challenges to slimes
+        // Pluck off a challenge
+        var challenge = this.challenges.pop();
+        // Assign it to the slime
+        entity.challenge = challenge;
+      }
+    }.bind(this));
+  }
+
+  //////////////
+  // CONSTANT //
+  //////////////
 
   drawSquare(x, y, char) {
     var gridNumber = (y * 10) + (x + 1);
     var contents = null;
+
     if (char === '@') {
-      this.app.setState({
-        player: {
-            position: gridNumber,
-            previousPosition: 1,
-            health: 100
-        }
-      });
       contents = 'player';
-    } else if (char === '.') {
-      contents = 'grass';
-    } else if (char === '#') {
-      contents = 'wall';
-    } else if (char === 'z') {
-      contents = 'enemy';
-    } else if (char === '+') {
-      contents = 'door';
-    } else if (char === "'") {
-      contents = 'door-open';
     } else {
-      return;
+      contents = mapCharToType[char] || entityCharToType[char];
+      if (!contents) { // If the character doesn't match up to anything known
+        return;
+      }
     }
+
     this.grid[gridNumber] = {
       id: gridNumber,
       image: contents
     };
+
   }
 
   updateGrid() {
@@ -191,3 +202,19 @@ class GameAppConnector {
     });
   }
 };
+
+/////////////
+// HELPERS //
+/////////////
+
+// Shuffle an array's contents
+// Used to shuffle the order of challenges received from the server
+function shuffle(array) {
+  for (var i = array.length - 1; i > 0; i--) { 
+    var j = Math.floor(Math.random() * (i + 1)); 
+    var temp = array[i]; 
+    array[i] = array[j]; 
+    array[j] = temp; 
+  } 
+  return array;
+}

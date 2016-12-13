@@ -1,7 +1,7 @@
 (function(root) {
     'use strict';
 
-	var entId = 0;
+    var entId = 0;
 
     /**
     * Represents an entity in the game. Usually a character or enemy.
@@ -116,9 +116,9 @@
 
         /**
          * Optional callback called when removed from an `ObjectManager` or `MultiObjectManager`.
-         * @metod onRemve
+         * @metod onRemove
          */
-        onRemve: false,
+        onRemove: false,
 
         /**
         * Called after a player action has been resolved. Resolves this entities turn.
@@ -208,13 +208,25 @@
     * @static
     */
     Entity.Types = {
-        zombie: {
-            name: 'Zombie',
-            char: 'z',
+        slime: {
+            name: 'Slime',
+            char: 'e',
             color: 'red',
             bgColor: false,
-            bump: function () { alert('helllloo!')}
-        },
+            bump: function(player, slime) {
+                var app = window.gameAppConnector.app;
+                app.setState({
+                    currentEnemy: slime
+                });
+            },
+            onRemove: function() {
+                // console.log('this:', this);
+                var tile = new RL.Tile(this.game, 'grass', this.x, this.y);
+                tile.explored = true;
+                this.game.map.set(this.x, this.y, tile);
+                this.game.renderer.drawTile(this.x, this.y);
+            }
+        }
     };
 
     root.RL.Entity = Entity;
