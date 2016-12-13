@@ -40,11 +40,12 @@ describe('Grid test', function() {
 
   // Tests #2 & #3 are failing when there is an enemy or potion in space-57 as the classes identifying the player vs the player about to fight vs a player obtaining a potion are different.
   it('should move the player when the navigation keys are pressed', function(client) {
-    client.keys('h', function() {
-      client.assert.elementPresent('#space-57.gridbox.player',);
-      client.assert.elementNotPresent('#space-1.gridbox.player');
+    client.element('css selector', '.a0-close', function(res) {
+      client.keys('h', function() {
+        client.assert.elementPresent('#space-57.gridbox.player');
+        client.assert.elementNotPresent('#space-56.gridbox.player');
+      });
     });
-  });
 
   xit('should not move player character while answering a question', function(client) {
     client.keys("llllljkkkkkjllllljkkkkk", function() {
