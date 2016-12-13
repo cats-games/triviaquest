@@ -118,7 +118,12 @@
          * Optional callback called when removed from an `ObjectManager` or `MultiObjectManager`.
          * @metod onRemove
          */
-        onRemove: false,
+        onRemove: function() {
+            var tile = new RL.Tile(this.game, 'grass', this.x, this.y);
+            tile.explored = true;
+            this.game.map.set(this.x, this.y, tile);
+            this.game.renderer.drawTile(this.x, this.y);
+        },
 
         /**
         * Called after a player action has been resolved. Resolves this entities turn.
@@ -218,12 +223,6 @@
                 app.setState({
                     currentEnemy: slime
                 });
-            },
-            onRemove: function() {
-                var tile = new RL.Tile(this.game, 'grass', this.x, this.y);
-                tile.explored = true;
-                this.game.map.set(this.x, this.y, tile);
-                this.game.renderer.drawTile(this.x, this.y);
             }
         }
     };

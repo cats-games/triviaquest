@@ -102,8 +102,8 @@ class App extends React.Component {
       if (input === this.state.currentEnemy.challenge.answer) {
         // Kill the enemy
         this.state.currentEnemy.dead = true;
-        // Remove the enemy from the grid
-        this.game.entityManager.remove(this.state.currentEnemy);
+        // Remove the dead enemy from the grid
+        this.game.entityManager.update();
         // Increase the player's score
         this.updateScore(true);
         // Remove the enemy from the state

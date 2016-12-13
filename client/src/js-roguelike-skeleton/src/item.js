@@ -115,7 +115,6 @@
             tile.explored = true;
             this.game.map.set(this.x, this.y, tile);
             this.game.renderer.drawTile(this.x, this.y);
-            this.game.itemManager.remove(this)
         }
     };
 
@@ -145,8 +144,8 @@
                 entity.incrementPlayerHealth(this.healAmount);
 
                 // After use, remove the item from the tile
-                this.onRemove();
-
+                // this.onRemove();
+                this.dead = true;
             },
             getConsoleName: function(){
                 return {
