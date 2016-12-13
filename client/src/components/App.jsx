@@ -90,21 +90,6 @@ class App extends React.Component {
     }
 
   }
-    // // **These are to be used as references only, do not mutate them**
-    // var _player = this.state.player;
-    // var _grid = this.state.grid;
-
-    // e.preventDefault();
-
-    // // If a there is a challenge on this position
-    // if (this.state.currentChallenge) {
-    //   var correct = false;
-    //   // Check if the user input and the solution match up
-    //   if (input === this.state.currentChallenge.answer) {
-    //     correct = true;
-    //   }
-    //   this.updateScore(correct);
-    // }
 
   updateScore(correct) {
     // Regardless of whether the user's answer was correct,
