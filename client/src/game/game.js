@@ -78,6 +78,10 @@ game.renderer.layers = [
 
 
 class GameAppConnector {
+  ////////////////
+  // INITIALIZE //
+  ////////////////
+
   constructor(app) {
     this.game = window.game;
     this.game.start();
@@ -86,7 +90,8 @@ class GameAppConnector {
     this.challenges = [];
 
     // Get challenges from the server and update this.challenges
-    this.getChallenges();
+    // Then, assign each slime entity a challenge
+    this.getChallenges(this.assignChallenges.bind(this));
   }
 
   setGrid(grid) {
@@ -96,16 +101,34 @@ class GameAppConnector {
     }
   }
 
-  getChallenges() {
+  getChallenges(callback) {
     $.get('/api/challenges')
       .done(function(challenges) {
+        challenges = shuffle(challenges); // Shuffle the arrangement of the challenges
+        // Save the challenges
         this.challenges = challenges;
-      }.bind(this)) // Bind this to the GameAppConnector
+        callback();
+      }.bind(this))
       .fail(function(error) {
         console.log('Error');
       });
   }
 
+  assignChallenges() {
+    var entities = this.game.entityManager.objects;
+    entities.forEach(function(entity) {
+      if (entity.type = 'slime') { // Assign challenges to slimes
+        // Pluck off a challenge
+        var challenge = this.challenges.pop();
+        // Assign it to the slime
+        entity.challenge = challenge;
+      }
+    }.bind(this));
+  }
+
+  //////////////
+  // CONSTANT //
+  //////////////
 
   drawSquare(x, y, char) {
     var gridNumber = (y * 10) + (x + 1);

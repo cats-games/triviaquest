@@ -220,7 +220,9 @@
             char: 'e',
             color: 'red',
             bgColor: false,
-            bump: function() { console.log(this.challenge.prompt); }
+            bump: function() {
+                console.log(this.challenge.prompt);
+            }
         }
     };
 

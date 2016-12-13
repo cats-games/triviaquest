@@ -11,12 +11,9 @@ import PlayerStatus from './PlayerStatus.jsx'
 
 
 // App should:
-// Grab challenges from server
+// Check player's answers to challenges
 // Keep score
-// Keep track of player position
-// Generate a random board (spaces)
-// Check for correct/incorrect answers
-// Update game based on images
+// Render on the browser a certain number of grid spaces
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -25,7 +22,7 @@ class App extends React.Component {
       // Objects with and ID, an optional challenge, and optional "image".
       grid: {},
       player: {
-        health: 100,
+        health: 100, //TODO: Can this be a property on the player entity in in rogue?
       },
       // Score object to track challenges attempted, succeeded, and failed, so we can show stats.
       score: {
@@ -35,10 +32,9 @@ class App extends React.Component {
       },
       rules: { // Change these before running the game. DO NOT change these during the game.
         numSpaces: 100, // Number of spaces on the gameboard
+        //TODO: Can probably just use this.state.numSpaces instead of the rules object
       }
     };
-    // !Don't run functions in the constructor!
-    // !Run them in componentWillMount instead!
   }
 
   ////////////////////
@@ -63,11 +59,6 @@ class App extends React.Component {
       }
     });
 
-    // Get challenges from API and update state
-    // gameAppConnector.getChallenges(function() {
-    //   console.log('I was run from outside');
-    // });
-    // console.log('YES!:', gameAppConnector.challenges);
   }
 
   componentDidMount() {
