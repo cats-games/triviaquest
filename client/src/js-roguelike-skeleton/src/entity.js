@@ -220,7 +220,6 @@
                 });
             },
             onRemove: function() {
-                // console.log('this:', this);
                 var tile = new RL.Tile(this.game, 'grass', this.x, this.y);
                 tile.explored = true;
                 this.game.map.set(this.x, this.y, tile);

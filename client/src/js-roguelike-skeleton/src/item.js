@@ -101,15 +101,22 @@
          * @param {Entity} entity
          */
         attachTo: function(entity){
-            this.game.console.logPickUp(entity, this);
+
         },
 
         getConsoleName: function(){
             return {
                 name: this.name,
-                color: this.consoleColor
             };
         },
+
+        onRemove: function(){
+            var tile = new RL.Tile(this.game, 'grass', this.x, this.y);
+            tile.explored = true;
+            this.game.map.set(this.x, this.y, tile);
+            this.game.renderer.drawTile(this.x, this.y);
+            this.game.itemManager.remove(this)
+        }
     };
 
     var logPickUpHealing = function(player, item) {
@@ -136,11 +143,14 @@
             attachTo: function(entity){
                 this.game.console.log(logPickUpHealing(entity, this));
                 entity.incrementPlayerHealth(this.healAmount);
+
+                // After use, remove the item from the tile
+                this.onRemove();
+
             },
             getConsoleName: function(){
                 return {
                     name: this.name + ' [+' + this.healAmount + ' HP]',
-                    color: this.consoleColor
                 };
             }
         }
