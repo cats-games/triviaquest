@@ -7,7 +7,8 @@ import Grid from './Grid.jsx';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
-import PlayerStatus from './PlayerStatus.jsx'
+import PlayerStatus from './PlayerStatus.jsx';
+import GameOver from './GameOver.jsx';
 
 
 // App should:
@@ -150,6 +151,7 @@ class App extends React.Component {
             <Grid grid={_grid} />
             <Gameinfo gameInfoText={gameInfoText}/>
             <Textfield checkAnswer={this.checkAnswer.bind(this)}/>
+            <GameOver actions={this.actions} health={this.state.player.health}/>
           </div>
         </div>
       );

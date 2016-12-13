@@ -8,14 +8,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mau11/hrr20-cats.git"
+    "url": "git+https://github.com/hrr20-cats/hrr20-cats.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mau11/hrr20-cats/issues"
+    "url": "https://github.com/hrr20-cats/hrr20-cats/issues"
   },
-  "homepage": "https://github.com/mau11/hrr20-cats#readme",
   "dependencies": {
     "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
