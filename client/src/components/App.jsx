@@ -191,7 +191,7 @@ class App extends React.Component {
           <Grid grid={_grid} />
           <Gameinfo gameInfoText={gameInfoText}/>
           <Textfield checkAnswer={this.checkAnswer.bind(this)}/>
-          <GameOver actions={this.actions} health={this.state.player.health}/>
+          <GameOver actions={this.actions} health={_health}/>
         </div>
       </div>
     );
