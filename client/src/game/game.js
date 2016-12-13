@@ -170,7 +170,6 @@ class GameAppConnector {
         entity.challenge = challenge;
       }
     }.bind(this));
-  }
 
   drawSquare(x, y, char) {
     var gridNumber = (y * 10) + (x + 1);
