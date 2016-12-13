@@ -9,3 +9,16 @@ exports.getChallenges = function(request, response) {
     response.json(challenges);
   });
 };
+
+// Saves a test result into the database.
+exports.saveTestResult = function(request, response) {
+  if (request.secret !== 'cats') {
+    response.json({status: 'wrong secret'});
+  }
+  new TestResult({
+    branch: request.branch,
+    failures: request.failures
+  }).save(function () {
+    response.json({status: 'done'});
+  });
+};
