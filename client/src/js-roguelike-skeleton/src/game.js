@@ -13,6 +13,7 @@
         // un-populated instance of Array2d
         this.map = new RL.Map(this);
         this.entityManager = new RL.ObjectManager(this, RL.Entity);
+        this.itemManager = new RL.ObjectManager(this, RL.Item);
         this.renderer = new RL.Renderer(this);
         this.console = new RL.Console(this);
         this.lighting = new RL.LightingROT(this);
@@ -209,6 +210,10 @@
             var entity = this.entityManager.get(x, y);
             if(entity){
                 result.push(entity);
+            }
+            var item = this.itemManager.get(x, y);
+            if (item) {
+                result.push(item);
             }
 
             // add items or any other objects that can be placed at a tile coord position

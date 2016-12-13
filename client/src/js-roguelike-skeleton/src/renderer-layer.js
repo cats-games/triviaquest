@@ -162,6 +162,20 @@
             }
         },
 
+        item: {
+            mergeWithPrevLayer: true,
+            getTileData: function(x, y, prevTileData){
+                if(!this.game){
+                    return false;
+                }
+                var item = this.game.itemManager.get(x, y);
+                if(item){
+                    return item.getTileDrawData();
+                }
+                return false;
+            }
+        },
+
         entity: {
             mergeWithPrevLayer: true,
             getTileData: function(x, y, prevTileData){

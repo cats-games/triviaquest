@@ -4,7 +4,7 @@ var game = new RL.Game();
 var mapData = [
     "#########################################################################################################",
     "#.........#..........#......................................................e.........................#.#",
-    "#....e....#....##....#..........................................................................e.....#.#",
+    "#....e..:.#....##....#..........................................................................e.....#.#",
     "#.........+....##....#........................e....................e.........................e........#.#",
     "#.........#..........+......................................................e...................e.....#.#",
     "#.#..#..#.#..........#......................e....e....................................................#.#",
@@ -69,10 +69,12 @@ var mapCharToType = {
     '\'': 'door-open'
 };
 
-// This is defined here and in the entity's char property.
-// Why? . . .
 var entityCharToType = {
     'e': 'slime'
+};
+
+var itemCharToType = {
+  ':': 'potion'
 };
 
 var keyBindings = {
@@ -83,6 +85,7 @@ var keyBindings = {
 };
 
 game.map.loadTilesFromArrayString(mapData, mapCharToType, 'floor');
+game.itemManager.loadFromArrayString(mapData, itemCharToType);
 game.entityManager.loadFromArrayString(mapData, entityCharToType);
 
 // generate and assign a map object (repaces empty default)
@@ -90,13 +93,6 @@ game.setMapSize(game.map.width, game.map.height);
 
 // add input keybindings
 game.input.addBindings(keyBindings);
-
-// // create entities and add to game.entityManager
-// var entZombie = new RL.Entity(game, 'slime');
-// game.entityManager.add(2, 8, entZombie);
-
-// // or just add by entity type
-// game.entityManager.add(5, 9, 'slime');
 
 // set player starting position
 game.player.x = 3;
@@ -115,6 +111,7 @@ consoleContainerEl.appendChild(game.console.el);
 
 game.renderer.layers = [
     new RL.RendererLayer(game, 'map',       {draw: false,   mergeWithPrevLayer: false}),
+    new RL.RendererLayer(game, 'item',      {draw: false,   mergeWithPrevLayer: true}),
     new RL.RendererLayer(game, 'entity',    {draw: false,   mergeWithPrevLayer: true}),
     new RL.RendererLayer(game, 'lighting',  {draw: true,    mergeWithPrevLayer: false}),
     new RL.RendererLayer(game, 'fov',       {draw: true,    mergeWithPrevLayer: false})
@@ -183,9 +180,14 @@ class GameAppConnector {
     if (char === '@') {
       contents = 'player';
     } else {
-      contents = mapCharToType[char] || entityCharToType[char];
-      if (!contents) { // If the character doesn't match up to anything known
-        return;
+      if (mapCharToType[char]) {
+        contents = mapCharToType[char];
+      } else if (entityCharToType[char]) {
+        contents = entityCharToType[char];
+      } else if (itemCharToType[char]) {
+        contents = itemCharToType[char];
+      } else {
+        return; // If the character doesn't match up to anything known
       }
     }
 

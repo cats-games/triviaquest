@@ -144,6 +144,7 @@
         * @param {Object} entity - The player or entity attempting to move into this tile.
         */
         bump: function(entity){
+            console.log(entity);
             if(!this.passable){
                 this.game.console.log('You cannot move through this <strong>' + this.name + '</strong> no matter how hard you try.');
                 return false;
