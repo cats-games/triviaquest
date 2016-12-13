@@ -74,8 +74,8 @@ class App extends React.Component {
         console.log("Error loading the Profile", err);
         return;
       }
-      this.setState({profile: profile});
-      console.log({profile});
+      // As soon as we have the profile data, assign the git challenges (which depend on the nickname profile data being available)
+      this.setState({profile: profile}, () => {window.gameAppConnector.assignGitChallenges();});
     }.bind(this));
   }
 
