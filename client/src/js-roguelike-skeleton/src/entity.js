@@ -224,6 +224,31 @@
                     currentEnemy: slime
                 });
             }
+        },
+        owl: {
+            name: 'Owl',
+            char: 'Z',
+            color: 'red',
+            bgColor: false,
+            bump: function(player, owl) {
+                var app = window.gameAppConnector.app;
+                app.setState({
+                    currentEnemy: owl
+                });
+                window.gameAppConnector.checkGitChallenge(owl);
+            }
+        },
+        bird: {
+            name: 'Bird',
+            char: 'b',
+            color: 'red',
+            bgColor: false,
+            bump: function(player, bird) {
+                var app = window.gameAppConnector.app;
+                app.setState({
+                    currentEnemy: bird
+                });
+            }
         }
     };
 

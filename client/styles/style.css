@@ -175,6 +175,22 @@ input{
   background-position: center center;
   background-size: 100% auto;
 }
+
+.owl {
+  background-image: url("../img/owl.png"), url("../img/tile-by-Ivan-voirol.png");
+  background-repeat: no-repeat, no-repeat;
+  background-position: center center, center center;
+  background-size: 50px auto, 150px auto;
+}
+
+
+.bird {
+  background-image: url("../img/bird.png"), url("../img/tile-by-Ivan-voirol.png");
+  background-repeat: no-repeat, no-repeat;
+  background-position: center center, center center;
+  background-size: 50px auto, 150px auto;
+}
+
 .right-icon img {
   padding: 5px;
 }
