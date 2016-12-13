@@ -212,11 +212,11 @@
                 // if already occupied
                 if(targetTileEnt){
                     this.game.console.log('Excuse me <strong>Mr.' + targetTileEnt.name + '</strong>, you appear to be in the way.');
-                    return targetTileEnt.bump(this);
+                    return targetTileEnt.bump(this, targetTileEnt);
                 } else {
                     // targeted tile (attempting to move into)
                     var targetTile = this.game.map.get(x, y);
-                    return targetTile.bump(this);
+                    return targetTile.bump(this, targetTile);
                 }
             }
             return false;

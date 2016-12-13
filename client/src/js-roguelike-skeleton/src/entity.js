@@ -116,9 +116,9 @@
 
         /**
          * Optional callback called when removed from an `ObjectManager` or `MultiObjectManager`.
-         * @metod onRemve
+         * @metod onRemove
          */
-        onRemve: false,
+        onRemove: false,
 
         /**
         * Called after a player action has been resolved. Resolves this entities turn.
@@ -208,20 +208,23 @@
     * @static
     */
     Entity.Types = {
-        // zombie: {
-        //     name: 'Zombie',
-        //     char: 'z',
-        //     color: 'red',
-        //     bgColor: false,
-        //     bump: function () { alert('helllloo!')}
-        // },
         slime: {
             name: 'Slime',
             char: 'e',
             color: 'red',
             bgColor: false,
-            bump: function() {
-                console.log(this.challenge.prompt);
+            bump: function(player, slime) {
+                var app = window.gameAppConnector.app;
+                app.setState({
+                    currentEnemy: slime
+                });
+            },
+            onRemove: function() {
+                // console.log('this:', this);
+                var tile = new RL.Tile(this.game, 'grass', this.x, this.y);
+                tile.explored = true;
+                this.game.map.set(this.x, this.y, tile);
+                this.game.renderer.drawTile(this.x, this.y);
             }
         }
     };

@@ -63,28 +63,48 @@ class App extends React.Component {
 
   componentDidMount() {
     this.game.renderer.draw();
+
   }
+
   // Check answer
   checkAnswer(e, input) {
-    // **These are to be used as references only, do not mutate them**
-    var _player = this.state.player;
-    var _grid = this.state.grid;
-
     // Prevent the page from refreshing
     e.preventDefault();
     // Clear the input field
     $('#answer').val('');
 
-    // If a there is a challenge on this position
-    if (this.state.currentChallenge) {
-      var correct = false;
-      // Check if the user input and the solution match up
-      if (input === this.state.currentChallenge.answer) {
-        correct = true;
+    if (this.state.currentEnemy) {
+      if (input === this.state.currentEnemy.challenge.answer) {
+        // Kill the enemy
+        this.state.currentEnemy.dead = true;
+        // Remove the enemy from the grid
+        this.game.entityManager.remove(this.state.currentEnemy);
+
+        // Increase the player's score
+
+        // Remove the enemy from the state
+        this.setState({
+          currentEnemy: undefined
+        });
       }
-      this.updateScore(correct);
     }
+
   }
+    // // **These are to be used as references only, do not mutate them**
+    // var _player = this.state.player;
+    // var _grid = this.state.grid;
+
+    // e.preventDefault();
+
+    // // If a there is a challenge on this position
+    // if (this.state.currentChallenge) {
+    //   var correct = false;
+    //   // Check if the user input and the solution match up
+    //   if (input === this.state.currentChallenge.answer) {
+    //     correct = true;
+    //   }
+    //   this.updateScore(correct);
+    // }
 
   updateScore(correct) {
     // Regardless of whether the user's answer was correct,
@@ -128,9 +148,10 @@ class App extends React.Component {
 
     if (true || Object.keys(_grid).length === this.state.rules.numSpaces) {
       // If there is a challenge, display the challenge prompt
-      if (this.state.currentChallenge) {
-        gameInfoText = this.state.currentChallenge.prompt;
+      if (this.state.currentEnemy) {
+        gameInfoText = this.state.currentEnemy.challenge.prompt;
       }
+
       // Render the gameboard, gameinfo, and text input field
       toRender = (
         <div id="app">
