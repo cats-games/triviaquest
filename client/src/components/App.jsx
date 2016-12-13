@@ -64,9 +64,9 @@ class App extends React.Component {
     });
 
     // Get challenges from API and update state
-    gameAppConnector.getChallenges(function() {
-      console.log('I was run from outside');
-    });
+    // gameAppConnector.getChallenges(function() {
+    //   console.log('I was run from outside');
+    // });
     // console.log('YES!:', gameAppConnector.challenges);
   }
 

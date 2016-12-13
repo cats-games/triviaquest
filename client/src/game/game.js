@@ -84,6 +84,9 @@ class GameAppConnector {
     this.app = app;
     this.grid = undefined;
     this.challenges = [];
+
+    // Get challenges from the server and update this.challenges
+    this.getChallenges();
   }
 
   setGrid(grid) {
@@ -93,21 +96,16 @@ class GameAppConnector {
     }
   }
 
-  getChallenges(callback) {
-    callback();
-    // $.get('/api/challenges')
-    //   .done(challenges => { // An array of challenge objects
-    //     console.log('Complete');
-    //     // // Shuffle the challenges
-    //     // challenges = shuffle(challenges);
-    //     // // Save the challenges to the state
-    //     // this.challenges = challenges;
-    //     // console.log('Hi there');
-    //   })
-    //   .fail(function(error) {
-    //     console.error('Could not get challenges:', error);
-    //   });
+  getChallenges() {
+    $.get('/api/challenges')
+      .done(function(challenges) {
+        this.challenges = challenges;
+      }.bind(this)) // Bind this to the GameAppConnector
+      .fail(function(error) {
+        console.log('Error');
+      });
   }
+
 
   drawSquare(x, y, char) {
     var gridNumber = (y * 10) + (x + 1);
