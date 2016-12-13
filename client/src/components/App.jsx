@@ -48,6 +48,12 @@ class App extends React.Component {
     // Access information about the game with this variable.
     this.game = window.game;
 
+    // Store the player health in the state
+    // The roguelike game will update this
+    this.setState({
+      playerHealth: this.game.player.health
+    });
+
     // Initial rendering of the gameboard.
     for (let i = 1; i <= this.state.numSpaces; i++) {
       _grid[i] = {
@@ -128,11 +134,11 @@ class App extends React.Component {
         };
       });
     } else {
-      // If the user's answer was incorrect, +1 to the number of fails
       // Decrement the user's health
       this.game.player.decrementPlayerHealth(this.state.damage);
+
+      // If the user's answer was incorrect, +1 to the number of fails
       this.setState((prevState, props) => {
-        // Decrement the user's health
         return {
           score: {
             attempted: prevState.score.attempted += 1,
@@ -166,7 +172,7 @@ class App extends React.Component {
   render() {
     // **Variables beginning with _ are meant ot be used as references only. Do not mutate them.**
     var _grid = this.state.grid;
-    var _health = this.game.player.health;
+    var _health = this.state.playerHealth;
     var toRender;
     var gameInfoText = "";
 

@@ -236,10 +236,14 @@
 
         decrementPlayerHealth: function(amount) {
             this.health -= amount;
+            // Update state in React App component
+            updateReactHealth(this);
         },
 
         incrementPlayerHealth: function(amount) {
             this.health += amount;
+            // Update state in React App component
+            updateReactHealth(this);
         },
 
         /**
@@ -251,6 +255,14 @@
         },
 
     };
+
+    // Update the playerHealth property on the App component's state (so hearts meter will update)
+    function updateReactHealth(player) {
+        var app = window.gameAppConnector.app;
+        app.setState({
+            playerHealth: player.health
+        });
+    }
 
     RL.Util.merge(Player.prototype, RL.Mixins.TileDraw);
     RL.Util.merge(Player.prototype, RL.Mixins.PerformableActionInterface);
