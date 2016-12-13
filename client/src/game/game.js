@@ -198,12 +198,6 @@ class GameAppConnector {
 
   }
 
-  /*
-else if (itemCharToType[char]) {
-        contents = itemCharToType[char];
-      }
-  */
-
   updateGrid() {
     this.app.setState({
       grid: this.grid
