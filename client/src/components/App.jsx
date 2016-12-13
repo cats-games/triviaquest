@@ -8,7 +8,8 @@ import AppBar from 'material-ui/AppBar';
 import Avatar from 'material-ui/Avatar';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
-import PlayerStatus from './PlayerStatus.jsx'
+import PlayerStatus from './PlayerStatus.jsx';
+import GameOver from './GameOver.jsx';
 
 
 // App should:
@@ -172,27 +173,31 @@ class App extends React.Component {
       this.lock.show();
     };
 
+
     // If there is a challenge, display the challenge prompt
     if (this.state.currentEnemy) {
       gameInfoText = this.state.currentEnemy.challenge.prompt;
-    }
-
-    // Render the gameboard, gameinfo, and text input field
-    return (
-      <div id="app">
+      // Render the gameboard, gameinfo, and text input field
+      toRender = (
+        <div id="app">
         <AppBar
           title="It's a Game!"
           showMenuIconButton={false}
           iconElementRight={<div className="right-icon"><span className="github-name">{this.state.profile ? this.state.profile.name : ''}</span><Avatar src={this.state.profile ? this.state.profile.picture : ''} size={35} backgroundColor='rgba(0,0,0,0)' /></div>}
         />
-        <div className="game-display">
-          <PlayerStatus health={_health} />
-          <Grid grid={_grid} />
-          <Gameinfo gameInfoText={gameInfoText}/>
-          <Textfield checkAnswer={this.checkAnswer.bind(this)}/>
+          <div className="game-display">
+            <PlayerStatus health={_health} />
+            <Grid grid={_grid} />
+            <Gameinfo gameInfoText={gameInfoText}/>
+            <Textfield checkAnswer={this.checkAnswer.bind(this)}/>
+            <GameOver actions={this.actions} health={this.state.player.health}/>
+          </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      // If the gameboard is not ready, display a loading statement
+      toRender = (<div id="loading">Loading . . . </div>);
+    }
   }
 }
 

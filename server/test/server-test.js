@@ -6,7 +6,7 @@ chai.use(chaiHttp);
 var server = require('../server');
 var handler = require('../request-handler');
 
-//describe tests
+// Test to check if file is being run.
 describe('app', function() {
   it('should work', function() {
     expect(true).to.be.true;
@@ -35,3 +35,9 @@ describe('server', function(){
 });
 
 // @todo: tests for setting test results
+
+/* Aside:
+If the server is running properly, you may see an error stating 3 passing / 1 failing with the message: "Uncaught error outside test suite:
+  Uncaught Error: listen EADDRINUSE :::8000"
+This is caused by trying to run the server multiple times at once. To resolve this, please make sure you do not have the server running while running these tests. These tests will run the server alone and close it when complete.
+*/
