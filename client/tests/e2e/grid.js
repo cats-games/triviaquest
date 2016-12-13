@@ -18,6 +18,7 @@ describe('Grid test', function() {
     done();
   });
 
+
   it('should contain a grid when the page is loaded', function(client) {
     client
       .url('http://localhost:8000')
@@ -29,6 +30,15 @@ describe('Grid test', function() {
       .assert.visible('#space-56.gridbox.player')
       .assert.visible('#space-25')
       .expect.element('#answer').to.be.an('input');
+  });
+
+  it('should prompt player to login with github', function() {
+    client
+      .url('http://localhost:8000')
+      .waitForElementVisible('body', 1000);
+      pause(2000);
+      client.assert.visible('#a0-onestep');
+
   });
   // Tests #2 & #3 are failing when there is an enemy or potion in space-57 as the classes identifying the player vs the player about to fight vs a player obtaining a potion are different.
   it('should move the player when the navigation keys are pressed', function(client) {
@@ -114,14 +124,17 @@ describe('Grid test', function() {
     });
   });
 
-  /*it('should end game when player is out of lives', function() {
+  it('should decrement health when response is incorrect', function() {});
+
+  it('should end game when player is out of lives', function() {
     client.url('http://localhost:8000').waitForElementVisible('body', 1000);
     client.keys('llllljkkkkkjllllljkkkkk', function(){
       client.assert.elementPresent('.gridbox.enemy');
 
-    });*/
-
+    });
   });
+
+  it('should refresh page when player selects try again after loss', function() {});
 
   after(function(client, done) {
     done();
