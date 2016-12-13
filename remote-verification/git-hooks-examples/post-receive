@@ -1,0 +1,13 @@
+#!/bin/bash
+
+while read oldrev newrev refname
+do
+
+  export DEPLOY_BRANCH=$(git rev-parse --symbolic --abbrev-ref $refname)
+  echo "pushing to '${DEPLOY_BRANCH}'  d"
+
+  sudo -E sh /usr/local/sbin/hrr20-cats-run-tests
+
+done
+
+exit 0

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+GIT_WORK_TREE=/root/build git checkout -f $DEPLOY_BRANCH
+
+cd /root/build
+mkdir -p /root/hrr20-cats/remote-verification/src/$DEPLOY_BRANCH
+cp -Rf * /root/hrr20-cats/remote-verification/src/$DEPLOY_BRANCH
+mkdir -p /root/hrr20-cats/remote-verification/test/$DEPLOY_BRANCH
+cp /root/hrr20-cats/remote-verification/test/* /root/hrr20-cats/remote-verification/test/$DEPLOY_BRANCH
+cd /root/hrr20-cats/remote-verification/test/$DEPLOY_BRANCH
+sed -i 's/..\/src/..\/..\/src\/'"$DEPLOY_BRANCH"'/g' *
+cd /root/hrr20-cats/remote-verification
+node run-tests-and-save-results.js $DEPLOY_BRANCH

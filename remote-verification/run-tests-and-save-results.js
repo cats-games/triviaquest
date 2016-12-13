@@ -1,5 +1,5 @@
 require("babel-register")({
-presets: ["airbnb", "es2015", "stage-0"]
+  presets: ["airbnb", "es2015", "stage-0"]
 });
 var Mocha = require('mocha');
 var fs = require('fs');
@@ -10,6 +10,10 @@ var request = require('request');
 // Instantiate a Mocha instance.
 var mocha = new Mocha();
 
+if (!process.argv[2]) {
+  console.error('Please provide a branch!');
+  process.exit();
+}
 var branch = process.argv[2];
 branch = branch.replace(/[\W-_]+/g,"");
 
@@ -28,19 +32,35 @@ fs.readdirSync(testDir).filter(function(file){
 
 // Run the tests.
 mocha.run(function(failures){
-  process.on('exit', function () {
+  var running = false;
+  process.on('beforeExit', function () {
+    if (running) {
+      return;
+    }
+    running = true;
     var results = {
       branch: branch,
       failures: failures,
       secret: 'cats'
     };
     if (failures > 0) {
-      request.post('http://localhost:8000/api/testresults', results);
       console.log(failures, 'Failing Tests');
     } else if (failures === 0) {
-      request.post('http://localhost:8000/api/testresults', results);
       console.log('All Tests Passed!');
     }
-    process.exit(failures);  // exit with non-zero status if there were failures
+
+    var options = {
+      method: 'POST',
+      uri: 'http://localhost:8000/api/testresults',
+      json: results
+    };
+
+    request(options, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        // nothing
+      } else {
+        console.log(error);
+      }
+    });
   });
 });

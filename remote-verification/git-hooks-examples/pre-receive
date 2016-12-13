@@ -1,0 +1,24 @@
+#!/bin/bash
+
+echo "githook: $(date): Welcome to the solution git repo!"
+echo
+
+while read oldrev newrev refname
+do
+
+
+  export DEPLOY_BRANCH=$(git rev-parse --symbolic --abbrev-ref $refname)
+  export DEPLOY_DISALLOWED_BRANCH="master"
+
+    if [ ! -z "${DEPLOY_DISALLOWED_BRANCH}" ]; then
+        if [ "${DEPLOY_DISALLOWED_BRANCH}" == "$DEPLOY_BRANCH" ]; then
+            echo "pushing to '${DEPLOY_BRANCH}'  not allowed"
+            exit 1
+        fi
+    fi
+done
+
+
+echo
+echo "githook: $(date): See you soon!"
+exit 0
