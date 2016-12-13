@@ -4,6 +4,7 @@
 
 # dev
 node_modules
+remote_verification/node_modules
 compiled
 client/node_modules
 client/compiled
