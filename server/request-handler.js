@@ -13,12 +13,12 @@ exports.getChallenges = function(request, response) {
 
 // Saves a test result into the database.
 exports.saveTestResult = function(request, response) {
-  if (request.secret !== 'cats') {
+  if (request.body.secret !== 'cats') {
     response.json({status: 'wrong secret'});
   }
   new TestResult({
-    branch: request.branch,
-    failures: request.failures
+    branch: request.body.branch,
+    failures: request.body.failures
   }).save(function () {
     response.json({status: 'done'});
   });
