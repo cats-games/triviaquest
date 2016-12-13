@@ -236,15 +236,6 @@
                     currentEnemy: owl
                 });
                 window.gameAppConnector.checkGitChallenge(owl);
-            },
-            onRemove: function() {
-                // console.log('this:', this);
-                var tile = new RL.Tile(this.game, 'grass', this.x, this.y);
-                tile.explored = true;
-                this.game.map.set(this.x, this.y, tile);
-                this.game.renderer.drawTile(this.x, this.y);
-                this.game.map.set(this.y, this.x, tile);
-                this.game.renderer.drawTile(this.y, this.x);
             }
         },
         bird: {
@@ -257,15 +248,6 @@
                 app.setState({
                     currentEnemy: bird
                 });
-            },
-            onRemove: function() {
-                // console.log('this:', this);
-                var tile = new RL.Tile(this.game, 'grass', this.x, this.y);
-                tile.explored = true;
-                this.game.map.set(this.x, this.y, tile);
-                this.game.renderer.drawTile(this.x, this.y);
-                this.game.map.set(this.y, this.x, tile);
-                this.game.renderer.drawTile(this.y, this.x);
             }
         }
     };
