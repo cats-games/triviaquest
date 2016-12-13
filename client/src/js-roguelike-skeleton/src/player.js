@@ -224,6 +224,7 @@
                     return targetTileEnt.bump(this, targetTileEnt);
                 } else if (targetTileItem) {
                     this.game.console.log('You bumped into a ' + targetTileItem.name);
+                    return targetTileItem.attachTo(this);
                 } else {
                     // targeted tile (attempting to move into)
                     var targetTile = this.game.map.get(x, y);
@@ -235,6 +236,10 @@
 
         decrementPlayerHealth: function(amount) {
             this.health -= amount;
+        },
+
+        incrementPlayerHealth: function(amount) {
+            this.health += amount;
         },
 
         /**

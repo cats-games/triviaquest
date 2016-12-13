@@ -112,13 +112,15 @@
         },
     };
 
+    var logPickUpHealing = function(entity, item) {
+        return 'You picked up a ' + item.name + ' healing ' + item.healAmount;
+    };
 
     var Defaults = {
         healing: {
             consoleColor: 'pink',
             canAttachTo: function(entity){
-                console.log('Hello mello');
-                if(this.game.player !== entity){
+                if(this.game.player !== entity){ // Can only heal player
                     return false;
                 }
                 if(entity.health >= entity.healthMax){
@@ -128,8 +130,8 @@
                 return true;
             },
             attachTo: function(entity){
-                this.game.console.logPickUpHealing(entity, this);
-                entity.heal(this.healAmount); //TOFIX:
+                this.game.console.log(logPickUpHealing(entity, this));
+                entity.incrementPlayerHealth(this.healAmount); //TOFIX:
             },
             getConsoleName: function(){
                 return {
@@ -146,6 +148,7 @@
     var makeHealingItem = function(obj){
         return RL.Util.merge(obj, Defaults.healing);
     };
+
 
     /**
     * Describes different types of tiles. Used by the Item constructor 'type' param.
