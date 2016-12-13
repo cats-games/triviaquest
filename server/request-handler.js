@@ -16,10 +16,29 @@ exports.saveTestResult = function(request, response) {
   if (request.body.secret !== 'cats') {
     response.json({status: 'wrong secret'});
   }
-  new TestResult({
+  var testResultData = {
     branch: request.body.branch,
     failures: request.body.failures
-  }).save(function () {
-    response.json({status: 'done'});
+  };
+  TestResult.findOneAndUpdate({branch: request.body.branch}, testResultData, {upsert:true}, function (err, doc) {
+    return response.json({status: 'done'});
+  });
+};
+
+exports.getTestResult = function(request, response) {
+  var branch = request.query.branch;
+  if (!branch) {
+    return response.json({error: 'no branch supplied'});
+  }
+  TestResult.findOne({branch: branch})
+  .then(function (testResult) {
+     if (testResult) {
+       return response.json(testResult)[0];
+     } else {
+       return response.json({status: 'tests not yet triggered'});
+     }
+   })
+  .catch(function (err) {
+    console.log(err);
   });
 };

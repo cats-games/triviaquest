@@ -14,5 +14,6 @@ console.log('Listening on port', port);
 app.get('/api/challenges', handler.getChallenges);
 
 app.post('/api/testresults', handler.saveTestResult);
+app.get('/api/testresults', handler.getTestResult);
 
 module.exports = app;
