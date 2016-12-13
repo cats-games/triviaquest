@@ -1,5 +1,12 @@
 #!/bin/bash
 
+
+# Add to visudo:
+#
+# git ALL = (root) NOPASSWD:SETENV: /usr/local/sbin/hrr20-cats-run-tests
+# git ALL = (root) NOPASSWD:SETENV: /bin/sh
+# git ALL = (root) NOPASSWD:SETENV: /bin/sh /usr/local/sbin/hrr20-cats-run-tests
+
 GIT_WORK_TREE=/root/build git checkout -f $DEPLOY_BRANCH
 
 cd /root/build
