@@ -114,12 +114,12 @@ describe('Grid test', function() {
     });
   });
 
-  it('should end game when player is out of lives', function() {
+  /*it('should end game when player is out of lives', function() {
     client.url('http://localhost:8000').waitForElementVisible('body', 1000);
     client.keys('llllljkkkkkjllllljkkkkk', function(){
       client.assert.elementPresent('.gridbox.enemy');
 
-    });
+    });*/
 
   });
 
@@ -129,7 +129,7 @@ describe('Grid test', function() {
 
 });
 
-client.elementIdClick(res.value.ELEMENT, function() {
+/*client.elementIdClick(res.value.ELEMENT, function() {
               client.keys("WRONG ANSWER", function() {
                 client.element('css selector', '#answer button', function(res) {
 
@@ -139,4 +139,4 @@ it('should move the player when the navigation keys are pressed', function(clien
       client.assert.elementPresent('#space-57.gridbox.player','#space-57.gridbox.fight','#space-57.gridbox.potion');
       client.assert.elementNotPresent('#space-1.gridbox.player');
     });
-  });
+  });*/
