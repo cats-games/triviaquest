@@ -32,10 +32,7 @@ class App extends React.Component {
         success: 0,
         fail: 0
       },
-      rules: { // Change these before running the game. DO NOT change these during the game.
-        numSpaces: 100, // Number of spaces on the gameboard
-        //TODO: Can probably just use this.state.numSpaces instead of the rules object
-      }
+      numSpaces: 100 // Number of spaces on the gameboard
     };
   }
 
@@ -50,7 +47,7 @@ class App extends React.Component {
     window.gameAppConnector = new GameAppConnector(this);
     this.game = window.game;
     // Everything is by default.
-    for (let i = 1; i <= this.state.rules.numSpaces; i++) {
+    for (let i = 1; i <= this.state.numSpaces; i++) {
       _grid[i] = {
         id: i,
         image: 'water'
