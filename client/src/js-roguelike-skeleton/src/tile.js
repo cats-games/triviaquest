@@ -186,8 +186,8 @@
     * @static
     */
     Tile.Types = {
-        floor: {
-            name: 'Floor',
+        grass: {
+            name: 'Grass',
             char: '.',
             color: '#444',
             bgColor: '#222',

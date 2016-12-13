@@ -11,12 +11,9 @@ import PlayerStatus from './PlayerStatus.jsx'
 
 
 // App should:
-// Grab challenges from server
+// Check player's answers to challenges
 // Keep score
-// Keep track of player position
-// Generate a random board (spaces)
-// Check for correct/incorrect answers
-// Update game based on images
+// Render on the browser a certain number of grid spaces
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -25,7 +22,7 @@ class App extends React.Component {
       // Objects with and ID, an optional challenge, and optional "image".
       grid: {},
       player: {
-        health: 100,
+        health: 100, //TODO: Can this be a property on the player entity in in rogue?
       },
       // Score object to track challenges attempted, succeeded, and failed, so we can show stats.
       score: {
@@ -35,10 +32,9 @@ class App extends React.Component {
       },
       rules: { // Change these before running the game. DO NOT change these during the game.
         numSpaces: 100, // Number of spaces on the gameboard
+        //TODO: Can probably just use this.state.numSpaces instead of the rules object
       }
     };
-    // !Don't run functions in the constructor!
-    // !Run them in componentWillMount instead!
   }
 
   ////////////////////
@@ -46,7 +42,6 @@ class App extends React.Component {
   ////////////////////
 
   componentWillMount() {
-    // Get challenges from API and update state
     var _grid = this.state.grid;
     window.gameAppConnector = new GameAppConnector(this);
     this.game = window.game;
@@ -63,31 +58,37 @@ class App extends React.Component {
         grid: _grid
       }
     });
+
   }
 
   componentDidMount() {
     this.game.renderer.draw();
+
   }
+
   // Check answer
   checkAnswer(e, input) {
-    // **These are to be used as references only, do not mutate them**
-    var _player = this.state.player;
-    var _grid = this.state.grid;
-
     // Prevent the page from refreshing
     e.preventDefault();
     // Clear the input field
     $('#answer').val('');
 
-    // If a there is a challenge on this position
-    if (this.state.currentChallenge) {
-      var correct = false;
-      // Check if the user input and the solution match up
-      if (input === this.state.currentChallenge.answer) {
-        correct = true;
+    if (this.state.currentEnemy) {
+      if (input === this.state.currentEnemy.challenge.answer) {
+        // Kill the enemy
+        this.state.currentEnemy.dead = true;
+        // Remove the enemy from the grid
+        this.game.entityManager.remove(this.state.currentEnemy);
+
+        // Increase the player's score
+
+        // Remove the enemy from the state
+        this.setState({
+          currentEnemy: undefined
+        });
       }
-      this.updateScore(correct);
     }
+
   }
 
   updateScore(correct) {
@@ -132,9 +133,10 @@ class App extends React.Component {
 
     if (true || Object.keys(_grid).length === this.state.rules.numSpaces) {
       // If there is a challenge, display the challenge prompt
-      if (this.state.currentChallenge) {
-        gameInfoText = this.state.currentChallenge.prompt;
+      if (this.state.currentEnemy) {
+        gameInfoText = this.state.currentEnemy.challenge.prompt;
       }
+
       // Render the gameboard, gameinfo, and text input field
       toRender = (
         <div id="app">
