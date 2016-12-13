@@ -9,3 +9,4 @@ compiled
 client/node_modules
 client/compiled
 client/dist
+client/selenium-debug.log
