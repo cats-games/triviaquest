@@ -4,7 +4,7 @@ var game = new RL.Game();
 var mapData = [
     "#########################################################################################################",
     "#.........#..........#......................................................e.........................#.#",
-    "#....e....#....##....#..........................................................................e.....#.#",
+    "#....e..:.#....##....#..........................................................................e.....#.#",
     "#.........+....##....#........................e....................e.........................e........#.#",
     "#.........#..........+......................................................e...................e.....#.#",
     "#.#..#..#.#..........#......................e....e....................................................#.#",
@@ -75,6 +75,10 @@ var entityCharToType = {
     'e': 'slime'
 };
 
+var itemCharToType = {
+  ':': 'potion'
+};
+
 var keyBindings = {
     up: ['UP_ARROW', 'K', 'W'],
     down: ['DOWN_ARROW', 'J', 'S'],
@@ -83,6 +87,7 @@ var keyBindings = {
 };
 
 game.map.loadTilesFromArrayString(mapData, mapCharToType, 'floor');
+game.itemManager.loadFromArrayString(mapData, itemCharToType);
 game.entityManager.loadFromArrayString(mapData, entityCharToType);
 
 // generate and assign a map object (repaces empty default)
@@ -183,9 +188,14 @@ class GameAppConnector {
     if (char === '@') {
       contents = 'player';
     } else {
-      contents = mapCharToType[char] || entityCharToType[char];
-      if (!contents) { // If the character doesn't match up to anything known
-        return;
+      if (mapCharToType[char]) {
+        contents = mapCharToType[char];
+      } else if (entityCharToType[char]) {
+        contents = entityCharToType[char];
+      } else if (itemCharToType[char]) {
+        contents = itemCharToType[char];
+      } else {
+        return; // If the character doesn't match up to anything known
       }
     }
 
