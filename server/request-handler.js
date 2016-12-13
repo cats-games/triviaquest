@@ -1,6 +1,7 @@
 // require the challenge model
 var Promise = require('bluebird');
 var Challenge = Promise.promisifyAll(require('./models/challenge'));
+var TestResult = require('./models/testResult')
 
 
 // Gets all challenges from the database
