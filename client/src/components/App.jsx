@@ -23,16 +23,14 @@ class App extends React.Component {
     this.state = {
       // Objects with and ID, an optional challenge, and optional "image".
       grid: {},
-      player: {
-        health: 100, //TODO: Can this be a property on the player entity in in rogue?
-      },
       // Score object to track challenges attempted, succeeded, and failed, so we can show stats.
       score: {
         attempted: 0,
         success: 0,
         fail: 0
       },
-      numSpaces: 100 // Number of spaces on the gameboard
+      numSpaces: 100, // Number of spaces on the gameboard
+      damage: 20
     };
   }
 
@@ -43,10 +41,14 @@ class App extends React.Component {
   componentWillMount() {
     // See https://davidwalsh.name/react-authentication
     this.createLock();
+    // **Variables beginning with _ are meant ot be used as references only. Do not mutate them.**
     var _grid = this.state.grid;
+    // Connect the roguelike-game to window so App can access it.
     window.gameAppConnector = new GameAppConnector(this);
+    // Access information about the game with this variable.
     this.game = window.game;
-    // Everything is by default.
+
+    // Initial rendering of the gameboard.
     for (let i = 1; i <= this.state.numSpaces; i++) {
       _grid[i] = {
         id: i,
@@ -89,19 +91,22 @@ class App extends React.Component {
     // Clear the input field
     $('#answer').val('');
 
+    // If the player bumped into an enemy
     if (this.state.currentEnemy) {
       if (input === this.state.currentEnemy.challenge.answer) {
         // Kill the enemy
         this.state.currentEnemy.dead = true;
         // Remove the enemy from the grid
         this.game.entityManager.remove(this.state.currentEnemy);
-
         // Increase the player's score
-
+        this.updateScore(true);
         // Remove the enemy from the state
         this.setState({
           currentEnemy: undefined
         });
+      } else {
+        // Decrement the player's score
+        this.updateScore(false);
       }
     }
 
@@ -125,9 +130,9 @@ class App extends React.Component {
     } else {
       // If the user's answer was incorrect, +1 to the number of fails
       // Decrement the user's health
+      this.game.player.decrementPlayerHealth(this.state.damage);
       this.setState((prevState, props) => {
         // Decrement the user's health
-        window.gameAppConnector.decrementPlayerHealth(20)
         return {
           score: {
             attempted: prevState.score.attempted += 1,
@@ -159,9 +164,9 @@ class App extends React.Component {
   }
 
   render() {
-    // **These are to be used as references only, do not mutate them**
+    // **Variables beginning with _ are meant ot be used as references only. Do not mutate them.**
     var _grid = this.state.grid;
-    var _health = this.state.player.health;
+    var _health = this.game.player.health;
     var toRender;
     var gameInfoText = "";
 

@@ -137,6 +137,9 @@
          */
         onRemve: false,
 
+        // Starting health points
+        health: 100,
+
         /**
         * Updates this.fov
         * @method updateFov
@@ -223,7 +226,7 @@
         },
 
         decrementPlayerHealth: function(amount) {
-
+            this.health -= amount;
         },
 
         /**
