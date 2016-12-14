@@ -16,8 +16,10 @@ var Grid = ({grid, playerPosition}) => {
           var player = playerPosition === gridNumber;
           // The type of object to render on the grid space
           var image = grid[gridNumber].image;
+          // The image category (for use with css)
+          var tile = grid[gridNumber].tile;
 
-          return (<GridSpace type={player || image} id={'space-' + gridNumber}/>);
+          return (<GridSpace type={player || image} tile={tile} id={'space-' + gridNumber}/>);
         })
       }
     </div>

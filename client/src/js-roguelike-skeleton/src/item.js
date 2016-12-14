@@ -92,7 +92,9 @@
          * @return {Bool}
          */
         canAttachTo: function(entity){
-
+            if(this.game.player !== entity){ // Only the player can use this item
+                return false;
+            }
         },
 
         /**
@@ -128,7 +130,6 @@
 
     var Defaults = {
         healing: {
-            consoleColor: 'pink',
             canAttachTo: function(entity){
                 if(this.game.player !== entity){ // Can only heal player
                     return false;
@@ -144,7 +145,6 @@
                 entity.incrementPlayerHealth(this.healAmount);
 
                 // After use, remove the item from the tile
-                // this.onRemove();
                 this.dead = true;
             },
             getConsoleName: function(){
