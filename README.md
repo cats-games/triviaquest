@@ -77,6 +77,10 @@ From client directory
 ```sh
 $gulp build
 ```
+Or, to watch for changes and build:
+```sh
+$gulp
+```
 ## View Application
 In your browser, navigate to:
 ```sh
