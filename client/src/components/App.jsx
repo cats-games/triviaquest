@@ -12,10 +12,6 @@ import PlayerStatus from './PlayerStatus.jsx';
 import GameOver from './GameOver.jsx';
 
 
-// App should:
-// Check player's answers to challenges
-// Keep score
-// Render on the browser a certain number of grid spaces
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -29,7 +25,12 @@ class App extends React.Component {
         success: 0,
         fail: 0
       },
-      numSpaces: 100, // Number of spaces on the gameboard
+    };
+
+    this.options = {
+      // Number of spaces on the gameboard
+      numSpaces: 100,
+      // How much to decrement health by
       damage: 20
     };
   }
@@ -55,7 +56,7 @@ class App extends React.Component {
     });
 
     // Initial rendering of the gameboard.
-    for (let i = 1; i <= this.state.numSpaces; i++) {
+    for (let i = 1; i <= this.options.numSpaces; i++) {
       _grid[i] = {
         id: i,
         image: 'water'
@@ -75,14 +76,14 @@ class App extends React.Component {
   }
 
   setProfile() {
-    this.lock.getProfile(this.idToken, function (err, profile) {
+    this.lock.getProfile(this.idToken, (err, profile) => {
       if (err) {
         console.log("Error loading the Profile", err);
         return;
       }
       // As soon as we have the profile data, assign the git challenges (which depend on the nickname profile data being available)
       this.setState({profile: profile}, () => {window.gameAppConnector.assignGitChallenges();});
-    }.bind(this));
+    });
   }
 
   componentDidMount() {
@@ -120,7 +121,7 @@ class App extends React.Component {
 
   updateScore(correct) {
     // Regardless of whether the user's answer was correct,
-    // +1 to the number of attempted questions
+    // Add +1 to the number of attempted questions
 
     if (correct) {
       // If the user's answer is correct, +1 to the number of successes
@@ -129,13 +130,14 @@ class App extends React.Component {
           score: {
             attempted: prevState.score.attempted += 1,
             success: prevState.score.success += 1,
-            fail: prevState.score.fail // No change
+            // No change
+            fail: prevState.score.fail
           }
         };
       });
     } else {
       // Decrement the user's health
-      this.game.player.decrementPlayerHealth(this.state.damage);
+      this.game.player.decrementPlayerHealth(this.options.damage);
 
       // If the user's answer was incorrect, +1 to the number of fails
       this.setState((prevState, props) => {
