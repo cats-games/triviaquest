@@ -3,16 +3,16 @@ var game = new RL.Game();
 
 var mapData = [
     "#########################################################################################################",
-    "#.........#..........#......................................................e.........................+Z#",
-    "#u...e..:.#....##....#..........................................................................e.....#.#",
-    "#k........+....##....#........................e....................e.........................e........#.#",
+    "#.........#..........#......................................................e.........................#Z#",
+    "#u...e..:.#....##....#..........................................................................e.....+.#",
+    "#k........+....##....#........................e....................e.........................e........#b#",
     "#p........#..........+......................................................e...................e.....#.#",
-    "#n#..#..#.#..........#......................e....e....................................................#z#",
+    "#n#..#..#.#..........#......................e....e....................................................#b#",
     "#.........#...####+#+#................................e...........e.........e.........................#.#",
-    "#.........#...#......#..........................................................................e.....#.#",
+    "#.........#...#......#..........................................................................e.....#b#",
     "#.........#...#......#.................e...........e...............e...........e......................#.#",
-    "#.........#...#......#................................................................................#.#",
-    "######################################################################+################################b#",
+    "#.........#...#......#................................................................................+.#",
+    "######################################################################+################################.#",
     "#...#...............#...............#...........#...................#...#.............................#.#",
     "#...#...#########...#...#####...#########...#####...#####...#####...#...#.............................#.#",
     "#...............#.......#...#...........#...........#...#...#.......#...#.............................#.#",
@@ -34,7 +34,7 @@ var mapData = [
     "#...#.......#...#...#...........#...........#...#.......#...............#.............................#.#",
     "#...#...#####...#####...#####...#########...#####...#...#########...#...#.............................#.#",
     "#.e.#...................#...........#...............#...............#...#.............................#.#",
-    "##########################################+##########################################################+#b#",
+    "##########################################+##########################################################+#.#",
     "#......................#.................#......#.................#.........................#.........#.#",
     "#..##################..#.#########.#.#.###.#....#.###...###########.#.######.##############.#.#######.#.#",
     "#..#................#..#.....#...#.#.#.....########.###.............#........#............#.#.#.......#.#",
@@ -136,7 +136,19 @@ class GameAppConnector {
     this.game.start();
     this.app = app;
     this.grid = undefined;
-    this.challenges = [];
+    this.challenges = {
+      bird: [],
+      owl: [],
+      slime: []
+    };
+    this.challengeTypes = {
+      // Git
+      git: 'owl',
+      // Git prep trivia
+      gitPrep: 'bird',
+      // Random trivia
+      trivia: 'slime'
+    };
 
     // Get challenges from the server and update this.challenges
     // Then, assign each slime entity a challenge
@@ -153,9 +165,14 @@ class GameAppConnector {
   getChallenges(callback) {
     $.get('/api/challenges')
       .done(function(challenges) {
-        challenges = shuffle(challenges); // Shuffle the arrangement of the challenges
         // Save the challenges
-        this.challenges = challenges;
+        challenges.forEach(function (challenge) {
+          var character = this.challengeTypes[challenge.type];
+          if (this.challenges[character] == undefined) {
+            this.challenges[character] = [];
+          }
+          this.challenges[character].push(challenge);
+        }.bind(this));
         callback();
       }.bind(this))
       .fail(function(error) {
@@ -165,45 +182,48 @@ class GameAppConnector {
 
   assignChallenges() {
     var entities = this.game.entityManager.objects;
+    var challenge;
     entities.forEach(function(entity) {
       if (entity.type === 'slime') { // Assign challenges to slimes
         // Pluck off a challenge
-        var challenge = this.challenges.pop();
-        // Assign it to the slime
-        entity.challenge = challenge;
+         challenge = this.challenges.slime.pop();
+      } else if (entity.type === 'bird') {
+         challenge = this.challenges.bird.pop();
       }
-
+      // Assign it to the entity.
+      entity.challenge = challenge;
     }.bind(this));
   }
 
   // Run this when we have the profile nickname.
   assignGitChallenges() {
-    // For now this only sets one challenge (hence the hardcoded challenge ID).
     var entities = this.game.entityManager.objects;
     entities.forEach(function(entity) {
       if (entity.type === 'owl') {
-        this.setGitChallenge(entity, 1);
+        // Set all owls to the same challenge for now.
+       // @todo: allow for multiple git challenges
+        this.setGitChallenge(entity, 0, this.challenges.owl[0].prompt);
       }
     }.bind(this));
   }
 
-  // Accessed by assignGitChallenges and by bump()
-  setGitChallenge(entity, gitChallengeId) {
+  setGitChallenge(entity, gitChallengeId, gitChallengeText) {
     // Dummy answer, these are challenges without an answer. You pass the challenge when 0 tests fail.
     // @todo: hide the answer box on git challenges
     var answer = '🤗 secret answer 🤗';
     var branch = 'challenge-' + gitChallengeId + '-' + this.app.state.profile.nickname;
     entity.challenge = {
-      prompt: 'Hoo hoo! Hoo Hoo! Git challenge! Step 1: Git clone the master branch from git@104.236.47.47:solution.git. The password is "solution". Step 2: Implement a React component in a file called "Counter.js" that renders a div with a class of "counter" and an initial value of 0. Every time the div is clicked, ensure the value is incremented by one. Step 3: whenever you are finished, push to the "' + branch + '" branch. This will trigger some tests that will take few minutes to run. Check back with me about a minute after pushing to see if the tests passed! Hoo hoo!',
+      prompt: 'Hoo hoo! Hoo Hoo! Git challenge! Step 1: Git clone the master branch from git@104.236.47.47:solution.git. The password is "solution". Step 2: ' + gitChallengeText + ' Step 3: whenever you are finished, push to the "' + branch + '" branch. This will trigger some tests that will take few minutes to run. Check back with me about a minute after pushing to see if the tests passed! Hoo hoo!',
       answer: answer
     }
     entity.gitChallengeId = gitChallengeId;
+    entity.gitChallengeText = gitChallengeText;
   }
 
   checkGitChallenge(entity) {
-    if (!entity.gitChallengeId) {
+    if (!entity.gitChallengeId || !entity.gitChallengeText) {
       console.error('error checking git challenge');
-      return
+      return;
     }
     var answer = '🤗 secret answer 🤗';
     var branch = 'challenge-' + entity.gitChallengeId + '-' + this.app.state.profile.nickname;
@@ -219,7 +239,7 @@ class GameAppConnector {
           }
           else {
             entity.challenge = {
-              prompt: 'Hoo hoo! Hoo Hoo! Almost there! ' + failures + ' tests are still failing. Try the git challenge again by pushing another solution to the "' + branch + '" branch on git@104.236.47.47:solution.git. The password is "solution". The challenge is: Implement a React component in a file called "Counter.js" that renders a div with a class of "counter" and an initial value of 0. Every time the div is clicked, ensure the value is incremented by one. Check back with me about a minute after pushing to see if the tests passed! Hoo Hoo!',
+              prompt: 'Hoo hoo! Hoo Hoo! Almost there! ' + failures + ' tests are still failing. Try the git challenge again by pushing another solution to the "' + branch + '" branch on git@104.236.47.47:solution.git. The password is "solution". The challenge is: ' + entity.gitChallengeText + ' Check back with me about a minute after pushing to see if the tests passed! Hoo Hoo!',
               answer: answer
             }
           }
@@ -270,19 +290,3 @@ class GameAppConnector {
     });
   }
 };
-
-/////////////
-// HELPERS //
-/////////////
-
-// Shuffle an array's contents
-// Used to shuffle the order of challenges received from the server
-function shuffle(array) {
-  for (var i = array.length - 1; i > 0; i--) { 
-    var j = Math.floor(Math.random() * (i + 1)); 
-    var temp = array[i]; 
-    array[i] = array[j]; 
-    array[j] = temp; 
-  } 
-  return array;
-}
