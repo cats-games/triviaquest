@@ -51,7 +51,7 @@ input{
 .game-display{
   width: 600px;
   margin: 0 auto;
-  margin-top:64px;
+  margin-top:70px;
   padding: 0;
   border: 0;
   height:auto;
@@ -182,3 +182,9 @@ input{
   padding: 5px;
   color: #fff;
 }
+#example-console-container{
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+
