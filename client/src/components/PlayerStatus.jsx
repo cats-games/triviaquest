@@ -5,8 +5,8 @@ import ReactDOM from 'react-dom';
 
 var PlayerStatus = ({health}) => {
   var hearts = [];
-  for (var i = 1; i <=5; i++) {
-    if (health >= i*20) {
+  for (var i = 1; i <= 5; i++) {
+    if (health >= i * 20) {
       hearts.push(<div className="heart-full"></div>);
     } else {
       hearts.push(<div className="heart-empty"></div>);

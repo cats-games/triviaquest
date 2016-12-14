@@ -6,12 +6,14 @@ import Textfield from './Textfield.jsx';
 import GridSpace from './GridSpace.jsx';
 
 var Grid = ({grid, playerPosition}) => {
+  // counter that starts will count squares, starting at 1
   var gridNumber = 0;
 
   return (
     <div id="grid">
       {Object.keys(grid).map(() => {
-          gridNumber++; // To start the gridNumber at 1
+          // To start the gridNumber at 1
+          gridNumber++;
           // If the player is on the current grid space
           var player = playerPosition === gridNumber;
           // The type of object to render on the grid space

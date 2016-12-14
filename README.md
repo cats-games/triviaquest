@@ -79,6 +79,20 @@ Or, to watch for changes and build:
 ```sh
 $gulp
 ```
+### The remote test verification
+This will run enzyme tests automatically on git submissions, and send the test results to the database.
+
+From remote-verification directory:
+```npm install
+```
+
+In order for this to work, set up a git user and a bare git repo with the git hooks provided in remote-verification/git-hooks-examples, with the appropriate access (see hrr20-cats-run-tests script). Replace the relevant paths where necessary.
+
+### Testing
+In the root folder for server tests, and in the client folder for end2end tests:
+```npm test
+```
+
 ## View Application
 In your browser, navigate to:
 ```sh
