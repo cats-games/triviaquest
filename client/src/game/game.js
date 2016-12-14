@@ -213,7 +213,7 @@ class GameAppConnector {
     var answer = '🤗 secret answer 🤗';
     var branch = 'challenge-' + gitChallengeId + '-' + this.app.state.profile.nickname;
     entity.challenge = {
-      prompt: 'Hoo hoo! Hoo Hoo! Git challenge! Step 1: Git clone the master branch from git@104.236.47.47:solution.git. The password is "solution". Step 2: ' + gitChallengeText + ' Step 3: whenever you are finished, push to the "' + branch + '" branch. This will trigger some tests that will take few minutes to run. Check back with me about a minute after pushing to see if the tests passed! Hoo hoo!',
+      prompt: 'Hoo hoo! Hoo Hoo! Git challenge! Step 1: Git clone the master branch from git@104.236.47.47:solutions.git. The password is "solution". Step 2: ' + gitChallengeText + ' Step 3: whenever you are finished, push to the "' + branch + '" branch. This will trigger some tests that will take few minutes to run. Check back with me about a minute after pushing to see if the tests passed! Hoo hoo!',
       answer: answer
     }
     entity.gitChallengeId = gitChallengeId;
@@ -239,7 +239,7 @@ class GameAppConnector {
           }
           else {
             entity.challenge = {
-              prompt: 'Hoo hoo! Hoo Hoo! Almost there! ' + failures + ' tests are still failing. Try the git challenge again by pushing another solution to the "' + branch + '" branch on git@104.236.47.47:solution.git. The password is "solution". The challenge is: ' + entity.gitChallengeText + ' Check back with me about a minute after pushing to see if the tests passed! Hoo Hoo!',
+              prompt: 'Hoo hoo! Hoo Hoo! Almost there! ' + failures + ' tests are still failing. Try the git challenge again by pushing another solution to the "' + branch + '" branch on git@104.236.47.47:solutions.git. The password is "solution". The challenge is: ' + entity.gitChallengeText + ' Check back with me about a minute after pushing to see if the tests passed! Hoo Hoo!',
               answer: answer
             }
           }
