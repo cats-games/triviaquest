@@ -5,7 +5,7 @@
 ## Team
 
   - __Product Owner__: Dan Burke
-  - __Scrum Master__: Maureen E Mirville
+  - __Scrum Master__: Maureen E. Mirville
   - __Development Team Members__: Cai Lu, Stefan Ruijsenaars, Stephen Om
 
 ## Table of Contents
@@ -13,8 +13,7 @@
 1. [Usage](#Usage)
 1. [Requirements](#requirements)
 1. [Development](#development)
-    1. [Installing Dependencies](#installing-dependencies)
-    1. [Tasks](#tasks)
+    a. [Installing Dependencies](#installing-dependencies)
 1. [Team](#team)
 1. [Contributing](#contributing)
 
@@ -51,7 +50,7 @@ From within the client directory:
 ```sh
 npm install
 ```
-## Starting Up MongoDB
+### Starting Up MongoDB
 For MacOS
 ```sh
 $sudo mongod
@@ -61,18 +60,17 @@ For Windows Users, create a data folder and run the following commands in two se
 $"C:\Program Files\MongoDB\Server\3.4\bin\mongod.exe" --dbpath "C:\Users\NAME\Documents\data"
 $"C:\Program Files\MongoDB\Server\3.4\bin\mongo.exe"
 ```
-
-## Running Server
+### Running the Server
 From server directory
 ```sh
 $node server.js
 ```
-## Seed Application
+### Seeding the Application
 From root directory
 ```sh
 $node seed.js
 ```
-## Compile and Build
+### Compiling and Building
 From client directory
 ```sh
 $gulp build
@@ -86,7 +84,5 @@ In your browser, navigate to:
 ```sh
 http://localhost:8000
 ```
-
 ## Contributing
-
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
