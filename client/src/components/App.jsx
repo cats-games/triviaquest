@@ -176,27 +176,6 @@ class App extends React.Component {
     var toRender;
     var gameInfoText = "";
 
-    var changeChar = function(theme){
-      //select background, add/remove class for background color
-      if(theme === 0){
-        console.log('fasldkals;jfa;sle', theme);
-        document.querySelector('body').style.backgroundColor = '#F7F9FD';
-        document.querySelector('.player').style.backgroundImage = 'url("../img/p1_stand.png"), url("../img/tile-by-Ivan-voirol.png")';
-      }else if(theme === 1){
-        console.log('fasldkals;jfa;sle', theme);
-        document.querySelector('body').style.backgroundColor = '#F7F9FD';
-        document.querySelector('.player').style.backgroundImage = 'url("../img/knight.png"), url("../img/tile-by-Ivan-voirol.png")';
-      }else if(theme === 2){
-        console.log('fasldkals;jfa;sle', theme);
-        document.querySelector('body').style.backgroundColor = '#F7F9FD';
-        document.querySelector('.player').style.backgroundImage = 'url("../img/manSaber.png"), url("../img/tile-by-Ivan-voirol.png")';
-      }else if(theme === 3){
-        console.log('fasldkals;jfa;sle', theme);
-        document.querySelector('body').style.backgroundColor = '#222';
-        document.querySelector('.player').style.backgroundImage = 'url("../img/ninja.png"), url("../img/tile-by-Ivan-voirol.png")';
-      }
-    };
-
     // Show login screen if user is not yet logged in.
     if (!this.idToken) {
       this.lock.show();
@@ -214,18 +193,6 @@ class App extends React.Component {
         iconElementRight={<div className="right-icon"><span className="github-name">{this.state.profile ? this.state.profile.name : ''}</span><Avatar src={this.state.profile ? this.state.profile.picture : ''} size={35} backgroundColor='rgba(0,0,0,0)' /></div>}
       />
         <div className="game-display">
-          <FlatButton className="charSelect"
-          label=<img src="../img/knight.png"/>
-          onClick={()=>changeChar(1)}
-          />
-          <FlatButton className="charSelect"
-          label=<img src="../img/manSaber.png"/>
-          onClick={()=>changeChar(2)}
-          />
-          <FlatButton className="charSelect"
-          label=<img src="../img/ninja.png"/>
-          onClick={()=>changeChar(3)}
-          />
           <PlayerStatus health={_health} id="heart-display" />
           <Grid grid={_grid} />
           <Gameinfo id="gameinfo" gameInfoText={gameInfoText}/>

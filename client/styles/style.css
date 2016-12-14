@@ -133,64 +133,69 @@ input{
   margin: 0 auto;
   padding:20px;
 }
-.slime {
-  background-image: url("../img/slimeWalk2.png"), url("../img/tile-by-Ivan-voirol.png");
+
+.tile {
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% auto;
+}
+
+.entity {
   background-repeat: no-repeat, no-repeat;
   background-position: center center, center center;
   background-size: 25px auto, 150px auto;
+}
+
+.item {
+  background-repeat: no-repeat, no-repeat;
+  background-position: center center, center center;
+  background-size: 25px auto, 150px auto;
+}
+
+.slime {
+  background-image: url("../img/slimeWalk2.png"), url("../img/tile-by-Ivan-voirol.png");
 }
 .fight {
   background-image: url("../img/p1_hurt.png"), url("../img/tile-by-Ivan-voirol.png");
-  background-repeat: no-repeat, no-repeat;
-  background-position: center center, center center;
-  background-size: 25px auto, 150px auto;
 }
 .potion {
   background-image: url("../img/potion.png"), url("../img/tile-by-Ivan-voirol.png");
-  background-repeat: no-repeat, no-repeat;
-  background-position: center center, center center;
-  background-size: 25px auto, 150px auto;
 }
 .water {
   background: #000;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: 100% auto;
 }
 .wall {
   background-image: url("../img/stoneWall.png");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: 100% auto;
 }
 .door {
   background-image: url("../img/stoneWallDoor.png");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: 100% auto;
 }
 .door-open {
   background-image: url("../img/stoneWallDoorOpen.png");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: 100% auto;
 }
 
 .owl {
   background-image: url("../img/owl.png"), url("../img/tile-by-Ivan-voirol.png");
-  background-repeat: no-repeat, no-repeat;
-  background-position: center center, center center;
   background-size: 50px auto, 150px auto;
 }
-
 
 .bird {
   background-image: url("../img/bird.png"), url("../img/tile-by-Ivan-voirol.png");
-  background-repeat: no-repeat, no-repeat;
-  background-position: center center, center center;
   background-size: 50px auto, 150px auto;
 }
 
+.ninja {
+  background-image: url("../img/ninja.png"), url("../img/tile-by-Ivan-voirol.png");
+}
+.knight {
+  background-image: url("../img/knight.png"), url("../img/tile-by-Ivan-voirol.png");
+}
+.pirate {
+  background-image: url("../img/manSaber.png"), url("../img/tile-by-Ivan-voirol.png");
+}
+.pika {
+  background-image: url("../img/pika.png"), url("../img/tile-by-Ivan-voirol.png");
+}
 .right-icon img {
   padding: 5px;
 }
