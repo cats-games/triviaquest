@@ -192,7 +192,7 @@
 },
 {
   "type": "git",
-  "prompt": "Implement a React component in a file called "Counter.js" that renders a div with a class of "counter" and an initial value of 0. Every time the div is clicked, ensure the value is incremented by one.",
+  "prompt": "Implement a React component in a file called \"Counter.js\" that renders a div with a class of \"counter\" and an initial value of 0. Every time the div is clicked, ensure the value is incremented by one.",
   "answer": "secret answer!",
   "level": 5
 },
