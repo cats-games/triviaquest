@@ -200,4 +200,14 @@
   "type": "gitPrep",
   "prompt": "How do you push in git?",
   "answer": "git push"
+},
+{
+  "type": "gitPrep",
+  "prompt": "How do you pull in git?",
+  "answer": "git pull"
+},
+{
+  "type": "gitPrep",
+  "prompt": "How do you checkout a new branch in git? git checkout -? (enter the letter that should go where the question mark is)",
+  "answer": "b"
 }]
