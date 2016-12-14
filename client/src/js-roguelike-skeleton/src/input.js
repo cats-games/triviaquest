@@ -107,6 +107,11 @@
         * @return bool
         */
         handleEvent: function(event) {
+            // ignore if focus area is an input box
+            var hasFocus = $('#answer').is(':focus');
+            if (hasFocus) {
+                return true;
+            }
             // ignore if modifer keys pressed
             if(event.ctrlKey || event.shiftKey || event.altKey || event.metaKey){
                 return true;
