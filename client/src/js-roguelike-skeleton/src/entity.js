@@ -279,6 +279,16 @@
                 document.querySelector('body').style.backgroundColor = '#F7F9FD';
                 document.querySelector('.player').style.backgroundImage = 'url("../../../img/manSaber.png"), url("../../../img/tile-by-Ivan-voirol.png")';
             }
+        },
+        pikachu: {
+            name: 'Pikachu',
+            char: 'u',
+            color: 'yellow',
+            bgColor: false,
+            bump: function() {
+                document.querySelector('body').style.backgroundColor = '#F7F9FD';
+                document.querySelector('.player').style.backgroundImage = 'url("../../../img/pika.png"), url("../../../img/tile-by-Ivan-voirol.png")';
+            }
         }
     };
 
