@@ -180,7 +180,7 @@ input{
 }
 
 .bird {
-  background-image: url("../img/bird.gif"), url("../img/tile-by-Ivan-voirol.png");
+  background-image: url("../img/snakeRed.png"), url("../img/tile-by-Ivan-voirol.png");
   background-size: 50px auto, 150px auto;
 }
 
