@@ -3,16 +3,16 @@ var game = new RL.Game();
 
 var mapData = [
     "#########################################################################################################",
-    "#.........#..........#......................................................e.........................#.#",
+    "#.........#..........#......................................................e.........................+Z#",
     "#....e..:.#....##....#..........................................................................e.....#.#",
     "#.........+....##....#........................e....................e.........................e........#.#",
     "#.........#..........+......................................................e...................e.....#.#",
-    "#.#..#..#.#..........#......................e....e....................................................#.#",
+    "#.#..#..#.#..........#......................e....e....................................................#z#",
     "#.........#...####+#+#................................e...........e.........e.........................#.#",
     "#.........#...#......#..........................................................................e.....#.#",
     "#.........#...#......#.................e...........e...............e...........e......................#.#",
     "#.........#...#......#................................................................................#.#",
-    "######################################################################+################################.#",
+    "######################################################################+################################b#",
     "#...#...............#...............#...........#...................#...#.............................#.#",
     "#...#...#########...#...#####...#########...#####...#####...#####...#...#.............................#.#",
     "#...............#.......#...#...........#...........#...#...#.......#...#.............................#.#",
@@ -34,7 +34,7 @@ var mapData = [
     "#...#.......#...#...#...........#...........#...#.......#...............#.............................#.#",
     "#...#...#####...#####...#####...#########...#####...#...#########...#...#.............................#.#",
     "#.e.#...................#...........#...............#...............#...#.............................#.#",
-    "##########################################+##########################################################+#.#",
+    "##########################################+##########################################################+#b#",
     "#......................#.................#......#.................#.........................#.........#.#",
     "#..##################..#.#########.#.#.###.#....#.###...###########.#.######.##############.#.#######.#.#",
     "#..#................#..#.....#...#.#.#.....########.###.............#........#............#.#.#.......#.#",
@@ -70,7 +70,9 @@ var mapCharToType = {
 };
 
 var entityCharToType = {
-    'e': 'slime'
+    'e': 'slime',
+    'Z': 'owl',
+    'b': 'bird'
 };
 
 var itemCharToType = {
@@ -166,7 +168,62 @@ class GameAppConnector {
         // Assign it to the slime
         entity.challenge = challenge;
       }
+
     }.bind(this));
+  }
+
+  // Run this when we have the profile nickname.
+  assignGitChallenges() {
+    // For now this only sets one challenge (hence the hardcoded challenge ID).
+    var entities = this.game.entityManager.objects;
+    entities.forEach(function(entity) {
+      if (entity.type === 'owl') {
+        this.setGitChallenge(entity, 1);
+      }
+    }.bind(this));
+  }
+
+  // Accessed by assignGitChallenges and by bump()
+  setGitChallenge(entity, gitChallengeId) {
+    // Dummy answer, these are challenges without an answer. You pass the challenge when 0 tests fail.
+    // @todo: hide the answer box on git challenges
+    var answer = '🤗 secret answer 🤗';
+    var branch = 'challenge-' + gitChallengeId + '-' + this.app.state.profile.nickname;
+    entity.challenge = {
+      prompt: 'Hoo hoo! Hoo Hoo! Git challenge! Step 1: Git clone the master branch from git@104.236.47.47:solution.git. The password is "solution". Step 2: Implement a React component in a file called "Counter.js" that renders a div with a class of "counter" and an initial value of 0. Every time the div is clicked, ensure the value is incremented by one. Step 3: whenever you are finished, push to the "' + branch + '" branch. This will trigger some tests that will take few minutes to run. Check back with me about a minute after pushing to see if the tests passed! Hoo hoo!',
+      answer: answer
+    }
+    entity.gitChallengeId = gitChallengeId;
+  }
+
+  checkGitChallenge(entity) {
+    if (!entity.gitChallengeId) {
+      console.error('error checking git challenge');
+      return
+    }
+    var answer = '🤗 secret answer 🤗';
+    var branch = 'challenge-' + entity.gitChallengeId + '-' + this.app.state.profile.nickname;
+    $.get('/api/testresults', {branch: branch})
+      .done(function(results) {
+        if (results.branch === branch) {
+          var failures = results.failures;
+          if (failures === 0) {
+            window.game.console.log('All tests passed! Congratulations, you passed the challenge!');
+            entity.dead = true;
+            window.game.entityManager.update();
+            this.app.setState({currentEnemy: undefined});
+          }
+          else {
+            entity.challenge = {
+              prompt: 'Hoo hoo! Hoo Hoo! Almost there! ' + failures + ' tests are still failing. Try the git challenge again by pushing another solution to the "' + branch + '" branch on git@104.236.47.47:solution.git. The password is "solution". The challenge is: Implement a React component in a file called "Counter.js" that renders a div with a class of "counter" and an initial value of 0. Every time the div is clicked, ensure the value is incremented by one. Check back with me about a minute after pushing to see if the tests passed! Hoo Hoo!',
+              answer: answer
+            }
+          }
+        }
+      }.bind(this))
+      .fail(function(error) {
+         console.log('Error');
+      });
   }
 
   //////////////
