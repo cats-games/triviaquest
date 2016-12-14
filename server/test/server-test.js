@@ -5,6 +5,7 @@ var chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 var server = require('../server');
 var handler = require('../request-handler');
+var db = require('../../config/db');
 
 // Test to check if file is being run.
 describe('app', function() {
@@ -31,6 +32,17 @@ describe('server', function(){
       res.body[0].level.should.be.a('number');
       done();
     });
+  });
+});
+describe('results', function(){
+  it('should save results from challenge', function(){
+    chai.request(db)
+    .get('/api/testresults')
+    .end(function(err, res){
+      expect(req.body.secret).to.not.equal('cats');
+      res.body.branch.should.be.a('string');
+      done();
+    })
   });
 });
 
