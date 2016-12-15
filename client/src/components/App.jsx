@@ -174,7 +174,7 @@ class App extends React.Component {
   }
 
   swapProfileView() {
-    // Swaps out grid with player profil
+    // Swaps out grid with player view
     this.state.showPlayerProfile ? this.setState({showPlayerProfile: false}) : this.setState({showPlayerProfile: true});
   }
 
