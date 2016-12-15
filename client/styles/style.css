@@ -48,7 +48,7 @@ input{
   right: 0;
   margin: auto;
 }
-.game-display{
+.game-display{  border: 1px solid black;
   width: 600px;
   margin: 0 auto;
   margin-top:70px;
@@ -207,5 +207,8 @@ input{
 #example-console-container{
   text-align: center;
   margin-bottom: 5px;
+}
+.hidden{
+  display: none;
 }
 

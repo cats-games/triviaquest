@@ -10,7 +10,7 @@ import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import PlayerStatus from './PlayerStatus.jsx';
 import GameOver from './GameOver.jsx';
-
+import UserProfile from './UserProfile.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -25,6 +25,8 @@ class App extends React.Component {
         success: 0,
         fail: 0
       },
+      // changes state to swap between game view and profile view
+      showPlayerProfile: false
     };
 
     this.options = {
@@ -72,7 +74,7 @@ class App extends React.Component {
   }
 
   createLock() {
-    this.lock = new Auth0Lock('rpA1ER3Q4mTCdhol9P1h1lPF2vhaTOAL', 'stefanr.auth0.com');
+    this.lock = new Auth0Lock('ITJ9uy1UUcFlT13R31uKWEP06hII7eZ0', 'tretuna.auth0.com');
   }
 
   setProfile() {
@@ -171,6 +173,11 @@ class App extends React.Component {
     return idToken;
   }
 
+  swapProfileView() {
+    // Swaps out grid with player profil
+    this.state.showPlayerProfile ? this.setState({showPlayerProfile: false}) : this.setState({showPlayerProfile: true});
+  }
+
   render() {
     // **Variables beginning with _ are meant ot be used as references only. Do not mutate them.**
     var _grid = this.state.grid;
@@ -192,11 +199,12 @@ class App extends React.Component {
       <AppBar
         title="It's a Game!"
         showMenuIconButton={false}
-        iconElementRight={<div className="right-icon"><span className="github-name">{this.state.profile ? this.state.profile.name : ''}</span><Avatar src={this.state.profile ? this.state.profile.picture : ''} size={35} backgroundColor='rgba(0,0,0,0)' /></div>}
+        iconElementRight={<div className="right-icon"><span className="github-name">{this.state.profile ? this.state.profile.name : ''}</span><a href="#" onClick={this.swapProfileView.bind(this)}><Avatar src={this.state.profile ? this.state.profile.picture : 'Profile'} size={35} backgroundColor='rgba(0,0,0,0)' /></a></div>}
       />
-        <div className="game-display">
+
+        <div className= "game-display">
           <PlayerStatus health={_health} id="heart-display" />
-          <Grid grid={_grid} />
+          {this.state.showPlayerProfile ? (<UserProfile />) : (<Grid grid={_grid} />)}
           <Gameinfo id="gameinfo" gameInfoText={gameInfoText}/>
           <Textfield checkAnswer={this.checkAnswer.bind(this)}/>
           <GameOver actions={this.actions} health={_health}/>
