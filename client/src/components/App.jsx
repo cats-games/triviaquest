@@ -72,7 +72,7 @@ class App extends React.Component {
   }
 
   createLock() {
-    this.lock = new Auth0Lock('rpA1ER3Q4mTCdhol9P1h1lPF2vhaTOAL', 'stefanr.auth0.com');
+    this.lock = new Auth0Lock('ITJ9uy1UUcFlT13R31uKWEP06hII7eZ0', 'tretuna.auth0.com');
   }
 
   setProfile() {
