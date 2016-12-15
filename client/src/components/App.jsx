@@ -10,7 +10,7 @@ import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import PlayerStatus from './PlayerStatus.jsx';
 import GameOver from './GameOver.jsx';
-
+import UserProfile from './UserProfile.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -25,6 +25,8 @@ class App extends React.Component {
         success: 0,
         fail: 0
       },
+      // changes state to swap between game view and profile view
+      showPlayerProfile: false
     };
 
     this.options = {
@@ -171,6 +173,11 @@ class App extends React.Component {
     return idToken;
   }
 
+  swapProfileView() {
+    // Swaps out grid with player view
+    this.state.showPlayerProfile ? this.setState({showPlayerProfile: false}) : this.setState({showPlayerProfile: true});
+  }
+
   render() {
     // **Variables beginning with _ are meant ot be used as references only. Do not mutate them.**
     var _grid = this.state.grid;
@@ -189,14 +196,15 @@ class App extends React.Component {
     // Render the gameboard, gameinfo, and text input field
     return (
       <div id="app">
-      <AppBar
-        title="It's a Game!"
-        showMenuIconButton={false}
-        iconElementRight={<div className="right-icon"><span className="github-name">{this.state.profile ? this.state.profile.name : ''}</span><Avatar src={this.state.profile ? this.state.profile.picture : ''} size={35} backgroundColor='rgba(0,0,0,0)' /></div>}
-      />
-        <div className="game-display">
+        <AppBar
+          title="It's a Game!"
+          showMenuIconButton={false}
+          iconElementRight={<div className="right-icon"><span className="github-name">{this.state.profile ? this.state.profile.name : ''}</span><a href="#" onClick={this.swapProfileView.bind(this)}><Avatar src={this.state.profile ? this.state.profile.picture : 'Profile'} size={35} backgroundColor='rgba(0,0,0,0)' /></a></div>}
+        />
+
+        <div className= "game-display">
           <PlayerStatus health={_health} id="heart-display" />
-          <Grid grid={_grid} />
+          {this.state.showPlayerProfile ? (<UserProfile state={this.state} highScores={[100, 100, 100, 100, 100, 100, 100, 100, 100, 100]} />) : (<Grid grid={_grid} />)}
           <Gameinfo id="gameinfo" gameInfoText={gameInfoText}/>
           <Textfield checkAnswer={this.checkAnswer.bind(this)}/>
           <GameOver actions={this.actions} health={_health}/>
