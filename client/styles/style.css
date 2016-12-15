@@ -1,3 +1,7 @@
+*{
+  font-family: 'Electrolize', sans-serif;
+  color: #FFF;
+}
 body {
   background: #F7F9FD;
   color:#666;
@@ -26,6 +30,13 @@ input{
   padding:0;
   border:0;
   width:100%;
+}
+a{
+  text-decoration: none;
+  color: #FFF;
+}
+a:hover{
+  color: #FFF;
 }
 .textbox{
   margin:0;
@@ -203,12 +214,38 @@ input{
   padding: 5px;
   color: #fff;
 }
-
+#profile-footer{
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+}
 #example-console-container{
   text-align: center;
-  margin-bottom: 5px;
 }
 .hidden{
   display: none;
 }
+#user-profile{
+  background-color: #000;
+}
+#avatar{
+  text-align: center;
+}
+#curr-score-board{
+  text-align: left;
+  padding-left: 10%;
+}
+#high-score-board{
+  text-align: center;
+}
+.high-score-header{
+  text-decoration: underline;
+}
+#nav-dropdown{
+  display:
+}
+.main-nav{
+  background-color: #000;
+}
+
 
