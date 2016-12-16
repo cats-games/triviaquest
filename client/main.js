@@ -23,7 +23,7 @@ const muiTheme = getMuiTheme({
     height: 5,
   },
   palette: {
-    primary1Color: 'black'
+    primary1Color: 'rgba(0, 0, 0, 0)'
   }
 });
 
