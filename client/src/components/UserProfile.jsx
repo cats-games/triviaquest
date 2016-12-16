@@ -4,7 +4,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Avatar from 'material-ui/Avatar';
 
-var UserProfile = ({state, highScores, swapProfileView, logout}) => {
+var UserProfile = ({state, swapProfileView, logout}) => {
   // Want to make the avatar img change when player changes charactors...
   return (
     <div id= "user-profile">
@@ -30,9 +30,19 @@ var UserProfile = ({state, highScores, swapProfileView, logout}) => {
       </div>
       <div id= "high-score-board">
         <div className= "high-score-header">High Scores</div>
+        <hr/>
         <div className= "high-scores">
-          {highScores.map(val =>
-            <div className= "high-score">{val} on 12/24/1980</div>
+          {state.highScores.map(highScore =>
+            <div className= "high-score">
+              attempted: <span>{highScore.attempted}</span>
+              <br/>
+              success: <span>{highScore.success}</span>
+              <br/>
+              fail: <span>{highScore.fail}</span>
+              <br/>
+              world: <span>{highScore.world}</span>
+              <hr/>
+            </div>
           )}
         </div>
       </div>

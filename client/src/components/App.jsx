@@ -29,7 +29,28 @@ class App extends React.Component {
       // changes state to swap between game view and profile view
       showPlayerProfile: false,
       freePlay: false,
-      currentWorld: 'The coolest place ever!' // !!! Needs to be updated to get the current world !!!
+      currentWorld: 'Earth', // !!! Needs to be updated to get the current world !!!
+      highScores: [
+      // Dummy data for rendering, will come from DB.
+        {
+          attempted: '0',
+          success: '10',
+          fail: '0',
+          world: 'Earth'
+        },
+        {
+          attempted: '10',
+          success: '10',
+          fail: '0',
+          world: 'Earth'
+        },
+        {
+          attempted: '10',
+          success: '10',
+          fail: '0',
+          world: 'Earth'
+        }
+      ]
     };
 
     this.options = {
@@ -180,6 +201,10 @@ class App extends React.Component {
 
   logout() {
     localStorage.removeItem('id_token');
+
+    // Make an ajax call to the server here to save user information.
+      // On success call reload.
+    console.log('!!HERE IS WHERE TO ADD FUNCTIONALITY FOR SAVE USERINFO!!');
     location.reload();
   }
 
@@ -204,7 +229,12 @@ class App extends React.Component {
     if (!this.idToken && !this.state.freePlay) {
       this.setState({freePlay: true});
       this.lock.show();
-    };
+    } else {
+      // Make ajax call to server to get user information for loading.
+        // On success do the return statement below,
+        // Note -> For now send the grid to the DB for the current board.
+      console.log('!!HERE IS WHERE TO ADD FUNCTIONALITY FOR LOAD USERINFO!!');
+    }
     // If there is a challenge, display the challenge prompt
     if (this.state.currentEnemy) {
       gameInfoText = this.state.currentEnemy.challenge.prompt;
@@ -220,7 +250,7 @@ class App extends React.Component {
         <div className= "game-display">
           <PlayerStatus health={_health} id="heart-display" />
           <Grid grid={_grid} state={this.state} />
-          {this.state.showPlayerProfile ? (<UserProfile state={this.state} swapProfileView={this.swapProfileView.bind(this)} logout={this.logout.bind(this)} highScores={[100, 100, 100, 100, 100, 100, 100, 100, 100, 100]} />) : ''}
+          {this.state.showPlayerProfile ? (<UserProfile state={this.state} swapProfileView={this.swapProfileView.bind(this)} logout={this.logout.bind(this)} />) : ''}
           <Gameinfo id="gameinfo" gameInfoText={gameInfoText}/>
           <Textfield checkAnswer={this.checkAnswer.bind(this)}/>
           <GameOver actions={this.actions} health={_health}/>
