@@ -20,10 +20,10 @@ function main() {
 
 const muiTheme = getMuiTheme({
   appBar: {
-    height: 50,
+    height: 5,
   },
-  palette: { 
-    primary1Color: blue300
+  palette: {
+    primary1Color: 'black'
   }
 });
 
