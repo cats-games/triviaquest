@@ -5,21 +5,6 @@ import ReactDOM from 'react-dom'
 import Avatar from 'material-ui/Avatar';
 
 var UserProfile = ({state, highScores, swapProfileView, logout}) => {
-  const styles = {
-    h3: {
-      marginTop: 20,
-      fontWeight: 400,
-    },
-    block: {
-      display: 'flex',
-    },
-    block2: {
-      margin: 10,
-    },
-    pre: {
-      overflow: 'hidden', // Fix a scrolling issue on iOS.
-    },
-  };
   // Want to make the avatar img change when player changes charactors...
   return (
     <div id= "user-profile">
