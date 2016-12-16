@@ -11,7 +11,7 @@ var Grid = ({grid, playerPosition}) => {
 
   return (
     <div id="grid">
-      {Object.keys(grid).map(() => {
+      {Object.keys(grid).map((i) => {
           // To start the gridNumber at 1
           gridNumber++;
           // If the player is on the current grid space
@@ -21,7 +21,7 @@ var Grid = ({grid, playerPosition}) => {
           // The image category (for use with css)
           var tile = grid[gridNumber].tile;
 
-          return (<GridSpace type={player || image} tile={tile} id={'space-' + gridNumber}/>);
+          return (<GridSpace type={player || image} tile={tile} id={'space-' + gridNumber} key={i}/>);
         })
       }
     </div>

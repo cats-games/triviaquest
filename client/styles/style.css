@@ -21,7 +21,8 @@ form{
   margin:0px;
 }
 input{
-  background-color:#fff;
+  background-color:white;
+  color:white;
   margin:0;
   padding:0;
   border:0;
@@ -29,10 +30,11 @@ input{
 }
 .textbox{
   margin:0;
-  border:0;
+  border:2;
   padding:0;
-  background-color:black;
+  background-color:white;
   width:598px;
+  color:white;
 }
 .submit-button{
   margin:0;
@@ -41,12 +43,18 @@ input{
   width:100%;
 }
 #main{
+  z-index: 10;
   position: absolute;
-  top:0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
+  top: 8%;
+  left: 37%;
+  text-align: center;
+}
+.swords{
+
+  z-index: 1;
+  position: absolute;
+  top: 0%;
+  left: 0%;
 }
 .game-display{
   width: 600px;
@@ -76,7 +84,7 @@ input{
   /*align-self: stretch; same as alignt items but for individual box*/
   /*flex:1;*/
   height: 50px;
-  color:#FFF;
+  color:transparent;
   background-color:#999;
   background-image: url("../img/tile-by-Ivan-voirol.png");
   background-repeat: no-repeat
@@ -95,7 +103,7 @@ input{
 }
 #heart-display{
   display:flex;
-  background-color:#000;
+  background-color: transparent;
   padding:10px;
 }
 .heart-full{
@@ -116,20 +124,19 @@ input{
 }
 #textfield{
   background-color:white;
-  color:white;
-  font-family: Courier New,Courier,Lucida Sans Typewriter,Lucida Typewriter,monospace;
   width: 600px;
   margin: 0 auto;
   margin: 1;
   padding:0px;
   text-align: center;
 }
+
 #gameinfo{
-  background-color:white;
-  color: black;
+  background-color:transparent;
+  color: transparent;
   width: 600px;
   min-height:50px;
-  color:black;
+  color:white;
   margin: 0 auto;
   padding:20px;
 }
