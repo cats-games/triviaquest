@@ -197,7 +197,7 @@ class App extends React.Component {
     var gameInfoText = "";
 
     const style = {
-      margin: 12
+      margin:47
     };
 
     // Show login screen if user is not yet logged in.
@@ -213,9 +213,8 @@ class App extends React.Component {
     return (
       <div id="app">
         <AppBar
-          title="It's a Game!"
           showMenuIconButton={false}
-          iconElementRight={this.state.profile ? <div className="right-icon"><span className="github-name">{this.state.profile ? this.state.profile.name : ''}</span><a href="#" onClick={this.swapProfileView.bind(this)}><Avatar src={this.state.profile.picture} size={35} backgroundColor='rgba(0,0,0,0)' /></a></div> : <RaisedButton type="submit" label="SIGN UP!" style={style} onClick={this.logout} />}
+          iconElementRight={this.state.profile ? <div className="right-icon"><span className="github-name">{this.state.profile ? this.state.profile.name : ''}</span><a href="#" onClick={this.swapProfileView.bind(this)}><Avatar src={this.state.profile.picture} size={35} backgroundColor='transparent' /></a></div> : <RaisedButton type="submit" label="SIGN UP!" style={style} onClick={this.logout} />}
         />
         <div className= "game-display">
           <PlayerStatus health={_health} id="heart-display" />
