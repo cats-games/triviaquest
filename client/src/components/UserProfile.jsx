@@ -35,7 +35,7 @@ var UserProfile = ({state, highScores, swapProfileView, logout}) => {
           Current Score: <span>One Million</span>
         </div>
         <div className= "current-world">
-          Current World: <span>Oz</span>
+          Current World: <span>{state.currentWorld}</span>
         </div>
       </div>
       <div id= "high-score-board">
