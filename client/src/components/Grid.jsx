@@ -5,7 +5,7 @@ import Gameinfo from './Gameinfo.jsx';
 import Textfield from './Textfield.jsx';
 import GridSpace from './GridSpace.jsx';
 
-var Grid = ({grid, playerPosition}) => {
+var Grid = ({grid, playerPosition, state}) => {
   // counter that starts will count squares, starting at 1
   var gridNumber = 0;
 

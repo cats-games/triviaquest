@@ -1,7 +1,8 @@
 'use strict'
 
-import React from 'react';
+import React from 'react'
 import ReactDOM from 'react-dom'
+import Avatar from 'material-ui/Avatar';
 
 var UserProfile = ({state, highScores, swapProfileView, logout}) => {
   const styles = {
@@ -24,18 +25,22 @@ var UserProfile = ({state, highScores, swapProfileView, logout}) => {
     <div id= "user-profile">
       <div id= "avatar">
         <div>
-          <img src={state.currentAvatar}></img>
+          <Avatar src={state.profile.picture} size={150} backgroundColor='rgba(0,0,0,0)' />
         </div>
         <div>
-          <span className= "github-name">{state.profile ? state.profile.name : ''}</span>
+          <span className= "github-name">{state.profile.name}</span>
         </div>
       </div>
       <div id= "curr-score-board">
         <div className= "current-score">
-          Current Score: <span>One Million</span>
+          attempted: {state.score.attempted},
+          <br/>
+          success: {state.score.success},
+          <br/>
+          fail: {state.score.fail}
         </div>
         <div className= "current-world">
-          Current World: <span>{state.currentWorld}</span>
+          world: <span>{state.currentWorld}</span>
         </div>
       </div>
       <div id= "high-score-board">
