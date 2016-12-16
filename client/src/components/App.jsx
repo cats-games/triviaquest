@@ -11,6 +11,7 @@ import IconButton from 'material-ui/IconButton';
 import PlayerStatus from './PlayerStatus.jsx';
 import GameOver from './GameOver.jsx';
 import UserProfile from './UserProfile.jsx';
+import RaisedButton from 'material-ui/RaisedButton';
 
 class App extends React.Component {
   constructor(props) {
@@ -26,7 +27,8 @@ class App extends React.Component {
         fail: 0
       },
       // changes state to swap between game view and profile view
-      showPlayerProfile: false
+      showPlayerProfile: false,
+      freePlay: false
     };
 
     this.options = {
@@ -177,9 +179,7 @@ class App extends React.Component {
 
   logout() {
     localStorage.removeItem('id_token');
-    location.reload(function() {
-      this.lock.show();
-    });
+    location.reload();
   }
 
   swapProfileView() {
@@ -194,8 +194,13 @@ class App extends React.Component {
     var toRender;
     var gameInfoText = "";
 
+    const style = {
+      margin: 12
+    };
+
     // Show login screen if user is not yet logged in.
-    if (!this.idToken) {
+    if (!this.idToken && !this.state.freePlay) {
+      this.setState({freePlay: true});
       this.lock.show();
     };
     // If there is a challenge, display the challenge prompt
@@ -208,7 +213,7 @@ class App extends React.Component {
         <AppBar
           title="It's a Game!"
           showMenuIconButton={false}
-          iconElementRight={this.state.profile ? <div className="right-icon"><span className="github-name">{this.state.profile ? this.state.profile.name : ''}</span><a href="#" onClick={this.swapProfileView.bind(this)}><Avatar src={this.state.profile.picture} size={35} backgroundColor='rgba(0,0,0,0)' /></a></div> : ''}
+          iconElementRight={this.state.profile ? <div className="right-icon"><span className="github-name">{this.state.profile ? this.state.profile.name : ''}</span><a href="#" onClick={this.swapProfileView.bind(this)}><Avatar src={this.state.profile.picture} size={35} backgroundColor='rgba(0,0,0,0)' /></a></div> : <RaisedButton type="submit" label="SIGN UP!" style={style} onClick={this.logout} />}
         />
 
         <div className= "game-display">
