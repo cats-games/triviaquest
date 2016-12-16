@@ -189,11 +189,10 @@ class App extends React.Component {
     // Render the gameboard, gameinfo, and text input field
     return (
       <div id="app">
-      <AppBar
-        title="It's a Game!"
-        showMenuIconButton={false}
-        iconElementRight={<div className="right-icon"><span className="github-name">{this.state.profile ? this.state.profile.name : ''}</span><Avatar src={this.state.profile ? this.state.profile.picture : ''} size={35} backgroundColor='rgba(0,0,0,0)' /></div>}
-      />
+      {/*<AppBar*/}
+        {/*showMenuIconButton={false}*/}
+        {/*iconElementRight={<div className="right-icon"><span className="github-name">{this.state.profile ? this.state.profile.name : ''}</span><Avatar src={this.state.profile ? this.state.profile.picture : ''} size={35} backgroundColor='rgba(0,0,0,0)' /></div>}*/}
+      {/*/>*/}
         <div className="game-display">
           <PlayerStatus health={_health} id="heart-display" />
           <Grid grid={_grid} />
