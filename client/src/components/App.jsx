@@ -183,6 +183,7 @@ class App extends React.Component {
     location.reload();
   }
 
+
   swapProfileView() {
     // Swaps out grid with player view
     this.state.showPlayerProfile ? this.setState({showPlayerProfile: false}) : this.setState({showPlayerProfile: true});
@@ -218,8 +219,8 @@ class App extends React.Component {
 
         <div className= "game-display">
           <PlayerStatus health={_health} id="heart-display" />
-          {this.state.showPlayerProfile ? (<UserProfile state={this.state} swapProfileView={this.swapProfileView.bind(this)} logout={this.logout.bind(this)}
-          highScores={[100, 100, 100, 100, 100, 100, 100, 100, 100, 100]} />) : (<Grid grid={_grid} state={this.state} />)}
+          <Grid grid={_grid} state={this.state} />
+          {this.state.showPlayerProfile ? (<UserProfile state={this.state} swapProfileView={this.swapProfileView.bind(this)} logout={this.logout.bind(this)} highScores={[100, 100, 100, 100, 100, 100, 100, 100, 100, 100]} />) : ''}
           <Gameinfo id="gameinfo" gameInfoText={gameInfoText}/>
           <Textfield checkAnswer={this.checkAnswer.bind(this)}/>
           <GameOver actions={this.actions} health={_health}/>

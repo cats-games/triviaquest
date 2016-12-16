@@ -1,3 +1,5 @@
+window.currentAvatarUrl;
+
 (function(root) {
     'use strict';
 
