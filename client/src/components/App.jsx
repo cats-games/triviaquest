@@ -218,7 +218,7 @@ class App extends React.Component {
         />
         <div className= "game-display">
           <PlayerStatus health={_health} id="heart-display" />
-          {this.state.showPlayerProfile ? (<UserProfile state={this.state} swapProfileView={this.swapProfileView.bind(this)} logout={this.logout.bind(this)}
+          {this.state.showPlayerProfile ? (<UserProfile className= "userprofile" state={this.state} swapProfileView={this.swapProfileView.bind(this)} logout={this.logout.bind(this)}
           highScores={[100, 100, 100, 100, 100, 100, 100, 100, 100, 100]} />) : (<Grid grid={_grid} />)}
           <Gameinfo id="gameinfo" gameInfoText={gameInfoText}/>
           <Textfield checkAnswer={this.checkAnswer.bind(this)}/>
