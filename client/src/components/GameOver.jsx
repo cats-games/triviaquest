@@ -27,7 +27,7 @@ var GameOver = (props) => {
   return (
   <div>
     <Dialog title="GAME OVER!!!" actions={actions} modal={true} open={open}>
-      Sorry, good luck next time.
+      Sorry, better luck next time.
     </Dialog>
   </div>
 )};
