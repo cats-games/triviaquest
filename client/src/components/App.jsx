@@ -28,7 +28,8 @@ class App extends React.Component {
       },
       // changes state to swap between game view and profile view
       showPlayerProfile: false,
-      freePlay: false
+      freePlay: false,
+      currentAvatar: '../../img/p1_stand.png' // !!! Needs to be updated to get the current avatar !!!
     };
 
     this.options = {

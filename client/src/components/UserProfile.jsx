@@ -24,7 +24,7 @@ var UserProfile = ({state, highScores, swapProfileView, logout}) => {
     <div id= "user-profile">
       <div id= "avatar">
         <div>
-          <img src="../../img/p1_stand.png"></img>
+          <img src={state.currentAvatar}></img>
         </div>
         <div>
           <span className= "github-name">{state.profile ? state.profile.name : ''}</span>
