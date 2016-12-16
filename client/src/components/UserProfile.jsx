@@ -3,7 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
 
-var UserProfile = ({state, highScores}) => {
+var UserProfile = ({state, highScores, swapProfileView, logout}) => {
   const styles = {
     h3: {
       marginTop: 20,
@@ -47,8 +47,8 @@ var UserProfile = ({state, highScores}) => {
         </div>
       </div>
       <div id="profile-footer">
-        <a href="#">Resume</a>
-        <a href="#">Quit</a>
+        <a href="#" onClick={swapProfileView}>Resume</a>
+        <a href="#" onClick={logout}>Quit</a>
       </div>
     </div>
   );

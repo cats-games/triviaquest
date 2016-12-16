@@ -35,6 +35,8 @@ class App extends React.Component {
       // How much to decrement health by
       damage: 20
     };
+
+    this.swapProfileView.bind(this);
   }
 
   ////////////////////
@@ -88,9 +90,9 @@ class App extends React.Component {
     });
   }
 
+
   componentDidMount() {
     this.game.renderer.draw();
-
   }
 
   // Check answer
@@ -173,6 +175,13 @@ class App extends React.Component {
     return idToken;
   }
 
+  logout() {
+    localStorage.removeItem('id_token');
+    location.reload(function() {
+      this.lock.show();
+    });
+  }
+
   swapProfileView() {
     // Swaps out grid with player view
     this.state.showPlayerProfile ? this.setState({showPlayerProfile: false}) : this.setState({showPlayerProfile: true});
@@ -199,12 +208,13 @@ class App extends React.Component {
         <AppBar
           title="It's a Game!"
           showMenuIconButton={false}
-          iconElementRight={<div className="right-icon"><span className="github-name">{this.state.profile ? this.state.profile.name : ''}</span><a href="#" onClick={this.swapProfileView.bind(this)}><Avatar src={this.state.profile ? this.state.profile.picture : 'Profile'} size={35} backgroundColor='rgba(0,0,0,0)' /></a></div>}
+          iconElementRight={this.state.profile ? <div className="right-icon"><span className="github-name">{this.state.profile ? this.state.profile.name : ''}</span><a href="#" onClick={this.swapProfileView.bind(this)}><Avatar src={this.state.profile.picture} size={35} backgroundColor='rgba(0,0,0,0)' /></a></div> : ''}
         />
 
         <div className= "game-display">
           <PlayerStatus health={_health} id="heart-display" />
-          {this.state.showPlayerProfile ? (<UserProfile state={this.state} highScores={[100, 100, 100, 100, 100, 100, 100, 100, 100, 100]} />) : (<Grid grid={_grid} />)}
+          {this.state.showPlayerProfile ? (<UserProfile state={this.state} swapProfileView={this.swapProfileView.bind(this)} logout={this.logout.bind(this)}
+          highScores={[100, 100, 100, 100, 100, 100, 100, 100, 100, 100]} />) : (<Grid grid={_grid} />)}
           <Gameinfo id="gameinfo" gameInfoText={gameInfoText}/>
           <Textfield checkAnswer={this.checkAnswer.bind(this)}/>
           <GameOver actions={this.actions} health={_health}/>
