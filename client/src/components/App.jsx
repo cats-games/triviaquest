@@ -217,7 +217,6 @@ class App extends React.Component {
           showMenuIconButton={false}
           iconElementRight={this.state.profile ? <div className="right-icon"><span className="github-name">{this.state.profile ? this.state.profile.name : ''}</span><a href="#" onClick={this.swapProfileView.bind(this)}><Avatar src={this.state.profile.picture} size={35} backgroundColor='rgba(0,0,0,0)' /></a></div> : <RaisedButton type="submit" label="SIGN UP!" style={style} onClick={this.logout} />}
         />
-
         <div className= "game-display">
           <PlayerStatus health={_health} id="heart-display" />
           {this.state.showPlayerProfile ? (<UserProfile state={this.state} swapProfileView={this.swapProfileView.bind(this)} logout={this.logout.bind(this)}
