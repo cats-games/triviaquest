@@ -10,8 +10,8 @@ import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import PlayerStatus from './PlayerStatus.jsx';
 import GameOver from './GameOver.jsx';
-import UserProfile from './UserProfile.jsx';
 import RaisedButton from 'material-ui/RaisedButton';
+import UserProfile from './UserProfile.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -29,7 +29,6 @@ class App extends React.Component {
       // changes state to swap between game view and profile view
       showPlayerProfile: false,
       freePlay: false,
-      currentAvatar: '../../img/p1_stand.png', // !!! Needs to be updated to get the current avatar !!!
       currentWorld: 'The coolest place ever!' // !!! Needs to be updated to get the current world !!!
     };
 
@@ -220,7 +219,7 @@ class App extends React.Component {
         <div className= "game-display">
           <PlayerStatus health={_health} id="heart-display" />
           {this.state.showPlayerProfile ? (<UserProfile state={this.state} swapProfileView={this.swapProfileView.bind(this)} logout={this.logout.bind(this)}
-          highScores={[100, 100, 100, 100, 100, 100, 100, 100, 100, 100]} />) : (<Grid grid={_grid} />)}
+          highScores={[100, 100, 100, 100, 100, 100, 100, 100, 100, 100]} />) : (<Grid grid={_grid} state={this.state} />)}
           <Gameinfo id="gameinfo" gameInfoText={gameInfoText}/>
           <Textfield checkAnswer={this.checkAnswer.bind(this)}/>
           <GameOver actions={this.actions} health={_health}/>
