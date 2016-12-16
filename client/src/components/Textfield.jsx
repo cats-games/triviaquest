@@ -6,7 +6,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 var Textfield = ({checkAnswer}) => {
 
   const style = {
-    margin: 12
+    backgroundColor:'black',
+    margin: 10
+
   };
 
   return (
