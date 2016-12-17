@@ -6,14 +6,16 @@ import RaisedButton from 'material-ui/RaisedButton';
 var Textfield = ({checkAnswer}) => {
 
   const style = {
-    margin: 12
+    backgroundColor:'black',
+    margin: 10
+
   };
 
   return (
     <div id="textfield">
       <form>
-        <TextUI id="answer" type="text" class="textbox" name="textinput" hintText="Your answer here" />
-        <RaisedButton type="submit" label="Submit" primary={true} style={style} onClick={(e) => { checkAnswer(e, $('#answer').val()) } }/>
+        <TextUI id="answer" type="text" className="textbox" name="textinput" hintText="What do you wanna say?" />
+        <RaisedButton type="submit" label="...is my answer!" primary={true} style={style} onClick={(e) => { checkAnswer(e, $('#answer').val()) } }/>
       </form>
     </div>
   );
