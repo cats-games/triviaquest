@@ -1,7 +1,7 @@
 {
-  "name": "hrr20-cats",
+  "name": "TrviaQuest",
   "version": "1.0.0",
-  "description": "greenfield project",
+  "description": "Legacy Project",
   "author": "Hack Reactor <curriculum.team@hackreactor.com>",
   "license": "UNLICENSED",
   "private": true,
@@ -12,12 +12,14 @@
   "dependencies": {
     "bootstrap": "^4.0.0-alpha.2",
     "chai-nightwatch": "^0.1.1",
+    "howler": "^2.0.2",
     "jquery": "^2.2.1",
     "lodash": "^4.6.1",
     "material-ui": "^0.16.5",
     "mocha-nightwatch": "^2.2.9",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
+    "react-howler": "^3.4.0",
     "react-tap-event-plugin": "^2.0.1"
   },
   "devDependencies": {
