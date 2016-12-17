@@ -9,7 +9,7 @@ var UserProfileSchema = new db.Schema({
   currentScore: Object,
   health: Number,
   userId: String,
-  currentWorld: String
+  game: Array
 });
 
 UserProfileSchema.plugin(findOneOrCreate);
