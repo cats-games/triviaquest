@@ -1,5 +1,4 @@
 'use strict';
-
 import React from 'react';
 import Gameinfo from './Gameinfo.jsx';
 import Textfield from './Textfield.jsx';
@@ -62,13 +61,15 @@ class App extends React.Component {
   componentWillMount() {
     // See https://davidwalsh.name/react-authentication
     this.createLock();
-    // **Variables beginning with _ are meant to be used as references only. Do not mutate them.**
-    var _grid = this.state.grid;
+
+    // Load a fresh game board from new player
     // Connect the roguelike-game to window so App can access it.
     window.gameAppConnector = new GameAppConnector(this);
     // Access information about the game with this variable.
     this.game = window.game;
 
+    // **Variables beginning with _ are meant to be used as references only. Do not mutate them.**
+    var _grid = this.state.grid;
     // Store the player health in the state
     // The roguelike game will update this
     this.setState({
@@ -103,6 +104,7 @@ class App extends React.Component {
       }
       // As soon as we have the profile data, assign the git challenges (which depend on the nickname profile data being available)
       this.setState({profile: profile}, () => {
+        // Load user data if token in computer
         this.getUserData(function(res) {
           this.setState({
             grid: res[0].grid,
