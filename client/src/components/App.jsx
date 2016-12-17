@@ -222,7 +222,7 @@ class App extends React.Component {
     var gameInfoText = "";
 
     const style = {
-      margin: 25
+      margin: 40
     };
 
     // Show login screen if user is not yet logged in.
@@ -253,7 +253,7 @@ class App extends React.Component {
           {this.state.showPlayerProfile ? (<UserProfile state={this.state} swapProfileView={this.swapProfileView.bind(this)} logout={this.logout.bind(this)} />) : ''}
           <Gameinfo id="gameinfo" gameInfoText={gameInfoText}/>
           <Textfield state={this.state} checkAnswer={this.checkAnswer.bind(this)}/>
-          <img id="draggable" class="ui-widget-content" src="../../img/coin.png" height="80" width="80"></img>
+          <img id="draggable" class="ui-widget-content" src="../../img/coin.png" height="80" width="80" className={this.state.showPlayerProfile ? 'hidden' : ''}></img>
           <GameOver actions={this.actions} health={_health}/>
 
         </div>
