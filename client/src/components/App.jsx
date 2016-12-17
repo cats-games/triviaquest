@@ -10,8 +10,8 @@ import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import PlayerStatus from './PlayerStatus.jsx';
 import GameOver from './GameOver.jsx';
-import UserProfile from './UserProfile.jsx';
 import RaisedButton from 'material-ui/RaisedButton';
+import UserProfile from './UserProfile.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -29,8 +29,28 @@ class App extends React.Component {
       // changes state to swap between game view and profile view
       showPlayerProfile: false,
       freePlay: false,
-      currentAvatar: '../../img/p1_stand.png', // !!! Needs to be updated to get the current avatar !!!
-      currentWorld: 'The coolest place ever!' // !!! Needs to be updated to get the current world !!!
+      currentWorld: 'Earth', // !!! Needs to be updated to get the current world !!!
+      highScores: [
+      // Dummy data for rendering, will come from DB.
+        {
+          attempted: '0',
+          success: '10',
+          fail: '0',
+          world: 'Earth'
+        },
+        {
+          attempted: '10',
+          success: '10',
+          fail: '0',
+          world: 'Earth'
+        },
+        {
+          attempted: '10',
+          success: '10',
+          fail: '0',
+          world: 'Earth'
+        }
+      ]
     };
 
     this.options = {
@@ -181,8 +201,13 @@ class App extends React.Component {
 
   logout() {
     localStorage.removeItem('id_token');
+
+    // Make an ajax call to the server here to save user information.
+      // On success call reload.
+    console.log('!!HERE IS WHERE TO ADD FUNCTIONALITY FOR SAVE USERINFO!!');
     location.reload();
   }
+
 
   swapProfileView() {
     // Swaps out grid with player view
@@ -204,7 +229,12 @@ class App extends React.Component {
     if (!this.idToken && !this.state.freePlay) {
       this.setState({freePlay: true});
       this.lock.show();
-    };
+    } else {
+      // Make ajax call to server to get user information for loading.
+        // On success do the return statement below,
+        // Note -> For now send the grid to the DB for the current board.
+      console.log('!!HERE IS WHERE TO ADD FUNCTIONALITY FOR LOAD USERINFO!!');
+    }
     // If there is a challenge, display the challenge prompt
     if (this.state.currentEnemy) {
       gameInfoText = this.state.currentEnemy.challenge.prompt;
@@ -216,10 +246,11 @@ class App extends React.Component {
           showMenuIconButton={false}
           iconElementRight={this.state.profile ? <div className="right-icon"><span className="github-name">{this.state.profile ? this.state.profile.name : ''}</span><a href="#" onClick={this.swapProfileView.bind(this)}><Avatar src={this.state.profile.picture} size={35} backgroundColor='transparent' /></a></div> : <RaisedButton type="submit" label="SIGN UP!" style={style} onClick={this.logout} />}
         />
+
         <div className= "game-display">
           <PlayerStatus health={_health} id="heart-display" />
-          {this.state.showPlayerProfile ? (<UserProfile state={this.state} swapProfileView={this.swapProfileView.bind(this)} logout={this.logout.bind(this)}
-          highScores={[100, 100, 100, 100, 100, 100, 100, 100, 100, 100]} />) : (<Grid grid={_grid} />)}
+          <Grid grid={_grid} state={this.state} />
+          {this.state.showPlayerProfile ? (<UserProfile state={this.state} swapProfileView={this.swapProfileView.bind(this)} logout={this.logout.bind(this)} />) : ''}
           <Gameinfo id="gameinfo" gameInfoText={gameInfoText}/>
           <Textfield checkAnswer={this.checkAnswer.bind(this)}/>
           <GameOver actions={this.actions} health={_health}/>

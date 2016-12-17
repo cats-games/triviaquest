@@ -5,12 +5,12 @@ import Gameinfo from './Gameinfo.jsx';
 import Textfield from './Textfield.jsx';
 import GridSpace from './GridSpace.jsx';
 
-var Grid = ({grid, playerPosition}) => {
+var Grid = ({grid, playerPosition, state, setPlayerImage}) => {
   // counter that starts will count squares, starting at 1
   var gridNumber = 0;
 
   return (
-    <div id="grid">
+    <div id="grid" className={state.showPlayerProfile ? 'hidden' : ''}>
       {Object.keys(grid).map((i) => {
           // To start the gridNumber at 1
           gridNumber++;
@@ -21,7 +21,7 @@ var Grid = ({grid, playerPosition}) => {
           // The image category (for use with css)
           var tile = grid[gridNumber].tile;
 
-          return (<GridSpace type={player || image} tile={tile} id={'space-' + gridNumber} key={i}/>);
+          return (<GridSpace type={player || image} tile={tile} id={'space-' + gridNumber} key={i} />);
         })
       }
     </div>
