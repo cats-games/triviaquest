@@ -11,6 +11,7 @@ import PlayerStatus from './PlayerStatus.jsx';
 import GameOver from './GameOver.jsx';
 import RaisedButton from 'material-ui/RaisedButton';
 import UserProfile from './UserProfile.jsx';
+import BGMusicPlayer from './BackgroundMusic.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -30,6 +31,10 @@ class App extends React.Component {
       freePlay: false,
       // changes state to allow free play without signup
       showPlayerProfile: false,
+      audio: {
+        bgMusic: true,
+        soundFX: true
+      }
     };
 
     this.options = {
@@ -262,6 +267,15 @@ class App extends React.Component {
       }.bind(this)
     });
   }
+
+  bgMusicPlayPause() {
+    this.setState(!this.state.audio.bgMusic);
+  }
+
+  soundFXOnOff() {
+    this.setState(!this.state.audio.soundFX);
+  }
+
 
   render() {
     // **Variables beginning with _ are meant ot be used as references only. Do not mutate them.**
