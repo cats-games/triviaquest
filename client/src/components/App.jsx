@@ -252,7 +252,7 @@ class App extends React.Component {
           <Grid grid={_grid} state={this.state} />
           {this.state.showPlayerProfile ? (<UserProfile state={this.state} swapProfileView={this.swapProfileView.bind(this)} logout={this.logout.bind(this)} />) : ''}
           <Gameinfo id="gameinfo" gameInfoText={gameInfoText}/>
-          <Textfield checkAnswer={this.checkAnswer.bind(this)}/>
+          <Textfield state={this.state} checkAnswer={this.checkAnswer.bind(this)}/>
           <GameOver actions={this.actions} health={_health}/>
         </div>
       </div>
