@@ -18,11 +18,11 @@ var UserProfile = ({state, swapProfileView, logout}) => {
       </div>
       <div id= "curr-score-board">
         <div className= "current-score">
-          attempted: {state.score.attempted},
+          attempted: {state.currentScore.attempted},
           <br/>
-          success: {state.score.success},
+          success: {state.currentScore.success},
           <br/>
-          fail: {state.score.fail}
+          fail: {state.currentScore.fail}
         </div>
         <div className= "current-world">
           world: <span>{state.currentWorld}</span>
