@@ -5,7 +5,7 @@ var findOneOrCreate = require('mongoose-find-one-or-create');
 var UserProfileSchema = new db.Schema({
   userName: String,
   grid: Object,
-  highScores: Array,
+  prevScores: Array,
   currentScore: Object,
   health: Number,
   userId: String,

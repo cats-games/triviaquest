@@ -32,7 +32,7 @@ var UserProfile = ({state, swapProfileView, logout}) => {
         <div className= "high-score-header">High Scores</div>
         <hr/>
         <div className= "high-scores">
-          {state.highScores.map(highScore =>
+          {state.prevScores.map(highScore =>
             <div className= "high-score">
               attempted: <span>{highScore.attempted}</span>
               <br/>
