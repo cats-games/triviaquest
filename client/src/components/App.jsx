@@ -21,36 +21,28 @@ class App extends React.Component {
       // Objects with and ID, an optional challenge, and optional "image".
       grid: {},
       // Score object to track challenges attempted, succeeded, and failed, so we can show stats.
-      score: {
+      currentScore: {
         attempted: 0,
         success: 0,
         fail: 0
       },
-      // changes state to swap between game view and profile view
-      showPlayerProfile: false,
-      freePlay: false,
-      currentWorld: 'Earth', // !!! Needs to be updated to get the current world !!!
       highScores: [
-      // Dummy data for rendering, will come from DB.
-        {
-          attempted: '0',
-          success: '10',
-          fail: '0',
-          world: 'Earth'
+        {// DUMMY DATA!!
+          attempted: 0,
+          success: 0,
+          fail: 0
         },
         {
-          attempted: '10',
-          success: '10',
-          fail: '0',
-          world: 'Earth'
-        },
-        {
-          attempted: '10',
-          success: '10',
-          fail: '0',
-          world: 'Earth'
+          attempted: 0,
+          success: 0,
+          fail: 0
         }
-      ]
+      ],
+      currentWorld: 'Earth', // !!! Needs to be updated to get the current world !!!
+      // changes state to swap between game view and profile view
+      freePlay: false,
+      // changes state to allow free play without signup
+      showPlayerProfile: false,
     };
 
     this.options = {
@@ -110,8 +102,20 @@ class App extends React.Component {
         return;
       }
       // As soon as we have the profile data, assign the git challenges (which depend on the nickname profile data being available)
-      this.setState({profile: profile}, () => {window.gameAppConnector.assignGitChallenges();});
-    });
+      this.setState({profile: profile}, () => {
+        this.getUserData(function(res) {
+          this.setState({
+            grid: res[0].grid,
+            currentScore: res[0].currentScore,
+            highScores: res[0].highScores,
+            playerHealth: res[0].health,
+            currentWorld: res[0].currentWorld,
+          });
+          window.gameAppConnector.assignGitChallenges();
+        }.bind(this));
+      });
+    })
+
   }
 
 
@@ -150,16 +154,15 @@ class App extends React.Component {
   updateScore(correct) {
     // Regardless of whether the user's answer was correct,
     // Add +1 to the number of attempted questions
-
     if (correct) {
       // If the user's answer is correct, +1 to the number of successes
       this.setState((prevState, props) => {
         return {
-          score: {
-            attempted: prevState.score.attempted += 1,
-            success: prevState.score.success += 1,
+          currentScore: {
+            attempted: prevState.currentScore.attempted += 1,
+            success: prevState.currentScore.success += 1,
             // No change
-            fail: prevState.score.fail
+            fail: prevState.currentScore.fail
           }
         };
       });
@@ -170,10 +173,10 @@ class App extends React.Component {
       // If the user's answer was incorrect, +1 to the number of fails
       this.setState((prevState, props) => {
         return {
-          score: {
-            attempted: prevState.score.attempted += 1,
-            success: prevState.score.success, // No change
-            fail: prevState.score.fail += 1
+          currentScore: {
+            attempted: prevState.currentScore.attempted += 1,
+            success: prevState.currentScore.success, // No change
+            fail: prevState.currentScore.fail += 1
           }
         };
       });
@@ -201,17 +204,65 @@ class App extends React.Component {
 
   logout() {
     localStorage.removeItem('id_token');
-
     // Make an ajax call to the server here to save user information.
-      // On success call reload.
-    console.log('!!HERE IS WHERE TO ADD FUNCTIONALITY FOR SAVE USERINFO!!');
-    location.reload();
+    this.addOrUpdateUser(function() {
+      location.reload();
+    }.bind(this));
   }
 
+  signUp() {
+    location.reload();
+  }
 
   swapProfileView() {
     // Swaps out grid with player view
     this.state.showPlayerProfile ? this.setState({showPlayerProfile: false}) : this.setState({showPlayerProfile: true});
+  };
+
+  addOrUpdateUser(cb) {
+    let assemble = {
+      userName: this.state.profile.name,
+      grid: this.state.grid,
+      highScores: this.state.highScores,
+      currentScore: this.state.currentScore,
+      health: this.state.playerHealth,
+      userId: this.state.profile.user_id,
+      currentWorld: this.state.currentWorld,
+      secret: "cats"
+    }
+
+   $.ajax({
+      url: 'http://127.0.0.1:8000/api/userstats',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(assemble),
+      success: function(res) {
+        cb();
+      }.bind(this),
+      error: function(err) {
+        console.error(err.toString());
+      }.bind(this)
+    });
+  }
+
+  getUserData(cb) {
+    let reqData = {
+      userId: this.state.profile.user_id,
+      secret: 'cats'
+    }
+
+    $.ajax({
+      url: 'http://127.0.0.1:8000/api/userstats',
+      type: 'GET',
+      contentType: 'application/json',
+      data: reqData,
+      success: function(res) {
+        cb(res);
+      }.bind(this),
+      error: function(err) {
+        console.error(err.toString());
+      }.bind(this)
+    });
   }
 
   render() {
@@ -226,14 +277,8 @@ class App extends React.Component {
     };
 
     // Show login screen if user is not yet logged in.
-    if (!this.idToken && !this.state.freePlay) {
-      this.setState({freePlay: true});
+    if (!this.idToken) {
       this.lock.show();
-    } else {
-      // Make ajax call to server to get user information for loading.
-        // On success do the return statement below,
-        // Note -> For now send the grid to the DB for the current board.
-      console.log('!!HERE IS WHERE TO ADD FUNCTIONALITY FOR LOAD USERINFO!!');
     }
     // If there is a challenge, display the challenge prompt
     if (this.state.currentEnemy) {
@@ -244,7 +289,7 @@ class App extends React.Component {
       <div id="app">
         <AppBar
           showMenuIconButton={false}
-          iconElementRight={this.state.profile ? <div className="right-icon"><span className="github-name">{this.state.profile ? this.state.profile.name : ''}</span><a href="#" onClick={this.swapProfileView.bind(this)}><Avatar src={this.state.profile.picture} size={35} backgroundColor='transparent' /></a></div> : <RaisedButton type="submit" label="SIGN UP!" style={style} onClick={this.logout} />}
+          iconElementRight={this.state.profile ? <div className="right-icon"><span className="github-name">{this.state.profile ? this.state.profile.name : ''}</span><a href="#" onClick={this.swapProfileView.bind(this)}><Avatar src={this.state.profile.picture} size={35} backgroundColor='transparent' /></a></div> : <RaisedButton type="submit" label="SIGN UP!" style={style} onClick={this.signUp} />}
         />
 
         <div className= "game-display">

@@ -226,6 +226,9 @@ a:hover{
   padding: 5px;
   color: #fff;
 }
+#user-profile{
+  background-color: #000;
+}
 #profile-footer{
   display: flex;
   justify-content: space-around;
@@ -236,9 +239,6 @@ a:hover{
 }
 .hidden{
   display: none;
-}
-#user-profile{
-  background-color: #000;
 }
 #avatar{
   text-align: center;
