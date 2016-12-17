@@ -104,6 +104,9 @@
         */
         move: function(x, y, object) {
             var existing = this.get(object.x, object.y);
+            console.log(this.get(object.y, object.x));
+            console.log(this);
+            console.log(this.map);
             if(existing !== object){
                 throw new Error({error: 'Attempting to move object not in correct position in Object manager', x: x, y: y, object: object});
             }

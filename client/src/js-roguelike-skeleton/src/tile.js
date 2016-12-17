@@ -219,6 +219,24 @@
                 }
                 return false;
             }
+        },
+        exitDoorLevel1: {
+            name: 'ExitDoorLevel1',
+            char: '1',
+            color: 'orange',
+            bgColor: '#222',
+            passable: false,
+            blocksLos: true,
+            bump: function(entity){
+                if(!this.passable){
+                    this.passable = true;
+                    this.blocksLos = false;
+                    this.char = "'";
+                    this.game.console.log('You open the <strong>' + this.name + '</strong>.');
+                    return true;
+                }
+                return false;
+            }
         }
     };
 
