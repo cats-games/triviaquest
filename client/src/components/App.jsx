@@ -118,7 +118,6 @@ class App extends React.Component {
 
   }
 
-
   componentDidMount() {
     this.game.renderer.draw();
   }
