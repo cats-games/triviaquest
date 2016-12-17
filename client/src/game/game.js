@@ -62,30 +62,12 @@ var mapData = [
     "#########################################################################################################"
 ];
 
-var mapDataLevel = [
-    "#########################################################################################",
-    "#.......................................................................................#",
-    "#.......................................................................................#",
-    "#.......................................................................................#",
-    "#.......................................................................................#",
-    "#.......................................................................................#",
-    "#.......................................................................................#",
-    "#.......................................................................................#",
-    "#.......................................................................................#",
-    "#.......................................................................................#",
-    "#.......................................................................................#",
-    "#.......................................................................................#",
-    "#.......................................................................................#",
-    "#.......................................................................................#",
-    "#.......................................................................................#",
-    "#########################################################################################"
-    ];
 // Tile types
 var mapCharToType = {
     '#': 'wall',
     '.': 'grass',
     '+': 'door',
-    '\'': 'door-open'
+    '\'': 'door-open',
 };
 
 var entityCharToType = {
@@ -109,8 +91,12 @@ var keyBindings = {
     right: ['RIGHT_ARROW', 'L', 'D'],
 };
 
+enemyGenerator(mapData, 28);
+itemGenerator(mapData, 5);
+
 game.map.loadTilesFromArrayString(mapData, mapCharToType, 'grass');
 game.itemManager.loadFromArrayString(mapData, itemCharToType);
+
 game.entityManager.loadFromArrayString(mapData, entityCharToType);
 
 // generate and assign a map object (replaces empty default)
@@ -148,9 +134,76 @@ game.renderer.layers = [
 //create a randomized map for each level.
 //105 characters for each mapData index and there are 57 elements
 //grab random index from mapData loadFromArrayString
-var randomMapDataIndex = mapData[Math.floor(Math.random()*mapData.length)];
+
 //find random character in randomMapDataIndex
-var randomCharacterOnIndex = randomMapDataIndex.charAt(Math.floor(Math.random()*105));
+
+//might need to create arguments for room, array indeces, string characters
+// function enemyGenerator() {
+//     //first room in mapData to populate with enemies
+//     var room11 = 0;
+//     //enemies to add
+//     var arr = ['e', 'Z', 'b'];
+//     //loop through number of enemies to add
+//     while(room11 <= 2) {
+//         //array indeces to add enemies
+//         var line = Math.floor((Math.random() * 5) + 1);
+//         //the string characters from array index where enemies will populate
+//         var string = mapData[line].substr(11, 20);
+//         //point within the position on the string
+//         var position = Math.floor(Math.random() * line.length);
+//         //get enemy
+//         var enemy = Math.floor(Math.random() * arr.length);
+//         //populate grass spot with enemy
+//         if(line[position] === ".") {
+//             string = string.substring(0, position) + entityCharToType[enemy] + string.substring(position + 1);
+//             mapData[line] = mapData[line].substring(0, 11) + string + mapData[line].substring(21);
+//             room11++;
+//         }
+//     }
+// }
+
+function enemyGenerator(map, enemyNumber) {
+  var arr = ['e', 'Z', 'b'];
+  var xLength = map[0].length - 2;
+  var yLength = map.length - 2;
+
+  var enemyReplacer = function(mapLine, enemy, randX) {
+    mapLine = mapLine.substring(0, randX) + enemy + mapLine.substring(randX + 1);
+    return mapLine;
+  }
+
+  while(enemyNumber > 0) {
+    var randX = Math.floor((Math.random() * xLength) + 1);
+    var randY = Math.floor((Math.random() * yLength) + 1);
+
+    if(map[randY][randX] === '.') {
+      var randEnemy = arr[Math.floor(Math.random() * 3)];
+      map[randY] = enemyReplacer(map[randY], randEnemy, randX);
+      enemyNumber--;
+    }
+  }
+}
+
+function itemGenerator(map, itemNumber) {
+  var xLength = map[0].length - 2;
+  var yLength = map.length - 2;
+
+  var itemReplacer = function(mapLine, item, randX) {
+    mapLine = mapLine.substring(0, randX) + item + mapLine.substring(randX + 1);
+    return mapLine;
+  }
+
+  while(itemNumber > 0) {
+    var randX = Math.floor((Math.random() * xLength) + 1);
+    var randY = Math.floor((Math.random() * yLength) + 1);
+
+    if(map[randY][randX] === '.') {
+      var item = ':';
+      map[randY] = itemReplacer(map[randY], item, randX);
+      itemNumber--;
+    }
+  }
+}
 // ROT.Map.IceyMaze = function(width, height, regularity) {
 //     ROT.Map.call(this, width, height);
 //     this._regularity = regularity || 0;
