@@ -26,18 +26,7 @@ class App extends React.Component {
         success: 0,
         fail: 0
       },
-      highScores: [
-        {// DUMMY DATA!!
-          attempted: 0,
-          success: 0,
-          fail: 0
-        },
-        {
-          attempted: 0,
-          success: 0,
-          fail: 0
-        }
-      ],
+      prevScores: [],
       currentWorld: 'Earth', // !!! Needs to be updated to get the current world !!!
       // changes state to swap between game view and profile view
       freePlay: false,
@@ -107,7 +96,7 @@ class App extends React.Component {
           this.setState({
             grid: res[0].grid,
             currentScore: res[0].currentScore,
-            highScores: res[0].highScores,
+            prevScores: res[0].prevScores,
             playerHealth: res[0].health,
             currentWorld: res[0].currentWorld,
           });
@@ -148,6 +137,14 @@ class App extends React.Component {
       }
     }
 
+  }
+
+  storePrevScores() {
+    // stores score when passing to new world.
+    // Going to have top simulate this functionality for now until the worlds are sorted out.
+    var prevScores = this.state.prevScores.slice();
+    prevScores.push(this.state.currentScore);
+    this.setState({prevScores: prevScores});
   }
 
   updateScore(correct) {
@@ -222,7 +219,7 @@ class App extends React.Component {
     let assemble = {
       userName: this.state.profile.name,
       grid: this.state.grid,
-      highScores: this.state.highScores,
+      prevScores: this.state.prevScores,
       currentScore: this.state.currentScore,
       health: this.state.playerHealth,
       userId: this.state.profile.user_id,
