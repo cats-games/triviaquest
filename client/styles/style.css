@@ -106,10 +106,10 @@ a:hover{
 #heart-display{
   display:flex;
   background-color: transparent;
-  padding:3px;
+  padding:5px;
 }
 .heart-full{
-  background-image:url("../img/heart.png");
+  background-image:url("../img/mechheart.png");
   background-repeat: no-repeat, no-repeat;
   background-position: center center, center center;
   background-size: 30px auto, 300px auto;
@@ -145,7 +145,7 @@ a:hover{
 .arcade {
   z-index: 5;
   opacity:0.7;
-  height:910px;
+  height:950px;
   width:auto;
   position: absolute;
   margin-left: auto;
