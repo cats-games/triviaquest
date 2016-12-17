@@ -69,6 +69,7 @@ class GameAppConnector {
       // Assign it to the entity.
       entity.challenge = challenge;
     }.bind(this));
+
   }
 
   // Run this when we have the profile nickname.
