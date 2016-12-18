@@ -78,5 +78,6 @@ export default class BGMusicPlayer extends React.Component {
         {this.state.playing ? <ReactHowler src={randSong()} playing={this.state.playing} onEnd={this.onClick} volume={.1} /> : null}
       </div>
     )
+
   }
 }

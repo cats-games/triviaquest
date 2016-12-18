@@ -31,10 +31,6 @@ class App extends React.Component {
       freePlay: false,
       // changes state to allow free play without signup
       showPlayerProfile: false,
-      audio: {
-        bgMusic: true,
-        soundFX: true
-      }
     };
 
     this.options = {
@@ -267,15 +263,6 @@ class App extends React.Component {
       }.bind(this)
     });
   }
-
-  bgMusicPlayPause() {
-    this.setState(!this.state.audio.bgMusic);
-  }
-
-  soundFXOnOff() {
-    this.setState(!this.state.audio.soundFX);
-  }
-
 
   render() {
     // **Variables beginning with _ are meant ot be used as references only. Do not mutate them.**
