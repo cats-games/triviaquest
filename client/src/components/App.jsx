@@ -10,7 +10,9 @@ import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import PlayerStatus from './PlayerStatus.jsx';
 import GameOver from './GameOver.jsx';
-
+import RaisedButton from 'material-ui/RaisedButton';
+import UserProfile from './UserProfile.jsx';
+import BGMusicPlayer from './BackgroundMusic.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -20,11 +22,28 @@ class App extends React.Component {
       // Objects with and ID, an optional challenge, and optional "image".
       grid: {},
       // Score object to track challenges attempted, succeeded, and failed, so we can show stats.
-      score: {
+      currentScore: {
         attempted: 0,
         success: 0,
         fail: 0
       },
+      highScores: [
+        {// DUMMY DATA!!
+          attempted: 0,
+          success: 0,
+          fail: 0
+        },
+        {
+          attempted: 0,
+          success: 0,
+          fail: 0
+        }
+      ],
+      currentWorld: 'Earth', // !!! Needs to be updated to get the current world !!!
+      // changes state to swap between game view and profile view
+      freePlay: false,
+      // changes state to allow free play without signup
+      showPlayerProfile: false,
     };
 
     this.options = {
@@ -33,6 +52,8 @@ class App extends React.Component {
       // How much to decrement health by
       damage: 20
     };
+
+    this.swapProfileView.bind(this);
   }
 
   ////////////////////
@@ -42,7 +63,7 @@ class App extends React.Component {
   componentWillMount() {
     // See https://davidwalsh.name/react-authentication
     this.createLock();
-    // **Variables beginning with _ are meant ot be used as references only. Do not mutate them.**
+    // **Variables beginning with _ are meant to be used as references only. Do not mutate them.**
     var _grid = this.state.grid;
     // Connect the roguelike-game to window so App can access it.
     window.gameAppConnector = new GameAppConnector(this);
@@ -72,7 +93,7 @@ class App extends React.Component {
   }
 
   createLock() {
-    this.lock = new Auth0Lock('rpA1ER3Q4mTCdhol9P1h1lPF2vhaTOAL', 'stefanr.auth0.com');
+    this.lock = new Auth0Lock('ITJ9uy1UUcFlT13R31uKWEP06hII7eZ0', 'tretuna.auth0.com');
   }
 
   setProfile() {
@@ -82,13 +103,25 @@ class App extends React.Component {
         return;
       }
       // As soon as we have the profile data, assign the git challenges (which depend on the nickname profile data being available)
-      this.setState({profile: profile}, () => {window.gameAppConnector.assignGitChallenges();});
-    });
+      this.setState({profile: profile}, () => {
+        this.getUserData(function(res) {
+          this.setState({
+            grid: res[0].grid,
+            currentScore: res[0].currentScore,
+            highScores: res[0].highScores,
+            playerHealth: res[0].health,
+            currentWorld: res[0].currentWorld,
+          });
+          window.gameAppConnector.assignGitChallenges();
+        }.bind(this));
+      });
+    })
+
   }
+
 
   componentDidMount() {
     this.game.renderer.draw();
-
   }
 
   // Check answer
@@ -122,16 +155,15 @@ class App extends React.Component {
   updateScore(correct) {
     // Regardless of whether the user's answer was correct,
     // Add +1 to the number of attempted questions
-
     if (correct) {
       // If the user's answer is correct, +1 to the number of successes
       this.setState((prevState, props) => {
         return {
-          score: {
-            attempted: prevState.score.attempted += 1,
-            success: prevState.score.success += 1,
+          currentScore: {
+            attempted: prevState.currentScore.attempted += 1,
+            success: prevState.currentScore.success += 1,
             // No change
-            fail: prevState.score.fail
+            fail: prevState.currentScore.fail
           }
         };
       });
@@ -142,10 +174,10 @@ class App extends React.Component {
       // If the user's answer was incorrect, +1 to the number of fails
       this.setState((prevState, props) => {
         return {
-          score: {
-            attempted: prevState.score.attempted += 1,
-            success: prevState.score.success, // No change
-            fail: prevState.score.fail += 1
+          currentScore: {
+            attempted: prevState.currentScore.attempted += 1,
+            success: prevState.currentScore.success, // No change
+            fail: prevState.currentScore.fail += 1
           }
         };
       });
@@ -171,6 +203,69 @@ class App extends React.Component {
     return idToken;
   }
 
+  logout() {
+    localStorage.removeItem('id_token');
+    // Make an ajax call to the server here to save user information.
+    this.addOrUpdateUser(function() {
+      location.reload();
+    }.bind(this));
+  }
+
+  signUp() {
+    location.reload();
+  }
+
+  swapProfileView() {
+    // Swaps out grid with player view
+    this.state.showPlayerProfile ? this.setState({showPlayerProfile: false}) : this.setState({showPlayerProfile: true});
+  };
+
+  addOrUpdateUser(cb) {
+    let assemble = {
+      userName: this.state.profile.name,
+      grid: this.state.grid,
+      highScores: this.state.highScores,
+      currentScore: this.state.currentScore,
+      health: this.state.playerHealth,
+      userId: this.state.profile.user_id,
+      currentWorld: this.state.currentWorld,
+      secret: "cats"
+    }
+
+   $.ajax({
+      url: 'http://127.0.0.1:8000/api/userstats',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(assemble),
+      success: function(res) {
+        cb();
+      }.bind(this),
+      error: function(err) {
+        console.error(err.toString());
+      }.bind(this)
+    });
+  }
+
+  getUserData(cb) {
+    let reqData = {
+      userId: this.state.profile.user_id,
+      secret: 'cats'
+    }
+
+    $.ajax({
+      url: 'http://127.0.0.1:8000/api/userstats',
+      type: 'GET',
+      contentType: 'application/json',
+      data: reqData,
+      success: function(res) {
+        cb(res);
+      }.bind(this),
+      error: function(err) {
+        console.error(err.toString());
+      }.bind(this)
+    });
+  }
+
   render() {
     // **Variables beginning with _ are meant ot be used as references only. Do not mutate them.**
     var _grid = this.state.grid;
@@ -178,10 +273,14 @@ class App extends React.Component {
     var toRender;
     var gameInfoText = "";
 
+    const style = {
+      margin: 40
+    };
+
     // Show login screen if user is not yet logged in.
     if (!this.idToken) {
       this.lock.show();
-    };
+    }
     // If there is a challenge, display the challenge prompt
     if (this.state.currentEnemy) {
       gameInfoText = this.state.currentEnemy.challenge.prompt;
@@ -189,17 +288,20 @@ class App extends React.Component {
     // Render the gameboard, gameinfo, and text input field
     return (
       <div id="app">
-      <AppBar
-        title="It's a Game!"
-        showMenuIconButton={false}
-        iconElementRight={<div className="right-icon"><span className="github-name">{this.state.profile ? this.state.profile.name : ''}</span><Avatar src={this.state.profile ? this.state.profile.picture : ''} size={35} backgroundColor='rgba(0,0,0,0)' /></div>}
-      />
-        <div className="game-display">
+        <AppBar
+          showMenuIconButton={false}
+          iconElementRight={this.state.profile ? <div className="right-icon"><span className="github-name">{this.state.profile ? this.state.profile.name : ''}</span><a href="#" onClick={this.swapProfileView.bind(this)}><Avatar src={this.state.profile.picture} size={35} backgroundColor='transparent' /></a></div> : <RaisedButton type="submit" label="SIGN UP!" style={style} onClick={this.signUp} />}
+        />
+
+        <div className= "game-display">
           <PlayerStatus health={_health} id="heart-display" />
-          <Grid grid={_grid} />
+          <Grid grid={_grid} state={this.state} />
+          {this.state.showPlayerProfile ? (<UserProfile state={this.state} swapProfileView={this.swapProfileView.bind(this)} logout={this.logout.bind(this)} />) : ''}
           <Gameinfo id="gameinfo" gameInfoText={gameInfoText}/>
-          <Textfield checkAnswer={this.checkAnswer.bind(this)}/>
+          <Textfield state={this.state} checkAnswer={this.checkAnswer.bind(this)}/>
+          <img id="draggable" class="ui-widget-content" src="../../img/coin.png" height="80" width="80" className={this.state.showPlayerProfile ? 'hidden' : ''}></img>
           <GameOver actions={this.actions} health={_health}/>
+          <BGMusicPlayer />
         </div>
       </div>
     );
