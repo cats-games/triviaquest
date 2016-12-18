@@ -67,7 +67,6 @@ class App extends React.Component {
     window.gameAppConnector = new GameAppConnector(this);
     // Access information about the game with this variable.
     this.game = window.game;
-
     // **Variables beginning with _ are meant to be used as references only. Do not mutate them.**
     var _grid = this.state.grid;
     // Store the player health in the state
