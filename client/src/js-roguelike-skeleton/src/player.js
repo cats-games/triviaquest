@@ -228,7 +228,7 @@
             } else {
                 // entity occupying target tile (if any)
                 var targetTileEnt = this.game.entityManager.get(x, y);
-
+                //console.log(targetTileEnt);
                 // if already occupied
                 if(targetTileEnt){
                     this.game.console.log('Excuse me <strong>Mr.' + targetTileEnt.name + '</strong>, you appear to be in the way.');
@@ -236,6 +236,100 @@
                 } else {
                     // targeted tile (attempting to move into)
                     var targetTile = this.game.map.get(x, y);
+                    if(targetTile.type === 'exitDoorLevel1') {
+                        // console.log(targetTile);
+                        window.currentWorld = mapDataLevel2;
+                        game.itemGenerator(mapDataLevel2, 5);
+                        game.enemyGenerator(mapDataLevel2, 3);
+                        // console.log(itemCharToType);
+                        // console.log(entityCharToType);
+                        game.player.x = 4;
+                        game.player.y = 3;
+                        game.map.loadTilesFromArrayString(mapDataLevel2, mapCharToType, 'grass');
+                        game.itemManager.loadFromArrayString(mapDataLevel2, itemCharToType);
+                        game.entityManager.loadFromArrayString(mapDataLevel2, entityCharToType, null, null, game.player);
+                        // console.log(game.itemManager);
+                        //console.log(game.entityManager);
+                        //game.map.loadTilesFromArrayString(maplevel2,mapchartotype, 'grass')
+                        // generate and assign a map object (replaces empty default)
+                        game.setMapSize(game.map.width, game.map.height);
+
+                        // add input keybindings
+                        // game.input.addBindings(keyBindings);
+
+                        // set player starting position
+                        // game.player.x = 8;
+                        // game.player.y = 3;
+
+                        // console.log(game);
+
+                        // make the view a little smaller (10x10 characters)
+                        game.renderer.resize(10, 10);
+
+                        // get existing DOM elements
+                        var mapContainerEl = document.getElementById('roguelike-map-container');
+                        var consoleContainerEl = document.getElementById('roguelike-console-container');
+
+                        // append elements created by the game to the DOM
+                        mapContainerEl.appendChild(game.renderer.canvas);
+                        consoleContainerEl.appendChild(game.console.el);
+
+                        game.renderer.layers = [
+                          new RL.RendererLayer(game, 'map',       {draw: false,   mergeWithPrevLayer: false}),
+                          new RL.RendererLayer(game, 'item',      {draw: false,   mergeWithPrevLayer: true}),
+                          new RL.RendererLayer(game, 'entity',    {draw: false,   mergeWithPrevLayer: true}),
+                          new RL.RendererLayer(game, 'lighting',  {draw: true,    mergeWithPrevLayer: false}),
+                          new RL.RendererLayer(game, 'fov',       {draw: true,    mergeWithPrevLayer: false})
+                        ];
+                    }
+                    if(targetTile.type === 'exitDoorLevel2') {
+                        // console.log(targetTile);
+                        window.currentWorld = mapDataLevel3;
+                        game.itemGenerator(mapDataLevel3, 5);
+                        game.enemyGenerator(mapDataLevel3, 0);
+                        // console.log(itemCharToType);
+                        // console.log(entityCharToType);
+                        game.player.x = 1;
+                        game.player.y = 2;
+                        game.map.loadTilesFromArrayString(mapDataLevel3, mapCharToType, 'grass');
+                        game.itemManager.loadFromArrayString(mapDataLevel3, itemCharToType);
+                        game.entityManager.loadFromArrayString(mapDataLevel3, entityCharToType, null, null, game.player);
+                        // console.log(game.itemManager);
+                        //console.log(game.entityManager);
+                        //game.map.loadTilesFromArrayString(maplevel2,mapchartotype, 'grass')
+                        // generate and assign a map object (replaces empty default)
+                        game.setMapSize(game.map.width, game.map.height);
+
+                        // add input keybindings
+                        // game.input.addBindings(keyBindings);
+
+                        // set player starting position
+                        // game.player.x = 8;
+                        // game.player.y = 3;
+
+                        // console.log(game);
+
+                        // make the view a little smaller (10x10 characters)
+                        game.renderer.resize(10, 10);
+
+                        // get existing DOM elements
+                        var mapContainerEl = document.getElementById('roguelike-map-container');
+                        var consoleContainerEl = document.getElementById('roguelike-console-container');
+
+                        // append elements created by the game to the DOM
+                        mapContainerEl.appendChild(game.renderer.canvas);
+                        consoleContainerEl.appendChild(game.console.el);
+
+                        game.renderer.layers = [
+                          new RL.RendererLayer(game, 'map',       {draw: false,   mergeWithPrevLayer: false}),
+                          new RL.RendererLayer(game, 'item',      {draw: false,   mergeWithPrevLayer: true}),
+                          new RL.RendererLayer(game, 'entity',    {draw: false,   mergeWithPrevLayer: true}),
+                          new RL.RendererLayer(game, 'lighting',  {draw: true,    mergeWithPrevLayer: false}),
+                          new RL.RendererLayer(game, 'fov',       {draw: true,    mergeWithPrevLayer: false})
+                        ];
+                    }
+                    // console.log(targetTile);
+                    // console.log(targetTile.bump(this, targetTile));
                     return targetTile.bump(this, targetTile);
                 }
             }
