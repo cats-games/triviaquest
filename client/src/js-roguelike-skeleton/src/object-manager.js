@@ -104,9 +104,14 @@
         */
         move: function(x, y, object) {
             var existing = this.get(object.x, object.y);
-            console.log(this.get(object.y, object.x));
-            console.log(this);
-            console.log(this.map);
+            // console.log(object);
+            // console.log(this.get(object.y, object.x));
+            // console.log(this);
+            // console.log(this.map);
+            // this.map.remove(object.x, object.y);
+            // this.map.set(x, y, object);
+            // object.x = x;
+            // object.y = y;
             if(existing !== object){
                 throw new Error({error: 'Attempting to move object not in correct position in Object manager', x: x, y: y, object: object});
             }
@@ -162,7 +167,7 @@
             entityManager.loadTilesFromArrayString(mapData, charToType);
         *
         */
-        loadFromArrayString: function(mapData, charToType, defaultType, replaceCurrentObjects){
+        loadFromArrayString: function(mapData, charToType, defaultType, replaceCurrentObjects, player){
             var _this = this,
                 width = mapData[0].length,
                 height = mapData.length;
@@ -191,6 +196,9 @@
                     _this.add(x, y, entity);
                 }
             });
+            if(player) {
+                this.map.data[player.x][player.y] = player;
+            }
         },
 
         /**

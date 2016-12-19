@@ -38,7 +38,7 @@ class App extends React.Component {
           fail: 0
         }
       ],
-      currentWorld: 'Earth', // !!! Needs to be updated to get the current world !!!
+      currentWorldName: 'Earth', // !!! Needs to be updated to get the current world !!!
       // changes state to swap between game view and profile view
       freePlay: false,
       // changes state to allow free play without signup
@@ -109,8 +109,9 @@ class App extends React.Component {
             currentScore: res[0].currentScore,
             highScores: res[0].highScores,
             playerHealth: res[0].health,
-            currentWorld: res[0].currentWorld,
+            currentWorldName: res[0].currentWorldName,
           });
+          // window.currentWorld = res[0].currentWorld;
           window.gameAppConnector.assignGitChallenges();
         }.bind(this));
       });
@@ -227,7 +228,7 @@ class App extends React.Component {
       currentScore: this.state.currentScore,
       health: this.state.playerHealth,
       userId: this.state.profile.user_id,
-      currentWorld: this.state.currentWorld,
+      currentWorldName: this.state.currentWorldName,
       secret: "cats"
     }
 
@@ -282,6 +283,7 @@ class App extends React.Component {
     }
     // If there is a challenge, display the challenge prompt
     if (this.state.currentEnemy) {
+      console.log(this.state.currentEnemy.challenge);
       gameInfoText = this.state.currentEnemy.challenge.prompt;
     }
     // Render the gameboard, gameinfo, and text input field

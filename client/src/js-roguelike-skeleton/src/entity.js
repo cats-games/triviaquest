@@ -1,4 +1,4 @@
-window.currentAvatarUrl;
+  window.currentAvatarUrl;
 
 (function(root) {
     'use strict';
