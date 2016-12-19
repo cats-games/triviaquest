@@ -3,7 +3,7 @@
   // INITIALIZE //
   ////////////////
 
-  constructor(app) {
+  constructor(app, world) {
     this.game = window.game;
     this.game.start();
     this.app = app;
@@ -57,7 +57,6 @@
 
   // Assigns challenges to enemies.
   assignChallenges() {
-    console.log(this.challenges);
     var entities = this.game.entityManager.objects;
     var challenge;
     entities.forEach(function(entity) {
