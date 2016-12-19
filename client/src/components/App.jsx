@@ -99,6 +99,11 @@ class App extends React.Component {
             });
             window.gameAppConnector.assignGitChallenges();
             window.currentWorld = res[0].currentWorld;
+            let highScores = this.state.highScores.slice()
+              .sort((x, y) => {
+                return Number(x.fail) > Number(y.fail);
+              })
+              this.setState({highScores: highScores});
           }.bind(this));
         } else {
           window.gameAppConnector.assignGitChallenges();
@@ -209,8 +214,9 @@ class App extends React.Component {
   };
 
   addOrUpdateUser(cb) {
-    let highScores = this.state.highScores;
-    if (this.state.attempted > 0 || this.state.success > 0 || this.state.fail > 0) {
+    let highScores = this.state.highScores.slice();
+
+    if (this.state.currentScore.attempted > 0) {
       highScores.push(this.state.currentScore);
     }
 
