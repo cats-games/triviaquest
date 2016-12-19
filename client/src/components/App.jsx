@@ -106,11 +106,10 @@ class App extends React.Component {
         // Load user data if token in computer
         this.getUserData(function(res) {
           this.setState({
-            grid: res[0].grid,
             currentScore: res[0].currentScore,
             highScores: res[0].highScores,
             playerHealth: res[0].health,
-            currentWorld: res[0].currentWorld,
+            currentWorld: res[0].currentWorld
           });
           window.gameAppConnector.assignGitChallenges();
         }.bind(this));
@@ -222,7 +221,6 @@ class App extends React.Component {
   addOrUpdateUser(cb) {
     let assemble = {
       userName: this.state.profile.name,
-      grid: this.state.grid,
       highScores: this.state.highScores,
       currentScore: this.state.currentScore,
       health: this.state.playerHealth,
