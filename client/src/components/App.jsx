@@ -1,5 +1,4 @@
 'use strict';
-
 import React from 'react';
 import Gameinfo from './Gameinfo.jsx';
 import Textfield from './Textfield.jsx';
@@ -62,13 +61,14 @@ class App extends React.Component {
   componentWillMount() {
     // See https://davidwalsh.name/react-authentication
     this.createLock();
-    // **Variables beginning with _ are meant to be used as references only. Do not mutate them.**
-    var _grid = this.state.grid;
+
+    // Load a fresh game board from new player
     // Connect the roguelike-game to window so App can access it.
     window.gameAppConnector = new GameAppConnector(this);
     // Access information about the game with this variable.
     this.game = window.game;
-
+    // **Variables beginning with _ are meant to be used as references only. Do not mutate them.**
+    var _grid = this.state.grid;
     // Store the player health in the state
     // The roguelike game will update this
     this.setState({
@@ -103,13 +103,13 @@ class App extends React.Component {
       }
       // As soon as we have the profile data, assign the git challenges (which depend on the nickname profile data being available)
       this.setState({profile: profile}, () => {
+        // Load user data if token in computer
         this.getUserData(function(res) {
           this.setState({
-            grid: res[0].grid,
             currentScore: res[0].currentScore,
             highScores: res[0].highScores,
             playerHealth: res[0].health,
-            currentWorld: res[0].currentWorld,
+            currentWorld: res[0].currentWorld
           });
           window.gameAppConnector.assignGitChallenges();
         }.bind(this));
@@ -117,7 +117,6 @@ class App extends React.Component {
     })
 
   }
-
 
   componentDidMount() {
     this.game.renderer.draw();
@@ -222,7 +221,6 @@ class App extends React.Component {
   addOrUpdateUser(cb) {
     let assemble = {
       userName: this.state.profile.name,
-      grid: this.state.grid,
       highScores: this.state.highScores,
       currentScore: this.state.currentScore,
       health: this.state.playerHealth,
@@ -294,12 +292,11 @@ class App extends React.Component {
         <div className= "game-display">
           <PlayerStatus health={_health} id="heart-display" />
           <Grid grid={_grid} state={this.state} />
-            
+          {this.state.showPlayerProfile ? (<UserProfile state={this.state} swapProfileView={this.swapProfileView.bind(this)} logout={this.logout.bind(this)} />) : ''}
           <Gameinfo id="gameinfo" gameInfoText={gameInfoText}/>
           <Textfield state={this.state} checkAnswer={this.checkAnswer.bind(this)}/>
-          <img id="draggable" class="ui-widget-content" src="../../img/bitcoin.png" className={this.state.showPlayerProfile ? 'hidden' : ''}></img>
+          <img id="draggable" class="ui-widget-content" src="../../img/coin.png" height="80" width="80" className={this.state.showPlayerProfile ? 'hidden' : ''}></img>
           <GameOver actions={this.actions} health={_health}/>
-
         </div>
       </div>
     );
