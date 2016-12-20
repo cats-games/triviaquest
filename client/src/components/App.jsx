@@ -11,6 +11,7 @@ import PlayerStatus from './PlayerStatus.jsx';
 import GameOver from './GameOver.jsx';
 import RaisedButton from 'material-ui/RaisedButton';
 import UserProfile from './UserProfile.jsx';
+import BGMusicPlayer from './BackgroundMusic.jsx';
 
 class App extends React.Component {
   constructor(props) {
