@@ -19,8 +19,6 @@ var randomIndex = function(upToNum){
   return Math.floor(Math.random() * upToNum)
 };
 
-var test = function(){console.log('test es6');};
-
 var walkingFX = new Howl({
   src: '../../sounds/FX/footsteps.mp3',
   volume: 0.1,
