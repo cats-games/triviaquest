@@ -99,12 +99,11 @@ class App extends React.Component {
               playerHealth: res[0].health
             });
             window.gameAppConnector.assignGitChallenges();
-            window.currentWorld = res[0].currentWorld;
             let highScores = this.state.highScores.slice()
               .sort((x, y) => {
                 return Number(x.fail) > Number(y.fail);
-              })
-              this.setState({highScores: highScores});
+              });
+            this.setState({highScores: highScores});
           }.bind(this));
         } else {
           window.gameAppConnector.assignGitChallenges();
@@ -226,7 +225,6 @@ class App extends React.Component {
       highScores: highScores,
       health: this.state.playerHealth,
       userId: this.state.profile.user_id,
-      currentWorld: window.currentWorld,
       secret: "cats"
     }
 
