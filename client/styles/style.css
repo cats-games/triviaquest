@@ -1,62 +1,72 @@
-body {
-  background: #F7F9FD;
-  color:#666;
-  font-family: 'Roboto', sans-serif;
+*{
+  font-family: 'Electrolize', sans-serif;
+  color: #FFF;
 }
+body {
+  font-family: 'Electrolize', sans-serif;
+}
+
 h1{
   color:#FFF;
   margin:30px;
 }
 nav{
   background: white;
-  margin-bottom:30px;
+  margin-top:30px;
   padding:5px;
-  border-top:#555 solid 1px;
   line-height:60px;
   vertical-align: middle;
 }
 form{
   border:0px;
-  padding:5px 10px 5px 10px;
+  padding:5px 5px 5px 5px;
   margin:0px;
+  display: block;
 }
 input{
-  background-color:#fff;
+  background-color:white;
   margin:0;
   padding:0;
   border:0;
   width:100%;
 }
-.textbox{
-  margin:0;
-  border:0;
-  padding:0;
-  background-color:black;
-  width:598px;
+a{
+  text-decoration: none;
+  color: #FFF;
 }
+
+a:hover{
+  color: #FFF;
+}
+
 .submit-button{
-  margin:0;
   border:0;
-  padding:0;
+  padding:10px;
   width:100%;
 }
 #main{
+  z-index: 10;
   position: absolute;
-  top:0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
+  margin-left: auto;
+  margin-right:auto;
+  left:0;
+  right:0;
+  text-align: center;
+}
+.swords{
+  z-index: 1;
+  position: absolute;
+  top: 0%;
+  left: 0%;
 }
 .game-display{
-  width: 600px;
-  margin: 0 auto;
-  margin-top:70px;
-  padding: 0;
-  border: 0;
+  width: 500px;
   height:auto;
-  box-shadow: 0px 2px 5px 0 rgba(0, 0, 0, 0.5);
+  margin-left: auto;
+  margin-right:auto;
+  margin-top:10px;
 }
+
 #grid{
   display: flex;
   /*height: 100vh;*/
@@ -65,21 +75,21 @@ input{
   justify-content:center; /*align column center*/
   flex-direction:row;  /*default is row*/
   flex-wrap:wrap; /*items will wrap to next line*/
-  width: 600px;
+  height:500px;
+  width:auto;
   margin: 0 auto;
   padding: 0;
-  height:500px;
-  align-content:space-between 0;
+  align-content:0;
 }
 .gridbox{
   width:10%;
   /*align-self: stretch; same as alignt items but for individual box*/
   /*flex:1;*/
   height: 50px;
-  color:#FFF;
+  color:transparent;
   background-color:#999;
   background-image: url("../img/tile-by-Ivan-voirol.png");
-  background-repeat: no-repeat
+  background-repeat: no-repeat;
   background-position: center center;
   background-size: 100% auto;
 }
@@ -95,11 +105,11 @@ input{
 }
 #heart-display{
   display:flex;
-  background-color:#000;
-  padding:10px;
+  background-color: transparent;
+  padding:5px;
 }
 .heart-full{
-  background-image:url("../img/heart.png");
+  background-image:url("../img/mechheart.png");
   background-repeat: no-repeat, no-repeat;
   background-position: center center, center center;
   background-size: 30px auto, 300px auto;
@@ -114,25 +124,52 @@ input{
   width:35px;
   height:50px;
 }
+
 #textfield{
-  background-color:white;
-  color:white;
-  font-family: Courier New,Courier,Lucida Sans Typewriter,Lucida Typewriter,monospace;
-  width: 600px;
-  margin: 0 auto;
-  margin: 1;
-  padding:0px;
-  text-align: center;
+  background-color:whitesmoke;
+  width: auto;
+  margin: auto;
+  padding: 0px;
 }
+
+
 #gameinfo{
-  background-color:white;
-  color: black;
-  width: 600px;
+  background-color:black;
+  color:white;
+  width: 400px;
   min-height:50px;
-  color:black;
   margin: 0 auto;
-  padding:20px;
+  padding:3px;
 }
+
+.arcade {
+  z-index: 5;
+  opacity:0.7;
+  height:950px;
+  width:auto;
+  position: absolute;
+  margin-left: auto;
+  margin-right:auto;
+  margin-top:0;
+  left:0;
+  right:0;
+}
+
+.jukebox {
+  z-index: 5;
+  opacity:0.7;
+  height:300px;
+  width:auto;
+  position: absolute;
+  margin-left:100px;
+  margin-right:auto;
+  margin-top:100px
+}
+
+#draggable {
+  z-index: 7;
+}
+
 
 .tile {
   background-repeat: no-repeat;
@@ -196,16 +233,47 @@ input{
 .pikachu {
   background-image: url("../img/pika.png"), url("../img/tile-by-Ivan-voirol.png");
 }
-.right-icon img {
+.right-icon {
+  margin-top:50px;
+  margin-right:30px;
   padding: 5px;
 }
 .github-name {
   padding: 5px;
   color: #fff;
 }
-
+#user-profile{
+  background-color: #000;
+}
+#profile-footer{
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+}
 #example-console-container{
   text-align: center;
-  margin-bottom: 5px;
 }
+.hidden{
+  display: none;
+}
+#avatar{
+  text-align: center;
+}
+#curr-score-board{
+  text-align: left;
+  padding-left: 10%;
+}
+#high-score-board{
+  text-align: center;
+}
+.high-score-header{
+  text-decoration: underline;
+}
+#nav-dropdown{
+
+}
+.main-nav{
+  background-color: transparent;
+}
+
 

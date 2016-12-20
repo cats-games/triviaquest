@@ -140,7 +140,7 @@
         */
         onKeyAction: function(action) {
             if(!this.gameOver){
-                var result = this.player.update(action);
+                var result = this.player.update(action);    
                 if(result){
 
                     this.entityManager.update(this.player);

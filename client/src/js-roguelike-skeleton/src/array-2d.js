@@ -95,6 +95,7 @@
         */
         get: function(x, y) {
             if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
+                // console.log('not working ' + x + ',' + y);
                 return;
             }
             return this.data[x][y];
