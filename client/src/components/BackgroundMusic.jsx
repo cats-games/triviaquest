@@ -81,3 +81,4 @@ export default class BGMusicPlayer extends React.Component {
 
   }
 }
+
