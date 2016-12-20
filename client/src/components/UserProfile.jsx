@@ -24,9 +24,6 @@ var UserProfile = ({state, swapProfileView, logout}) => {
           <br/>
           fail: {state.currentScore.fail}
         </div>
-        <div className= "current-world">
-          world: <span>{state.currentWorld}</span>
-        </div>
       </div>
       <div id= "high-score-board">
         <div className= "high-score-header">High Scores</div>
@@ -39,8 +36,6 @@ var UserProfile = ({state, swapProfileView, logout}) => {
               success: <span>{highScore.success}</span>
               <br/>
               fail: <span>{highScore.fail}</span>
-              <br/>
-              world: <span>{highScore.world}</span>
               <hr/>
             </div>
           )}

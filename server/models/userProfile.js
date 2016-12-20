@@ -5,10 +5,9 @@ var findOneOrCreate = require('mongoose-find-one-or-create');
 var UserProfileSchema = new db.Schema({
   userName: String,
   highScores: Array,
-  currentScore: Object,
   health: Number,
   userId: String,
-  currentWorld: String
+  currentWorld: Array
 });
 
 UserProfileSchema.plugin(findOneOrCreate);
