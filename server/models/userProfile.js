@@ -6,8 +6,7 @@ var UserProfileSchema = new db.Schema({
   userName: String,
   highScores: Array,
   health: Number,
-  userId: String,
-  currentWorld: Array
+  userId: String
 });
 
 UserProfileSchema.plugin(findOneOrCreate);
