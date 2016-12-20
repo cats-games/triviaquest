@@ -279,7 +279,7 @@ class App extends React.Component {
     };
     // If there is a challenge, display the challenge prompt
     if (this.state.currentEnemy) {
-      gameInfoText = this.state.currentEnemy.challenge.prompt;
+      gameInfoText = this.state.currentEnemy.challenge.question;
     }
     // Render the gameboard, gameinfo, and text input field
     return (
