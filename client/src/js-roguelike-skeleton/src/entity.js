@@ -709,7 +709,7 @@
             bump: function() {
                 if(soundFXOnOff) {
                   pikachuFX.play('swapCostume');
-                };
+                }
                 document.querySelector('body').style.backgroundColor = '#F7F9FD';
                 document.querySelector('.player').style.backgroundImage = 'url("../../../img/pika.png"), url("../../../img/tile-by-Ivan-voirol.png")';
             }
