@@ -41,7 +41,7 @@ var walkThisWay = function(){
 };
 
 var duncanFX = new Howl({
-  src: '',
+  src: '../../sounds/fx/snakeHiss.mp3',
   volume: 0.1,
   sprite: {
     death: '',
@@ -62,7 +62,7 @@ var pikachuFX = new Howl({
 });
 
 var pirateFX = new Howl({
-  src: '',
+  src: '../../sounds/fx/snakeHiss.mp3',
   volume: 0.1,
   sprite: {
     swapCostume: '',
@@ -73,7 +73,7 @@ var pirateFX = new Howl({
 });
 
 var ninjaFX = new Howl({
-  src: '',
+  src: '../../sounds/fx/snakeHiss.mp3',
   volume: 0.1,
   sprite: {
     swapCostume: '',
@@ -84,7 +84,7 @@ var ninjaFX = new Howl({
 })
 
 var knightFX = new Howl({
-  src: '',
+  src: '../../sounds/fx/snakeHiss.mp3',
   volume: 0.1,
   sprite: {
     swapCostume: '',
@@ -115,7 +115,7 @@ var snakeFX = new Howl({
 });
 
 var owlFX = new Howl({
-  src: '',
+  src: '../../sounds/fx/snakeHiss.mp3',
   volume: 0.1,
   sprite: {
     attack: '',
