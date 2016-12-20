@@ -210,6 +210,7 @@
         */
         move: function(x, y){
             if(this.canMoveTo(x, y)){
+                walkThisWay();
                 this.moveTo(x, y);
 
                 // item occuping target tile (if any)
@@ -228,7 +229,8 @@
             } else {
                 // entity occupying target tile (if any)
                 var targetTileEnt = this.game.entityManager.get(x, y);
-
+                console.log(targetTileEnt);
+                //console.log(targetTileEnt);
                 // if already occupied
                 if(targetTileEnt){
                     this.game.console.log('Excuse me <strong>Mr.' + targetTileEnt.name + '</strong>, you appear to be in the way.');
@@ -236,6 +238,90 @@
                 } else {
                     // targeted tile (attempting to move into)
                     var targetTile = this.game.map.get(x, y);
+                    if(targetTile.type === 'exitDoorLevel1') {
+                        game.itemGenerator(mapDataLevel2, 3);
+                        game.enemyGenerator(mapDataLevel2, 21);
+
+                        game.player.x = 4;
+                        game.player.y = 3;
+                        game.map.loadTilesFromArrayString(mapDataLevel2, mapCharToType, 'grass');
+                        game.itemManager.loadFromArrayString(mapDataLevel2, itemCharToType);
+                        game.entityManager.loadFromArrayString(mapDataLevel2, entityCharToType, null, null, game.player);
+
+                        game.setMapSize(game.map.width, game.map.height);
+                        game.renderer.resize(10, 10);
+
+                        // get existing DOM elements
+                        var mapContainerEl = document.getElementById('roguelike-map-container');
+                        var consoleContainerEl = document.getElementById('roguelike-console-container');
+
+                        // append elements created by the game to the DOM
+                        mapContainerEl.appendChild(game.renderer.canvas);
+                        consoleContainerEl.appendChild(game.console.el);
+
+                        game.renderer.layers = [
+                          new RL.RendererLayer(game, 'map',       {draw: false,   mergeWithPrevLayer: false}),
+                          new RL.RendererLayer(game, 'item',      {draw: false,   mergeWithPrevLayer: true}),
+                          new RL.RendererLayer(game, 'entity',    {draw: false,   mergeWithPrevLayer: true}),
+                          new RL.RendererLayer(game, 'lighting',  {draw: true,    mergeWithPrevLayer: false}),
+                          new RL.RendererLayer(game, 'fov',       {draw: true,    mergeWithPrevLayer: false})
+                        ];
+                    }
+                    if(targetTile.type === 'exitDoorLevel2') {
+                        game.itemGenerator(mapDataLevel3, 2);
+                        game.enemyGenerator(mapDataLevel3, 21);
+
+                        game.player.x = 1;
+                        game.player.y = 2;
+                        game.map.loadTilesFromArrayString(mapDataLevel3, mapCharToType, 'grass');
+                        game.itemManager.loadFromArrayString(mapDataLevel3, itemCharToType);
+                        game.entityManager.loadFromArrayString(mapDataLevel3, entityCharToType, null, null, game.player);
+
+                        game.setMapSize(game.map.width, game.map.height);
+                        game.renderer.resize(10, 10);
+
+                        var mapContainerEl = document.getElementById('roguelike-map-container');
+                        var consoleContainerEl = document.getElementById('roguelike-console-container');
+
+                        mapContainerEl.appendChild(game.renderer.canvas);
+                        consoleContainerEl.appendChild(game.console.el);
+
+                        game.renderer.layers = [
+                          new RL.RendererLayer(game, 'map',       {draw: false,   mergeWithPrevLayer: false}),
+                          new RL.RendererLayer(game, 'item',      {draw: false,   mergeWithPrevLayer: true}),
+                          new RL.RendererLayer(game, 'entity',    {draw: false,   mergeWithPrevLayer: true}),
+                          new RL.RendererLayer(game, 'lighting',  {draw: true,    mergeWithPrevLayer: false}),
+                          new RL.RendererLayer(game, 'fov',       {draw: true,    mergeWithPrevLayer: false})
+                        ];
+                    }
+                    if(targetTile.type === 'exitDoorLevel3') {
+                        game.itemGenerator(mapDataLevel4, 2);
+                        game.enemyGenerator(mapDataLevel4, 21);
+
+                        game.player.x = 1;
+                        game.player.y = 2;
+                        game.map.loadTilesFromArrayString(mapDataLevel4, mapCharToType, 'grass');
+                        game.itemManager.loadFromArrayString(mapDataLevel4, itemCharToType);
+                        game.entityManager.loadFromArrayString(mapDataLevel4, entityCharToType, null, null, game.player);
+
+                        game.setMapSize(game.map.width, game.map.height);
+                        game.renderer.resize(10, 10);
+
+                        var mapContainerEl = document.getElementById('roguelike-map-container');
+                        var consoleContainerEl = document.getElementById('roguelike-console-container');
+
+                        mapContainerEl.appendChild(game.renderer.canvas);
+                        consoleContainerEl.appendChild(game.console.el);
+
+                        game.renderer.layers = [
+                          new RL.RendererLayer(game, 'map',       {draw: false,   mergeWithPrevLayer: false}),
+                          new RL.RendererLayer(game, 'item',      {draw: false,   mergeWithPrevLayer: true}),
+                          new RL.RendererLayer(game, 'entity',    {draw: false,   mergeWithPrevLayer: true}),
+                          new RL.RendererLayer(game, 'lighting',  {draw: true,    mergeWithPrevLayer: false}),
+                          new RL.RendererLayer(game, 'fov',       {draw: true,    mergeWithPrevLayer: false})
+                        ];
+                    }
+
                     return targetTile.bump(this, targetTile);
                 }
             }
